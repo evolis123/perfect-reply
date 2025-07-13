@@ -2,50 +2,30 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    /* Sənin təklifin: Gradientli, bir az tünd arxa fon */
-    background: linear-gradient(120deg, #f0f4ff 0%, #e0e7ff 100%);
-    color: #334155;
-    line-height: 1.7; /* Daha oxunaqlı mətn üçün */
+    /* Sənin istədiyin kimi, bir az daha tünd və sakit arxa fon */
+    background-color: #F0F2F5; 
+    color: #1a202c; /* Mətn rəngini daha aydın etdim */
+    line-height: 1.6;
     margin: 0;
     padding: 40px 20px;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center; /* Mərkəzə çəkmək üçün */
     min-height: 100vh;
 }
 
-.main-container {
-    display: flex;
-    gap: 50px;
-    max-width: 1200px;
-    width: 100%;
-}
-
 .tool-container {
-    flex: 2;
-    background-color: rgba(255, 255, 255, 0.7); /* Bir az şəffaflıq effekti */
-    backdrop-filter: blur(10px); /* Arxa fonu bulurlu göstərən effekt */
-    padding: 40px;
-    border-radius: 20px; /* Sənin təklifin: Daha yumşaq kənarlar */
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08); /* Sənin təklifin: Daha yumşaq kölgə */
+    /* ... (əvvəlki stillər demək olar ki, eyni qalır, sadəcə arxa fon fərqi hiss olunacaq) ... */
+    background-color: #FFFFFF; /* Əsas pəncərə təmiz ağ */
+    border-radius: 16px; /* Sənin təklifinə uyğun daha yumşaq kənarlar */
 }
 
-/* ... (info-container, textarea, label və s. stilləri əvvəlki kimi qala bilər və ya kiçik dəyişikliklər edilə bilər) ... */
-
-header h1 {
-    font-size: 2.5rem; /* Biraz daha böyük */
-    font-weight: 800; /* Daha qalın şrift */
-    color: #1e293b; /* Daha tünd başıq rəngi */
-    margin: 0;
-    letter-spacing: -1px; /* Hərflər arası məsafə */
-}
-
-/* Sənin təklifin: Daha canlı, gradientli və animasiyalı düymə */
+/* Sənin təklifin: Daha uyumlu və müasir düymə */
 button {
     width: 100%;
     padding: 15px;
-    background: linear-gradient(45deg, #3B82F6, #60A5FA);
+    /* Yeni, daha sakit və peşəkar gradient */
+    background: linear-gradient(90deg, #4A90E2 0%, #50E3C2 100%);
     color: white;
     border: none;
     border-radius: 8px;
@@ -54,12 +34,12 @@ button {
     cursor: pointer;
     margin-top: 30px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.2);
 }
 
 button:hover {
-    transform: translateY(-2px); /* Hover olanda yüngül yuxarı qalxma effekti */
-    box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
 }
 
 .info-container {

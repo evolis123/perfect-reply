@@ -6,46 +6,33 @@
     <title>The Perfect Reply</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="main-container">
-
-        <div class="tool-container">
+         <div class="tool-container">
             <header>
                 <div class="logo">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"></path></svg>
                 </div>
                 <h1>The Perfect Reply</h1>
             </header>
-
             <main>
                 <p style="text-align: center; margin-top: -20px; margin-bottom: 30px; color: #718096;">Craft professional email replies in seconds.</p>
-
                 <div>
                     <label for="received-email">Paste the email you received:</label>
                     <textarea id="received-email" rows="8" placeholder="Paste the original email here..."></textarea>
                 </div>
-
                 <div>
                     <label for="user-reply">In one sentence, what do you want to say?</label>
                     <textarea id="user-reply" rows="2" placeholder="e.g., I agree, but let's change the time..."></textarea>
                 </div>
-
                 <div>
                     <button id="generate-button">✨ Generate The Perfect Reply</button>
                 </div>
-                
-                <div id="result-area" style="display: none;">
-                    <h2>Suggested Reply:</h2>
-                    <div id="loading-spinner" style="display: none;">Generating...</div>
-                    <div id="output"></div>
-                </div>
             </main>
         </div>
-
         <div class="info-container">
             <h2>How it works?</h2>
             <ul>
@@ -63,8 +50,6 @@
                 </li>
             </ul>
         </div>
-
     </div>
-
 </body>
 </html>
