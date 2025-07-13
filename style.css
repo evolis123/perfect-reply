@@ -13,23 +13,23 @@ body {
     min-height: 100vh;
 }
 
-/* ƏSAS DƏYİŞİKLİK BURADADIR: Konteynerin arxa fonu istədiyin rəngə dəyişdi */
 .container {
     max-width: 1000px;
     width: 100%;
-    background-color: #f0f2ff; /* Copilot rənginin bir az açıq tonu */
-    padding: 32px;
+    /* Konteynerin arxa fonu olduğu kimi qalır */
+    background-color: #f0f2ff; 
+    padding: 20px;
     border-radius: 24px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
     display: flex;
-    gap: 40px;
+    gap: 20px;
     align-items: flex-start;
 }
 
-/* Sol sütun indi ağ rəngdə olacaq ki, fərqlənsin */
+/* Sol hissənin arxa fonu istədiyin rəngə dəyişdi */
 .form-section {
     flex: 2;
-    background-color: white; /* Sol tərəf ağ rəngdə */
+    background-color: #f7f8ff; /* Copilot rənginin çox az açıq tonu */
     padding: 30px;
     border-radius: 16px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -66,6 +66,7 @@ textarea {
     width: 100%;
     padding: 12px;
     border: 1px solid #e2e8f0;
+    background-color: white; /* Textarea-lar ağ rəngdə */
     border-radius: 8px;
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
@@ -113,43 +114,25 @@ button:hover {
     box-shadow: 0 7px 20px rgba(59, 130, 246, 0.3);
 }
 
-button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: translateY(0);
-}
-
-.btn-icon {
-    width: 18px;
-    height: 18px;
-}
-
+.btn-icon { width: 18px; height: 18px; }
 #result-area { margin-top: 30px; }
 #result-area h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 10px; }
-#output { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 5px; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; }
+#output { background-color: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 5px; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; }
 #loading-spinner { color: #718096; margin-top: 10px; }
 
-
-/* Sağdakı qutu 2-ci şəkildəki kimi qalır, arxa fonu öz rəngində */
+/* Sağdakı qutu öz rəngində qalır */
 .info-section {
     flex: 1;
-    background-color: #eef2ff; /* İkinci şəkildəki kimi açıq mavi */
+    background-color: #eef2ff;
     padding: 30px;
     border-radius: 16px;
 }
 
-.info-section h2 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    margin-top: 0;
-    margin-bottom: 25px;
-    color: #1e293b;
-}
-
+.info-section h2 { font-size: 1.4rem; font-weight: 600; margin-top: 0; margin-bottom: 25px; color: #1e293b; }
 .info-section ol { list-style: none; padding: 0; margin: 0; }
 .info-section li { margin-bottom: 20px; display: flex; align-items: flex-start; gap: 15px; }
 
-/* Nömrələr istədiyin kimi mavi qalır */
+/* Nömrələr mavi rəngdə qalır */
 .info-section .step-number {
     background-color: #3b82f6;
     color: white;
