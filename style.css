@@ -13,11 +13,11 @@ body {
     min-height: 100vh;
 }
 
+/* 1. Ən böyük çərçivə: Açıq Copilot tonu */
 .container {
     max-width: 1000px;
     width: 100%;
-    /* Konteynerin arxa fonu olduğu kimi qalır */
-    background-color: #f0f2ff; 
+    background-color: #f0f2ff;
     padding: 20px;
     border-radius: 24px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
@@ -26,10 +26,10 @@ body {
     align-items: flex-start;
 }
 
-/* Sol hissənin arxa fonu istədiyin rəngə dəyişdi */
+/* 2. Sol Form Bölməsi: Copilot-dakı rəngin eynisi */
 .form-section {
     flex: 2;
-    background-color: #f7f8ff; /* Copilot rənginin çox az açıq tonu */
+    background-color: #e9eafb; /* Copilot "Discover" rənginin eynisi */
     padding: 30px;
     border-radius: 16px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -65,8 +65,8 @@ header h1 {
 textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #e2e8f0;
-    background-color: white; /* Textarea-lar ağ rəngdə */
+    border: 1px solid #dcdfea; /* Çərçivə rəngini arxa fona uyğunlaşdırdım */
+    background-color: white;
     border-radius: 8px;
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
@@ -117,10 +117,10 @@ button:hover {
 .btn-icon { width: 18px; height: 18px; }
 #result-area { margin-top: 30px; }
 #result-area h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 10px; }
-#output { background-color: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 5px; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; }
+#output { background-color: #fdfdff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 5px; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; }
 #loading-spinner { color: #718096; margin-top: 10px; }
 
-/* Sağdakı qutu öz rəngində qalır */
+/* 3. Sağdakı qutu: Öz orijinal açıq mavi rəngində qalır */
 .info-section {
     flex: 1;
     background-color: #eef2ff;
@@ -132,7 +132,6 @@ button:hover {
 .info-section ol { list-style: none; padding: 0; margin: 0; }
 .info-section li { margin-bottom: 20px; display: flex; align-items: flex-start; gap: 15px; }
 
-/* Nömrələr mavi rəngdə qalır */
 .info-section .step-number {
     background-color: #3b82f6;
     color: white;
