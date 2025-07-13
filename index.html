@@ -1,11 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="az">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Perfect Reply</title>
 </head>
 <body>
-    <h1>Salam, Dünya! Bu, bizim layihəmizdir.</h1>
+
+    <header>
+        <h1>The Perfect Reply</h1>
+        <p>Peşəkar email cavabları. Saniyələr içində.</p>
+    </header>
+
+    <main>
+        <div>
+            <label for="received-email">Cavab vermək istədiyiniz emaili bura yapışdırın:</label>
+            <br>
+            <textarea id="received-email" rows="10" cols="50"></textarea>
+        </div>
+
+        <div>
+            <label for="user-reply">Cavabınızın məğzini bir cümlə ilə yazın:</label>
+            <br>
+            <textarea id="user-reply" rows="3" cols="50"></textarea>
+        </div>
+
+        <div>
+            <button id="generate-button">✨ Mükəmməl Cavabı Yarat</button>
+        </div>
+        
+        <div id="result-area">
+            <h2>Təklif olunan cavablar:</h2>
+            <div id="loading-spinner" style="display: none;">Yaradılır...</div>
+            <div id="output"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 The Perfect Reply. Bütün hüquqlar qorunur.</p>
+    </footer>
+
 </body>
 </html>
