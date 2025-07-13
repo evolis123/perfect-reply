@@ -1,11 +1,11 @@
-/* Google-dan "Inter" şriftini idxal edirik */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #EBF4FF; /* Yeni, daha yumşaq arxa fon rəngi */
-    color: #2d3748;
-    line-height: 1.6;
+    /* Sənin təklifin: Gradientli, bir az tünd arxa fon */
+    background: linear-gradient(120deg, #f0f4ff 0%, #e0e7ff 100%);
+    color: #334155;
+    line-height: 1.7; /* Daha oxunaqlı mətn üçün */
     margin: 0;
     padding: 40px 20px;
     display: flex;
@@ -16,22 +16,63 @@ body {
 
 .main-container {
     display: flex;
-    gap: 40px; /* Sütunlar arasında boşluq */
+    gap: 50px;
     max-width: 1200px;
     width: 100%;
 }
 
 .tool-container {
     flex: 2;
-    background-color: white; /* Əsas pəncərə təmiz ağ qalır */
+    background-color: rgba(255, 255, 255, 0.7); /* Bir az şəffaflıq effekti */
+    backdrop-filter: blur(10px); /* Arxa fonu bulurlu göstərən effekt */
     padding: 40px;
-    border-radius: 12px; /* Kənarları daha yumşaq edirik */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* Daha dərin və yumşaq kölgə */
+    border-radius: 20px; /* Sənin təklifin: Daha yumşaq kənarlar */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08); /* Sənin təklifin: Daha yumşaq kölgə */
+}
+
+/* ... (info-container, textarea, label və s. stilləri əvvəlki kimi qala bilər və ya kiçik dəyişikliklər edilə bilər) ... */
+
+header h1 {
+    font-size: 2.5rem; /* Biraz daha böyük */
+    font-weight: 800; /* Daha qalın şrift */
+    color: #1e293b; /* Daha tünd başıq rəngi */
+    margin: 0;
+    letter-spacing: -1px; /* Hərflər arası məsafə */
+}
+
+/* Sənin təklifin: Daha canlı, gradientli və animasiyalı düymə */
+button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, #3B82F6, #60A5FA);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+button:hover {
+    transform: translateY(-2px); /* Hover olanda yüngül yuxarı qalxma effekti */
+    box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
 }
 
 .info-container {
-    flex: 1; /* İnfo hissəsi daha dar olsun */
+    flex: 1;
     padding-top: 20px;
+}
+
+.info-container h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-bottom: 2px solid #cbd5e1;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 header {
