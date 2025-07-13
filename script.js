@@ -1,139 +1,46 @@
-/* Google-dan "Inter" şriftini idxal edirik */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+const receivedEmailTextarea = document.getElementById('received-email');
+const userReplyTextarea = document.getElementById('user-reply');
+const generateButton = document.getElementById('generate-button');
+const resultArea = document.getElementById('result-area');
+const outputDiv = document.getElementById('output');
+const loadingSpinner = document.getElementById('loading-spinner');
 
-body {
-    font-family: 'Inter', sans-serif;
-    /* Sənin istədiyin kimi, bir az daha tünd və sakit arxa fon */
-    background-color: #F0F2F5; 
-    color: #1a202c;
-    line-height: 1.6;
-    margin: 0;
-    padding: 40px 20px;
-}
+generateButton.addEventListener('click', async () => {
+    const receivedEmail = receivedEmailTextarea.value;
+    const userReply = userReplyTextarea.value;
 
-/* Əvvəlki .main-container əvəzinə, sadəcə .container istifadə edirik */
-.container {
-    max-width: 800px; /* Bütün məzmunun maksimum genişliyi */
-    margin: 0 auto; /* Avtomatik olaraq mərkəzə gətirir */
-    background-color: #FFFFFF;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-}
+    if (!receivedEmail || !userReply) {
+        alert('Please fill in both fields.');
+        return;
+    }
 
-header {
-    text-align: center;
-    margin-bottom: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-}
+    resultArea.style.display = 'block';
+    loadingSpinner.style.display = 'block';
+    outputDiv.innerHTML = ''; // Köhnə nəticəni təmizləyirik
+    generateButton.disabled = true;
+    generateButton.textContent = 'Generating...';
 
-header h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #1e293b;
-    margin: 0;
-    letter-spacing: -1px;
-}
+    try {
+        const response = await fetch('/.netlify/functions/generate-reply', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ receivedEmail, userReply }),
+        });
+        const data = await response.json();
+        
+        if (response.ok) {
+            // Gələn cavabdakı yeni sətir işarələrini HTML <br> teqlərinə çeviririk
+            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
+        } else {
+            throw new Error(data.error || 'An unknown error occurred.');
+        }
 
-.logo svg {
-    width: 40px;
-    height: 40px;
-}
-
-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-family: 'Inter', sans-serif;
-    margin-top: 8px;
-    box-sizing: border-box;
-    transition: border-color 0.2s;
-}
-
-textarea:focus {
-    outline: none;
-    border-color: #4A90E2; /* Düymə rənginə uyğun */
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-}
-
-label {
-    font-weight: 500;
-    margin-top: 20px;
-    display: block;
-}
-
-/* Düymə stili eyni qalır */
-button {
-    width: 100%;
-    padding: 15px;
-    background: linear-gradient(90deg, #4A90E2 0%, #50E3C2 100%);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 30px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.2);
-}
-
-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
-}
-
-/* "How it works?" hissəsi indi əsas pəncərənin içində olacaq */
-.info-section {
-    margin-top: 40px;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 30px;
-}
-
-.info-section h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.info-section ul {
-    list-style: none;
-    padding: 0;
-}
-
-.info-section li {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: flex-start;
-}
-
-.info-section .step-number {
-    background-color: #e2e8f0;
-    color: #4a5568;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    margin-right: 15px;
-    flex-shrink: 0;
-}
-
-.info-section p {
-    margin: 0;
-    font-size: 0.95rem;
-}
-
-#result-area {
-    margin-top: 40px;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 20px;
-}
+    } catch (error) {
+        outputDiv.textContent = `An error occurred: ${error.message}`;
+        console.error('Error:', error);
+    } finally {
+        loadingSpinner.style.display = 'none';
+        generateButton.disabled = false;
+        generateButton.textContent = '✨ Generate The Perfect Reply';
+    }
+});
