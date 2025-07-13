@@ -13,7 +13,7 @@ body {
     min-height: 100vh;
 }
 
-/* 1. Ən böyük çərçivə: Açıq Copilot tonu */
+/* Ən böyük çərçivə olduğu kimi qalır */
 .container {
     max-width: 1000px;
     width: 100%;
@@ -26,12 +26,13 @@ body {
     align-items: flex-start;
 }
 
-/* 2. Sol Form Bölməsi: Copilot-dakı rəngin eynisi */
+/* Sol Form Bölməsi: Düzgün rəng və çərçivə ilə */
 .form-section {
     flex: 2;
     background-color: #e9eafb; /* Copilot "Discover" rənginin eynisi */
     padding: 30px;
     border-radius: 16px;
+    border: 1px solid #d9dcf7; /* İncə çərçivə əlavə edildi */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
@@ -65,7 +66,7 @@ header h1 {
 textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #dcdfea; /* Çərçivə rəngini arxa fona uyğunlaşdırdım */
+    border: 1px solid #dcdfea;
     background-color: white;
     border-radius: 8px;
     font-size: 1rem;
@@ -120,7 +121,7 @@ button:hover {
 #output { background-color: #fdfdff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 5px; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; }
 #loading-spinner { color: #718096; margin-top: 10px; }
 
-/* 3. Sağdakı qutu: Öz orijinal açıq mavi rəngində qalır */
+/* Sağdakı qutu öz rəngində qalır */
 .info-section {
     flex: 1;
     background-color: #eef2ff;
