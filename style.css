@@ -2,20 +2,34 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #F0F2F5; 
+    background-color: #F0F2F5;
     color: #1a202c;
     line-height: 1.6;
     margin: 0;
     padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #FFFFFF;
+    max-width: 960px; /* Daha geniş konteyner */
+    background-color: #e6f7ff; /* Copilot Discover rənginin açıq tonu */
     padding: 40px;
     border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    gap: 40px; /* Elementlər arasında boşluq */
+    align-items: flex-start; /* Elementləri yuxarıdan düzləndirir */
+}
+
+.form-section {
+    flex: 2; /* Form üçün daha çox yer */
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 header {
@@ -28,27 +42,27 @@ header {
 }
 
 header h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
+    font-size: 2.2rem; /* Bir az kiçildilmiş başlıq */
+    font-weight: 700;
     color: #1e293b;
     margin: 0;
     letter-spacing: -1px;
 }
 
 .logo svg {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     color: #4A90E2;
 }
 
 textarea {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #e2e8f0;
     border-radius: 6px;
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
-    margin-top: 8px;
+    margin-top: 6px;
     box-sizing: border-box;
     transition: border-color 0.2s;
 }
@@ -61,51 +75,74 @@ textarea:focus {
 
 label {
     font-weight: 500;
-    margin-top: 20px;
+    margin-top: 15px;
     display: block;
 }
 
 button {
     width: 100%;
-    padding: 15px;
+    padding: 14px;
     background: linear-gradient(90deg, #4A90E2 0%, #50E3C2 100%);
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    margin-top: 30px;
+    margin-top: 25px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.2);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
 }
 
 button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(74, 144, 226, 0.4);
+}
+
+#result-area {
+    margin-top: 30px;
+    padding-top: 20px;
+}
+
+#result-area h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+#output {
+    white-space: pre-wrap;
+    background-color: #f7fafc;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+#loading-spinner {
+    color: #718096;
+    margin-top: 10px;
 }
 
 .info-section {
-    margin-top: 50px;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 30px;
+    flex: 1; /* İzahat üçün daha az yer */
+    padding: 20px;
 }
 
 .info-section h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 25px;
-    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 15px;
 }
 
-.info-section ul {
+.info-section ol {
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 .info-section li {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     display: flex;
     align-items: flex-start;
 }
@@ -114,23 +151,17 @@ button:hover {
     background-color: #e2e8f0;
     color: #4a5568;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    margin-right: 15px;
-    flex-shrink: 0;
+    font-weight: 500;
+    margin-right: 10px;
+    font-size: 0.8rem;
 }
 
 .info-section p {
     margin: 0;
-    font-size: 0.95rem;
-}
-
-#result-area {
-    margin-top: 40px;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 20px;
+    font-size: 0.9rem;
 }
