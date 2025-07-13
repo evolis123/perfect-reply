@@ -1,0 +1,84 @@
+/* Google-dan "Inter" şriftini idxal edirik */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+/* Bütün səhifə üçün təməl stillər */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f7fafc;
+    color: #2d3748;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Əsas konteyner */
+.container {
+    max-width: 800px;
+    width: 100%;
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #2d3748;
+}
+
+header p {
+    font-size: 1.1rem;
+    color: #718096;
+}
+
+/* Mətn qutuları və düymə */
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    margin-top: 5px;
+    box-sizing: border-box; /* Bu, ölçülərin düzgün hesablanması üçündür */
+}
+
+label {
+    font-weight: 500;
+    margin-top: 20px;
+    display: block;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #2b6cb0;
+}
+
+/* Nəticə sahəsi */
+#result-area {
+    margin-top: 40px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 20px;
+}
