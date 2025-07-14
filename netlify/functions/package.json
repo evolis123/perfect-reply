@@ -1,7 +1,4 @@
 {
-  "name": "perfect-reply",
-  "version": "1.0.0",
-  "description": "AI Email Reply Generator",
   "dependencies": {
     "@google/generative-ai": "^0.14.1"
   }
