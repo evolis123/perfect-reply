@@ -1,5 +1,7 @@
 {
-  "dependencies": {
-    "@google/generative-ai": "^0.14.1"
+  "name": "perfect-reply-netlify-build",
+  "version": "1.0.0",
+  "scripts": {
+    "postinstall": "cd netlify/functions && npm install"
   }
 }
