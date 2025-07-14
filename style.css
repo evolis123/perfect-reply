@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Yeni şriftləri import edirik */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&display=swap');
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f4f7fa;
+    background-color: #f0f2ff; /* Arxa fon rəngi */
     color: #1a202c;
     line-height: 1.6;
     margin: 0;
@@ -13,52 +14,71 @@ body {
     min-height: 100vh;
 }
 
-/* Ən böyük çərçivə olduğu kimi qalır */
 .container {
     max-width: 1000px;
     width: 100%;
-    background-color: #f0f2ff; 
+    /* Arxa fona şəkil əlavə edirik ki, şüşə effekti görünsün */
+    background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
     padding: 20px;
     border-radius: 24px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     display: flex;
     gap: 20px;
     align-items: flex-start;
 }
 
-/* Sol Form Bölməsi: Sənin verdiyin dəqiq rəng kodu ilə */
+/* Sol Form Bölməsi: Şüşə effekti ilə */
 .form-section {
     flex: 2;
-    background-color: #FB5B34; /* Sənin verdiyin dəqiq rəng kodu */
+    /* Dəqiq rəng kodu və şəffaflıq */
+    background: rgba(255, 236, 232, 0.7); 
+    -webkit-backdrop-filter: blur(10px); /* Safari üçün */
+    backdrop-filter: blur(10px); /* Şüşə effekti */
     padding: 30px;
     border-radius: 16px;
-    border: 1px solid #e05430; /* Çərçivə rəngini yeni fona uyğunlaşdırdım */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* İncə, parlaq çərçivə */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 header {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px; /* Boşluğu bir az artırdım */
     margin-bottom: 12px;
 }
 
+/* YENİ LOQO ÜÇÜN STİLLƏR */
+.logo-box {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    background: linear-gradient(45deg, #3b82f6 0%, #50E3C2 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.logo-box span {
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+/* ----- */
+
 header h1 {
-    font-size: 1.8rem;
-    font-weight: 600;
+    font-family: 'Poppins', sans-serif; /* Yeni şrift */
+    font-size: 1.9rem; /* Bir az böyütdüm */
+    font-weight: 700;
     color: #1e293b;
     margin: 0;
 }
 
-.logo i {
-    width: 30px;
-    height: 30px;
-    color: #3b82f6; /* Mavi ikon rəngi */
-}
-
 .subtitle {
     font-size: 1rem;
-    color: #64748b;
+    color: #475569;
     margin-top: -5px;
     margin-bottom: 30px;
 }
@@ -66,20 +86,21 @@ header h1 {
 textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #dcdfea;
-    background-color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 8px;
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
     margin-top: 8px;
     box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: all 0.2s;
     resize: vertical;
 }
 
 textarea:focus {
     outline: none;
     border-color: #3b82f6;
+    background-color: white;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
@@ -112,21 +133,24 @@ button {
 
 button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 7px 20px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
 }
 
 .btn-icon { width: 18px; height: 18px; }
 #result-area { margin-top: 30px; }
 #result-area h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 10px; }
-#output { background-color: #fdfdff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 5px; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; }
+#output { background-color: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 5px; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; }
 #loading-spinner { color: #718096; margin-top: 10px; }
 
-/* Sağdakı qutu öz rəngində qalır */
+/* Sağdakı qutu olduğu kimi qalır */
 .info-section {
     flex: 1;
-    background-color: #eef2ff;
+    background-color: rgba(238, 242, 255, 0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     padding: 30px;
     border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .info-section h2 { font-size: 1.4rem; font-weight: 600; margin-top: 0; margin-bottom: 25px; color: #1e293b; }
