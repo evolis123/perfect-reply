@@ -26,13 +26,13 @@ body {
     align-items: flex-start;
 }
 
-/* Sol Form Bölməsi: Dəqiq rəng və çərçivə ilə */
+/* Sol Form Bölməsi: Sənin verdiyin dəqiq rəng kodu ilə */
 .form-section {
     flex: 2;
-    background-color: #e9eafb; /* Copilot "Discover" rənginin dəqiq kodu */
+    background-color: #FB5B34; /* Sənin verdiyin dəqiq rəng kodu */
     padding: 30px;
     border-radius: 16px;
-    border: 1px solid #d9dcf7; /* İncə çərçivə */
+    border: 1px solid #e05430; /* Çərçivə rəngini yeni fona uyğunlaşdırdım */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
