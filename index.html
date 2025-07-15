@@ -23,32 +23,29 @@
             <p class="subtitle">Craft professional email replies in seconds.</p>
 
             <form id="reply-form">
-                <div class="form-group">
-                    <label for="received-email">Paste the email you received:</label>
-                    <textarea id="received-email" rows="8" placeholder="Paste the original email here..."></textarea>
-                </div>
+                <label for="received-email">Paste the email you received:</label>
+                <textarea id="received-email" rows="8" placeholder="Paste the original English email here..."></textarea>
+                <p id="language-warning" class="warning-text" style="display: none;">The free version only supports emails in English.</p>
 
-                <div class="form-group">
-                    <label for="user-reply">In one sentence, what do you want to say?</label>
-                    <textarea id="user-reply" rows="3" placeholder="Write your goal in ANY language... (məs: görüşü təsdiqlə)"></textarea>
-                </div>
+                <label for="user-reply">In one sentence, what do you want to say?</label>
+                <textarea id="user-reply" rows="3" placeholder="e.g., I agree, but let's change the time..."></textarea>
                 
                 <div class="tone-selector">
-                    <p class="tone-label">Select Tone:</p>
-                    <div class="tones">
-                        <div class="tone-option">
-                            <input type="radio" id="tone-friendly" name="tone" value="friendly" checked>
-                            <label for="tone-friendly">Friendly</label>
-                        </div>
-                        <div class="tone-option">
-                            <input type="radio" id="tone-formal" name="tone" value="formal">
-                            <label for="tone-formal">Formal</label>
-                        </div>
-                        <div class="tone-option">
-                            <input type="radio" id="tone-persuasive" name="tone" value="persuasive">
-                            <label for="tone-persuasive">Persuasive</label>
-                        </div>
-                    </div>
+                  <label class="tone-label">Select Tone:</label>
+                  <div class="tones">
+                      <div class="tone-option">
+                          <input type="radio" id="tone-friendly" name="tone" value="friendly" checked>
+                          <label for="tone-friendly">Friendly</label>
+                      </div>
+                      <div class="tone-option">
+                          <input type="radio" id="tone-formal" name="tone" value="formal">
+                          <label for="tone-formal">Formal</label>
+                      </div>
+                      <div class="tone-option">
+                          <input type="radio" id="tone-persuasive" name="tone" value="persuasive">
+                          <label for="tone-persuasive">Persuasive</label>
+                      </div>
+                  </div>
                 </div>
                 
                 <button type="button" id="generate-button">
@@ -72,15 +69,15 @@
                 </li>
                 <li>
                     <div class="step-number">2</div>
-                    <p><strong>State Your Goal:</strong> Write your core message in the second box, in any language.</p>
+                    <p><strong>State Your Goal:</strong> In the second box, briefly write what you want to achieve with your reply.</p>
                 </li>
                 <li>
                     <div class="step-number">3</div>
-                    <p><strong>Select a Tone:</strong> Choose the tone you want for your reply (Friendly, Formal, etc.).</p>
+                    <p><strong>Generate:</strong> Click the button and get a perfectly crafted, professional reply in seconds.</p>
                 </li>
                 <li>
                     <div class="step-number">4</div>
-                    <p><strong>Generate:</strong> Click the button and get a perfectly crafted reply in English.</p>
+                    <p><strong>Speak Your Language:</strong> Write your goal in your native language. We are your bridge.</p>
                 </li>
             </ol>
         </div>
