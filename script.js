@@ -5,42 +5,46 @@ const resultArea = document.getElementById('result-area');
 const outputDiv = document.getElementById('output');
 const loadingSpinner = document.getElementById('loading-spinner');
 const buttonText = document.getElementById('button-text');
-
-// YENİ: Dil xəbərdarlığı üçün element
 const languageWarning = document.getElementById('language-warning');
 
-// YENİ: İngilis dili yoxlaması üçün sadə funksiya
-// Bu funksiya yalnız əsas Latın əlifbası və ümumi simvolları yoxlayır.
-// Ə, Ö, Ü, Ç, Ş, İ, Ğ kimi hərflər və ya kiril/ərəb əlifbaları daxil edilərsə "false" qaytaracaq.
-function isLikelyEnglish(text) {
-    // Boş mətni ingilis dili kimi qəbul edirik ki, xəta verməsin
-    if (!text.trim()) return true; 
-    // Regular expression to check for characters not common in English
-    const nonEnglishRegex = /[^a-zA-Z0-9\s.,!?'"()&$#@*+\-/=_:;{}\[\]\n\r%]/;
-    return !nonEnglishRegex.test(text);
+/**
+ * YENİLƏNMİŞ VƏ DAHA SƏRT DİL YOXLAMASI FUNKSİYASI
+ * Bu funksiya verilən mətndə YALNIZ icazə verilən simvolların olub-olmadığını yoxlayır.
+ * Azərbaycan və ya digər əlifbaların xüsusi hərfləri (ə, ö, ü, ç, ş, ı, ğ) dərhal mətni "qeyri-ingilis" edəcək.
+ */
+function isStrictlyEnglish(text) {
+    if (!text) return true; // Boş mətn problem deyil
+    // Bu regular expression yalnız göstərilən simvollara icazə verir. Başqa hər şey səhv sayılır.
+    const englishOnlyRegex = /^[a-zA-Z0-9\s.,!?'"()&$#@*+\-/:;{}[\]\n\r%_`~@^|=<>]*$/;
+    return englishOnlyRegex.test(text);
 }
 
-// YENİ: Email sahəsinə yazı yazıldıqca dili yoxlamaq üçün event listener
-receivedEmailTextarea.addEventListener('input', () => {
-    const isEnglish = isLikelyEnglish(receivedEmailTextarea.value);
-    if (isEnglish) {
-        languageWarning.style.display = 'none';
-        // Yalnız hər iki sahə dolu olduqda düyməni aktiv edirik
-        if (userReplyTextarea.value.trim()) {
-            generateButton.disabled = false;
-        }
-    } else {
+function validateInputs() {
+    const isEnglish = isStrictlyEnglish(receivedEmailTextarea.value);
+    const isUserReplyFilled = userReplyTextarea.value.trim() !== '';
+    const isReceivedEmailFilled = receivedEmailTextarea.value.trim() !== '';
+
+    if (!isEnglish) {
         languageWarning.style.display = 'block';
         generateButton.disabled = true;
+    } else {
+        languageWarning.style.display = 'none';
+        if (isUserReplyFilled && isReceivedEmailFilled) {
+            generateButton.disabled = false;
+        } else {
+            generateButton.disabled = true;
+        }
     }
-});
+}
 
+// Hər iki qutuya yazı yazıldıqca yoxlamanı işə sal
+receivedEmailTextarea.addEventListener('input', validateInputs);
+userReplyTextarea.addEventListener('input', validateInputs);
 
+// Düyməyə basılanda
 generateButton.addEventListener('click', async () => {
     const receivedEmail = receivedEmailTextarea.value;
     const userReply = userReplyTextarea.value;
-
-    // YENİ: Ton seçimini əldə edirik
     const selectedTone = document.querySelector('input[name="tone"]:checked').value;
 
     if (!receivedEmail || !userReply) {
@@ -48,8 +52,8 @@ generateButton.addEventListener('click', async () => {
         return;
     }
     
-    // YENİ: Düyməyə basanda son dəfə dil yoxlaması
-    if (!isLikelyEnglish(receivedEmail)) {
+    // SON QALA: Düyməyə basanda son dəfə sərt yoxlama
+    if (!isStrictlyEnglish(receivedEmail)) {
         languageWarning.style.display = 'block';
         alert('The free version only supports emails written in English.');
         return;
@@ -65,7 +69,6 @@ generateButton.addEventListener('click', async () => {
         const response = await fetch('/.netlify/functions/generate-reply', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            // YENİ: Sorğuya "tone" məlumatını əlavə edirik
             body: JSON.stringify({ receivedEmail, userReply, tone: selectedTone }),
         });
         const data = await response.json();
@@ -81,7 +84,12 @@ generateButton.addEventListener('click', async () => {
         console.error('Error:', error);
     } finally {
         loadingSpinner.style.display = 'none';
-        generateButton.disabled = false;
-        buttonText.textContent = 'Generate The Perfect Reply';
+        // Düymənin vəziyyətini yenidən yoxla
+        validateInputs();
     }
+});
+
+// Səhifə ilk dəfə yüklənəndə düyməni qeyri-aktiv et
+document.addEventListener('DOMContentLoaded', () => {
+    generateButton.disabled = true;
 });
