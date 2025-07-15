@@ -3,7 +3,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f0f2ff; /* Arxa fon rəngi */
+    background-color: #f0f4ff; /* Daha sakit bir arxa fon */
     color: #1a202c;
     line-height: 1.6;
     margin: 0;
@@ -15,26 +15,21 @@ body {
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 1100px;
     width: 100%;
-    background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
-    padding: 20px;
-    border-radius: 24px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     display: flex;
-    gap: 20px;
+    gap: 40px;
     align-items: flex-start;
 }
 
+/* Sənin istədiyin "yazı çərçivəsi" */
 .form-section {
     flex: 2;
-    background: rgba(255, 255, 255, 0.7); 
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    background: #ffffff; /* Təmiz ağ fon */
+    padding: 40px;
+    border-radius: 20px; /* Daha yumşaq kənarlar */
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 header {
@@ -48,41 +43,40 @@ header {
     width: 45px;
     height: 45px;
     min-width: 45px;
-    background: linear-gradient(45deg, #3b82f6 0%, #50E3C2 100%);
-    border-radius: 10px;
+    background: linear-gradient(45deg, #4A90E2 0%, #50E3C2 100%);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .logo-box span {
     color: white;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
 header h1 {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.9rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #1e293b;
-    margin: 0;
 }
 
 .subtitle {
     font-size: 1rem;
     color: #475569;
     margin-top: -5px;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid #cbd5e1;
+    background-color: #f8fafc;
     border-radius: 8px;
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
@@ -100,49 +94,34 @@ textarea:focus {
 }
 
 label {
-    font-weight: 500;
+    font-weight: 600;
     margin-top: 20px;
     display: block;
     font-size: 0.95rem;
     color: #334155;
 }
 
-/* YENİ: Dil xəbərdarlığı üçün stil */
-.warning-text {
-    color: #dc2626; /* Qırmızı rəng */
-    font-size: 0.875rem;
-    margin-top: 8px;
-    margin-bottom: 0;
-}
-
-/* YENİ: Ton seçimi üçün stillər */
+/* Ton seçimi üçün stillər */
 .tone-selector {
     margin-top: 25px;
 }
 .tone-label {
-    margin-top: 0;
-    margin-bottom: 12px;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.95rem;
     color: #334155;
+    margin-bottom: 12px;
 }
 .tones {
     display: flex;
-    gap: 15px;
-    align-items: center;
-}
-.tone-option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 .tone-option input[type="radio"] {
-    display: none; /* Original radio düyməni gizlədirik */
+    display: none;
 }
 .tone-option label {
     margin-top: 0;
     cursor: pointer;
-    padding: 8px 16px;
+    padding: 8px 18px;
     border: 1px solid #cbd5e1;
     border-radius: 20px;
     font-size: 0.9rem;
@@ -155,64 +134,59 @@ label {
     font-weight: 600;
 }
 .tone-option label:hover {
-    border-color: #3b82f6;
+    background-color: #e2e8f0;
 }
-/* ----- */
+.tone-option input[type="radio"]:checked + label:hover {
+    background-color: #2563eb;
+}
 
-button {
+/* Əsas düymə */
+button#generate-button {
     width: 100%;
-    padding: 14px;
+    padding: 15px;
     background: linear-gradient(90deg, #3b82f6 0%, #2dd4bf 100%);
     color: white;
     border: none;
     border-radius: 10px;
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 600;
     cursor: pointer;
     margin-top: 30px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
 }
 
-button:hover {
+button#generate-button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 7px 25px rgba(59, 130, 246, 0.4);
 }
-/* YENİ: Düymə deaktiv olanda stil */
 button:disabled {
     background: #9ca3af;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
 }
-
-
 .btn-icon { width: 18px; height: 18px; }
+
+/* Nəticə və info hissələri */
 #result-area { margin-top: 30px; }
-#result-area h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 10px; }
-#output { background-color: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 5px; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; }
-#loading-spinner { color: #718096; margin-top: 10px; }
+#result-area h2 { font-size: 1.2rem; font-weight: 600; }
+#output { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; white-space: pre-wrap; }
+#loading-spinner { color: #475569; font-weight: 500; }
 
 .info-section {
     flex: 1;
-    background-color: rgba(238, 242, 255, 0.8);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 30px 20px;
 }
-
-.info-section h2 { font-size: 1.4rem; font-weight: 600; margin-top: 0; margin-bottom: 25px; color: #1e293b; }
-.info-section ol { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 20px; /* YENİ: Səliqəli aralıq üçün */ }
-.info-section li { margin-bottom: 0; /* Artıq gap ilə əvəz olundu */ display: flex; align-items: flex-start; gap: 15px; }
-
+.info-section h2 { font-size: 1.5rem; font-weight: 700; margin-top: 0; color: #1e293b; }
+.info-section ol { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+.info-section li { display: flex; align-items: flex-start; gap: 15px; }
 .info-section .step-number {
-    background-color: #3b82f6;
+    background: #3b82f6;
     color: white;
     border-radius: 50%;
     min-width: 28px;
@@ -221,8 +195,5 @@ button:disabled {
     align-items: center;
     justify-content: center;
     font-weight: 600;
-    font-size: 0.9rem;
-    box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
 }
-
-.info-section p { margin: 0; font-size: 0.95rem; color: #334155; line-height: 1.5; }
+.info-section p { color: #334155; line-height: 1.5; }
