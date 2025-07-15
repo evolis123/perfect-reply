@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Perfect Reply</title>
+    <title>The Perfect Reply by Tora</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 </head>
@@ -25,13 +24,32 @@
 
             <form id="reply-form">
                 <label for="received-email">Paste the email you received:</label>
-                <textarea id="received-email" rows="8" placeholder="Paste the original email here..."></textarea>
+                <textarea id="received-email" rows="8" placeholder="Paste the original English email here..."></textarea>
+                <p id="language-warning" class="warning-text" style="display: none;">The free version only supports emails in English.</p>
 
                 <label for="user-reply">In one sentence, what do you want to say?</label>
-                <textarea id="user-reply" rows="3" placeholder="Write your goal in ANY langua1ge... (məs: Razıyam, amma vaxtını dəyişək)"></textarea>
+                <textarea id="user-reply" rows="3" placeholder="e.g., I agree, but let's change the time..."></textarea>
+                
+                <div class="tone-selector">
+                  <label class="tone-label">Select Tone:</label>
+                  <div class="tones">
+                      <div class="tone-option">
+                          <input type="radio" id="tone-friendly" name="tone" value="friendly" checked>
+                          <label for="tone-friendly">Friendly</label>
+                      </div>
+                      <div class="tone-option">
+                          <input type="radio" id="tone-formal" name="tone" value="formal">
+                          <label for="tone-formal">Formal</label>
+                      </div>
+                      <div class="tone-option">
+                          <input type="radio" id="tone-persuasive" name="tone" value="persuasive">
+                          <label for="tone-persuasive">Persuasive</label>
+                      </div>
+                  </div>
+                </div>
                 
                 <button type="button" id="generate-button">
-                    <i data-feather="send" class="btn-icon"></i> Generate The Perfect Reply
+                    <i data-feather="send" class="btn-icon"></i><span id="button-text">Generate The Perfect Reply</span>
                 </button>
             </form>
             
@@ -46,8 +64,8 @@
             <h2>How it works?</h2>
             <ol>
                 <li>
-    <div class="step-number">4</div>
-    <p><strong>Speak Your Language:</strong> Write your goal in your native language and get a perfect reply in English. We are your bridge.</p>
+                    <div class="step-number">1</div>
+                    <p><strong>Paste the Email:</strong> Drop the full email you received into the first box.</p>
                 </li>
                 <li>
                     <div class="step-number">2</div>
@@ -57,13 +75,16 @@
                     <div class="step-number">3</div>
                     <p><strong>Generate:</strong> Click the button and get a perfectly crafted, professional reply in seconds.</p>
                 </li>
+                <li>
+                    <div class="step-number">4</div>
+                    <p><strong>Speak Your Language:</strong> Write your goal in your native language. We are your bridge.</p>
+                </li>
             </ol>
         </div>
     </div>
 
     <script src="script.js"></script>
     <script>
-        // İkonları aktivləşdirmək üçün
         feather.replace();
     </script>
 </body>
