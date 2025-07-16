@@ -240,3 +240,8 @@ button:disabled {
 .main-footer a:hover {
     text-decoration: underline;
 }  
+.main-footer {
+    text-align: center; /* Linkləri üfüqi olaraq mərkəzə gətirir */
+    padding: 20px 0;    /* Yuxarıdan və aşağıdan bir az boşluq verir */
+    width: 100%;        /* Bütün konteynerin enini tutur */
+}
