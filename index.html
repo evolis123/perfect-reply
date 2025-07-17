@@ -24,6 +24,15 @@
 
             <form id="reply-form">
                 <label for="received-email">Paste the email you received:</label>
+                    <div class="scenario-section">
+        <label class="scenario-title">Or, start with a common scenario:</label>
+        <div class="scenario-buttons">
+            <button type="button" class="scenario-btn" data-scenario="thank-you">Thank You After Interview</button>
+            <button type="button" class="scenario-btn" data-scenario="recommendation">Request Recommendation</button>
+            <button type="button" class="scenario-btn" data-scenario="apology">Apologize for a Delay</button>
+            <button type="button" class="scenario-btn" data-scenario="inquiry">Make an Inquiry</button>
+        </div>
+    </div>
                 <textarea id="received-email" rows="8" placeholder="Paste the original English email here..."></textarea>
                 <p id="language-warning" class="warning-text" style="display: none;">The free version only supports emails in English.</p>
 

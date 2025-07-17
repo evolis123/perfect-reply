@@ -336,3 +336,47 @@ button:disabled {
         }
     }
 }
+/* =================================== */
+/* ===    SCENARIO BUTTON STYLES   === */
+/* =================================== */
+
+.scenario-section {
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.scenario-title {
+    font-weight: 500;
+    display: block;
+    font-size: 0.95rem;
+    color: #334155;
+    margin-bottom: 15px;
+}
+
+.scenario-buttons {
+    display: flex;
+    flex-wrap: wrap; /* Mobil üçün səliqəli düzülüş */
+    gap: 12px;
+}
+
+.scenario-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    /* İkinci dərəcəli düymə stili */
+    background-color: transparent;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+}
+
+.scenario-btn:hover {
+    background-color: #f1f5f9;
+    border-color: #3b82f6;
+    color: #1e293b;
+}
