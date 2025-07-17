@@ -93,3 +93,39 @@ generateButton.addEventListener('click', async () => {
 document.addEventListener('DOMContentLoaded', () => {
     generateButton.disabled = true;
 });
+// =======================================================
+// ===           SCENARIO BUTTONS LOGIC                ===
+// =======================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Bütün ssenari düymələrini və hədəf mətn qutusunu seçirik
+    const scenarioButtons = document.querySelectorAll('.scenario-btn');
+    const userReplyTextarea = document.getElementById('user-reply');
+
+    // Hər ssenariyə uyğun mətn şablonlarını saxlayan obyekt
+    // Bu mətnlər istifadəçiyə nə yazmalı olduğunu başa salır
+    const scenarios = {
+        'thank-you': 'Write a polite and professional thank-you email after a job interview for the [Job Title] position with [Company Name]. I want to reiterate my interest in the role.',
+        'recommendation': 'Write a formal email asking my former manager, [Manager\'s Name], for a letter of recommendation for a [Program/Job Title] I am applying to.',
+        'apology': 'Write a sincere apology email for the delay in my response regarding [Subject of Email]. Provide a brief reason and assure them it won\'t happen again.',
+        'inquiry': 'Write a clear and concise email to inquire about [Specific Topic, e.g., the status of my application] sent on [Date].'
+    };
+
+    // Hər bir düyməyə klikləmə hadisəsi əlavə edirik
+    scenarioButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Düymənin 'data-scenario' atributunu götürürük
+            const scenarioKey = button.dataset.scenario;
+            
+            // Həmin açara uyğun mətni obyektimizdən tapırıq
+            const scenarioText = scenarios[scenarioKey];
+            
+            // Mətn qutusunun dəyərini həmin mətn ilə əvəz edirik
+            if (scenarioText) {
+                userReplyTextarea.value = scenarioText;
+                // İstifadəçinin dərhal yazmağa başlaması üçün fokusu bura gətiririk
+                userReplyTextarea.focus(); 
+            }
+        });
+    });
+});
