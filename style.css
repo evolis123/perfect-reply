@@ -337,11 +337,12 @@ button:disabled {
     }
 }
 /* ======================================================= */
-/* ===    SCENARIO BUTTON STYLES - V2 (STİL DÜZƏLİŞİ)   === */
+/* ===   İKİNCİ DƏRƏCƏLİ DÜYMƏLƏR (VAHİD STİL)    === */
 /* ======================================================= */
 
+/* --- Bölmələrin öz stilləri --- */
 .scenario-section {
-    margin-bottom: 25px; /* Boşluğu bir az azaldırıq */
+    margin-bottom: 25px;
     padding-bottom: 25px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 }
@@ -354,43 +355,6 @@ button:disabled {
     margin-bottom: 15px;
 }
 
-.scenario-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-/* === ƏSAS DÜZƏLİŞ BURADADIR === */
-/* Daha spesifik selektor istifadə edirik ki, ümumi button stilini üstələsin */
-.scenario-buttons .scenario-btn {
-    width: auto; /* Eni avtomatik olsun, 100% deyil */
-    padding: 8px 16px; /* Daha kiçik daxili boşluq */
-    font-size: 0.9rem;
-    font-weight: 500;
-    
-    background: transparent; /* Arxa fon şəffaf olsun */
-    color: #475569; /* Mətnin rəngi */
-    border: 1px solid #cbd5e1; /* Sərhəd xətti */
-
-    /* Ümumi button stilindən gələn əlavə effektləri sıfırlayırıq */
-    box-shadow: none;
-    transform: none;
-    margin-top: 0;
-}
-
-/* Hover effektini də daha spesifik edirik */
-.scenario-buttons .scenario-btn:hover {
-    background: #f1f5f9;
-    border-color: #3b82f6;
-    color: #1e293b;
-    /* Ümumi hover effektlərini sıfırlayırıq */
-    box-shadow: none;
-    transform: none;
-}
-/* ================================================== */
-/* ===    REFINE BUTTON STYLES - V2 (DÜZƏLİŞ)     === */
-/* ================================================== */
-
 #refine-actions {
     margin-top: 20px;
     padding-top: 20px;
@@ -400,27 +364,39 @@ button:disabled {
     gap: 12px;
 }
 
-/* === ƏSAS DÜZƏLİŞ BURADADIR === */
-/* Selektoru daha spesifik edirik ki, ümumi button stilini üstələsin */
-#refine-actions .refine-btn {
+/* === VAHİD DÜYMƏ STİLİ (HƏM SSENARİ, HƏM DƏ REFINE ÜÇÜN) === */
+.scenario-btn,
+.refine-btn {
     width: auto;
-    padding: 7px 14px;
-    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
     
-    background: #eef2ff; /* Arxa fon rəngi */
-    border: 1px solid #e0e7ff;
-    color: #4338ca; /* Mətnin rəngi */
-
-    /* Ümumi button stilindən gələn əlavələri sıfırlayırıq */
+    background: transparent;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    
     box-shadow: none;
     transform: none;
     margin-top: 0;
+    padding: 8px 16px; /* Ssenari düymələri üçün standart ölçü */
+    font-size: 0.9rem;
 }
 
-#refine-actions .refine-btn:hover {
-    background: #e0e7ff;
-    border-color: #c7d2fe;
-    /* Ümumi hover effektlərini də sıfırlayırıq */
+/* Refine düymələri bir az daha kiçik olsun */
+.refine-btn {
+    padding: 7px 14px;
+    font-size: 0.85rem;
+}
+
+/* Ümumi Hover Effekti */
+.scenario-btn:hover,
+.refine-btn:hover {
+    background: #f1f5f9;
+    border-color: #3b82f6;
+    color: #1e293b;
     box-shadow: none;
     transform: none;
 }
