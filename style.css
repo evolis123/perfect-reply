@@ -283,32 +283,27 @@ button:disabled {
 .main-footer {
     display: none;
 }
-/* =================================== */
-/* === MOBİL UYĞUNLUQ (RESPONSIVE) === */
-/* =================================== */
+/* ============================================================= */
+/* === MOBİL UYĞUNLUQ (RESPONSIVE) - V2 (KOSMETİK TƏMİR) === */
+/* ============================================================= */
 
 /* 992px və daha kiçik ekranlar üçün (planşet və telefonlar) */
 @media (max-width: 992px) {
 
     body {
-        /* Telefonda kənarlarda çox boşluq olmasın */
         padding: 20px 15px;
     }
 
     .container {
-        /* ƏSAS DÜZƏLİŞ: Sütunları alt-alta düzürük */
         flex-direction: column;
-        gap: 30px; /* Hissələr arasında şaquli boşluq */
+        gap: 30px;
     }
 
     .form-section, .info-section {
-        /* Hər hissənin eni tam olsun ki, qəribə görünməsinlər */
-        /* Bu, flex-direction: column ilə birlikdə işləyir */
         width: 100%;
     }
     
     header h1 {
-        /* Başlıq şriftini mobil üçün bir az kiçildirik */
         font-size: 1.6rem;
     }
 
@@ -316,12 +311,28 @@ button:disabled {
         font-size: 0.95rem;
     }
 
-    /* Çox dar ekranlarda düymə və linklərin alt-alta düşməsi üçün */
+    /* === DÜZƏLİŞ 1: Ton düymələrinin səliqəli düzülüşü === */
+    .tones {
+        flex-wrap: wrap; /* Düymələr sığışmadıqda alt sətirə səliqəli keçsin */
+        gap: 12px;
+    }
+
+    /* === DÜZƏLİŞ 2: Çox dar ekranlar üçün Footer-in gözəlləşdirilməsi === */
     @media (max-width: 480px) {
         .form-footer {
             flex-direction: column;
-            align-items: flex-start; /* Hər şeyi sola düzür */
-            gap: 20px; /* Aralarında şaquli boşluq */
+            align-items: stretch; /* Elementlərin bütün eni tutmasını təmin edir */
+            gap: 15px;
+        }
+
+        .form-footer button {
+            width: 100%; /* Düymə bütün eni tutaraq səliqəli görünür */
+        }
+
+        .footer-links {
+            text-align: center; /* Linkləri düymənin altında mərkəzə gətirir */
+            width: 100%;
+            padding-top: 5px; /* Düymədən bir az aralı olsun */
         }
     }
 }
