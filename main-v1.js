@@ -161,9 +161,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             showUserFriendlyError(error);
         } finally {
-            stopLoadingAnimation();
-        }
+        stopLoadingAnimation();
+        // === YENİ ƏLAVƏ EDİLƏN ƏMR BUDUR ===
+        resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+}
 
     // === EVENT LISTENERS (Olay dinleyicileri) ===
     generateButton.addEventListener('click', handleGenerate);
