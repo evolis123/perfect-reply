@@ -283,3 +283,45 @@ button:disabled {
 .main-footer {
     display: none;
 }
+/* =================================== */
+/* === MOBİL UYĞUNLUQ (RESPONSIVE) === */
+/* =================================== */
+
+/* 992px və daha kiçik ekranlar üçün (planşet və telefonlar) */
+@media (max-width: 992px) {
+
+    body {
+        /* Telefonda kənarlarda çox boşluq olmasın */
+        padding: 20px 15px;
+    }
+
+    .container {
+        /* ƏSAS DÜZƏLİŞ: Sütunları alt-alta düzürük */
+        flex-direction: column;
+        gap: 30px; /* Hissələr arasında şaquli boşluq */
+    }
+
+    .form-section, .info-section {
+        /* Hər hissənin eni tam olsun ki, qəribə görünməsinlər */
+        /* Bu, flex-direction: column ilə birlikdə işləyir */
+        width: 100%;
+    }
+    
+    header h1 {
+        /* Başlıq şriftini mobil üçün bir az kiçildirik */
+        font-size: 1.6rem;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+    }
+
+    /* Çox dar ekranlarda düymə və linklərin alt-alta düşməsi üçün */
+    @media (max-width: 480px) {
+        .form-footer {
+            flex-direction: column;
+            align-items: flex-start; /* Hər şeyi sola düzür */
+            gap: 20px; /* Aralarında şaquli boşluq */
+        }
+    }
+}
