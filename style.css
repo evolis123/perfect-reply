@@ -1,233 +1,96 @@
-/* Orijinal şriftləri import edirik */
+/* --- ƏSAS STİLLƏR --- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap');
 
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f0f2ff; /* Sənin orijinal arxa fon rəngin */
-    color: #1a202c;
-    line-height: 1.6;
-    margin: 0;
-    padding: 40px 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f2ff;
+    color: #1a202c;
+    line-height: 1.6;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box; /* Bütün elementlərə tətbiq edilir */
+}
+
+*, *:before, *:after {
+    box-sizing: inherit; /* Bütün elementlərin ölçü hesablamasını düzəldir */
 }
 
 .container {
-    max-width: 1000px;
-    width: 100%;
-    background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
-    padding: 20px;
-    border-radius: 24px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
+    max-width: 1000px;
+    width: 100%;
+    background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+    padding: 20px;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
 }
 
 .form-section {
-    flex: 2;
-    /* <<<--- ƏSAS DÜZƏLİŞ BURADADIR: SƏNİN ORİJİNAL RƏNGİN BƏRPA EDİLDİ --->>> */
-    background: rgba(255, 236, 232, 0.7); 
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    flex: 2; /* Sol tərəf daha geniş olacaq */
+    background: rgba(255, 236, 232, 0.7); 
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 12px;
-}
-
-.logo-box {
-    width: 45px;
-    height: 45px;
-    min-width: 45px;
-    background: linear-gradient(45deg, #3b82f6 0%, #50E3C2 100%);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.logo-box span {
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    font-size: 1.2rem;
-}
-
-header h1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.9rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin: 0;
-}
-
-.subtitle {
-    font-size: 1rem;
-    color: #475569;
-    margin-top: -5px;
-    margin-bottom: 30px;
-}
-
-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: 'Inter', sans-serif;
-    margin-top: 8px;
-    box-sizing: border-box;
-    transition: all 0.2s;
-    resize: vertical;
-}
-
-textarea:focus {
-    outline: none;
-    border-color: #3b82f6;
-    background-color: white;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-}
-
-label {
-    font-weight: 500;
-    margin-top: 20px;
-    display: block;
-    font-size: 0.95rem;
-    color: #334155;
-}
-
-.warning-text {
-    color: #dc2626;
-    font-size: 0.875rem;
-    margin-top: 8px;
-    margin-bottom: 0;
-}
-
-.tone-selector {
-    margin-top: 25px;
-}
-.tone-label {
-    margin-top: 0;
-    margin-bottom: 12px;
-    font-weight: 500;
-    font-size: 0.95rem;
-    color: #334155;
-}
-.tones {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-.tone-option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.tone-option input[type="radio"] {
-    display: none;
-}
-.tone-option label {
-    margin-top: 0;
-    cursor: pointer;
-    padding: 8px 16px;
-    border: 1px solid #cbd5e1;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-}
-.tone-option input[type="radio"]:checked + label {
-    background-color: #3b82f6;
-    color: white;
-    border-color: #3b82f6;
-    font-weight: 600;
-}
-.tone-option label:hover {
-    border-color: #3b82f6;
-}
-
-button {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(90deg, #3b82f6 0%, #2dd4bf 100%);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 30px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
-}
-button:disabled {
-    background: #9ca3af;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+.info-section {
+    flex: 1; /* Sağ tərəf daha dar olacaq */
+    background-color: rgba(238, 242, 255, 0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 
+/* --- Elementlərin detallı stilləri --- */
+header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
+.logo-box { width: 45px; height: 45px; min-width: 45px; background: linear-gradient(45deg, #3b82f6 0%, #50E3C2 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.logo-box span { color: white; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.2rem; }
+header h1 { font-family: 'Poppins', sans-serif; font-size: 1.9rem; font-weight: 700; color: #1e293b; margin: 0; }
+.subtitle { font-size: 1rem; color: #475569; margin-top: -5px; margin-bottom: 30px; }
+textarea { width: 100%; padding: 12px; border: 1px solid rgba(255, 255, 255, 0.4); background-color: rgba(255, 255, 255, 0.5); border-radius: 8px; font-size: 1rem; font-family: 'Inter', sans-serif; margin-top: 8px; transition: all 0.2s; resize: vertical; }
+textarea:focus { outline: none; border-color: #3b82f6; background-color: white; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+label { font-weight: 500; margin-top: 20px; display: block; font-size: 0.95rem; color: #334155; }
+.warning-text { color: #dc2626; font-size: 0.875rem; margin-top: 8px; margin-bottom: 0; }
+.tone-selector { margin-top: 25px; }
+.tone-label { margin-top: 0; margin-bottom: 12px; font-weight: 500; font-size: 0.95rem; color: #334155; }
+.tones { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+.tone-option { display: flex; align-items: center; gap: 8px; }
+.tone-option input[type="radio"] { display: none; }
+.tone-option label { margin-top: 0; cursor: pointer; padding: 8px 16px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 0.9rem; transition: all 0.2s ease; }
+.tone-option input[type="radio"]:checked + label { background-color: #3b82f6; color: white; border-color: #3b82f6; font-weight: 600; }
+.tone-option label:hover { border-color: #3b82f6; }
+button { width: 100%; padding: 14px; background: linear-gradient(90deg, #3b82f6 0%, #2dd4bf 100%); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 30px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2); display: flex; align-items: center; justify-content: center; gap: 10px; }
+button:hover { transform: translateY(-3px); box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4); }
+button:disabled { background: #9ca3af; cursor: not-allowed; transform: none; box-shadow: none; }
 .btn-icon { width: 18px; height: 18px; }
 #result-area { margin-top: 30px; }
 #result-area h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 10px; }
 #output { background-color: white; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-top: 5px; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; }
 #loading-spinner { color: #718096; margin-top: 10px; }
-
-.info-section {
-    flex: 1;
-    background-color: rgba(238, 242, 255, 0.8);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
 .info-section h2 { font-size: 1.4rem; font-weight: 600; margin-top: 0; margin-bottom: 25px; color: #1e293b; }
 .info-section ol { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 20px; }
 .info-section li { margin-bottom: 0; display: flex; align-items: flex-start; gap: 15px; }
-
-.info-section .step-number {
-    background-color: #3b82f6;
-    color: white;
-    border-radius: 50%;
-    min-width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 0.9rem;
-    box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
-}
-
+.info-section .step-number { background-color: #3b82f6; color: white; border-radius: 50%; min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem; box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3); }
 .info-section p { margin: 0; font-size: 0.95rem; color: #334155; line-height: 1.5; }
+
+/* --- YENİ FOOTER STİLLƏRİ --- */
 .main-footer {
     text-align: center;
-    margin-top: 50px;
-    padding-top: 30px;
-    border-top: 1px solid #e2e8f0;
+    margin-top: 30px; /* Generasiya düyməsindən aralı olması üçün */
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .main-footer a {
@@ -239,9 +102,24 @@ button:disabled {
 
 .main-footer a:hover {
     text-decoration: underline;
-}  
-.main-footer {
-    text-align: center; /* Linkləri üfüqi olaraq mərkəzə gətirir */
-    padding: 20px 0;    /* Yuxarıdan və aşağıdan bir az boşluq verir */
-    width: 100%;        /* Bütün konteynerin enini tutur */
+}
+
+/* --- TELEFON VƏ KİÇİK EKRANLAR ÜÇÜN STİLLƏR (RESPONSIVE) --- */
+@media (max-width: 850px) {
+    body {
+        padding: 20px 10px; /* Telefonda kənarlarda daha az boşluq */
+    }
+
+    .container {
+        flex-direction: column; /* Sütunları alt-alta yığır */
+        padding: 10px;
+    }
+    
+    .form-section, .info-section {
+        width: 100%; /* Sütunların enini 100% edir */
+    }
+
+    header h1 {
+        font-size: 1.5rem; /* Başlığı biraz kiçildir */
+    }
 }
