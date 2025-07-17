@@ -245,3 +245,41 @@ button:disabled {
     width: 100%;        /* Bütün konteynerin enini tutur */
 }
 
+/* --- Düymə və Footer Linkləri üçün Düzəliş --- */
+
+/* Bu, düymə və linkləri saxlayan əsas konteynerdir */
+.form-footer {
+  display: flex; /* Elementləri bir sıraya düzür */
+  align-items: center; /* Onları şaquli olaraq ortalayır */
+  justify-content: space-between; /* Birini sola, digərini sağa itələyir */
+  margin-top: 30px; /* Yuxarıdakı elementdən boşluq saxlayır */
+}
+
+/* Düymənin bütün sətri tutmasının qarşısını alırıq */
+.form-footer button {
+  width: auto; /* Düymə yalnız içindəki mətn qədər yer tutur */
+  margin-top: 0; /* Yuxarıdakı marjini sıfırlayırıq, çünki .form-footer-də artıq var */
+}
+
+/* Sağdakı linkləri qruplaşdırır */
+.footer-links {
+  display: flex;
+  gap: 20px; /* Linklər arasında boşluq yaradır */
+}
+
+/* Linklərin görünüşünü səliqəyə salırıq */
+.footer-links a {
+  font-size: 0.9rem;
+  color: #475569; /* Subtitle rəngi ilə eyni */
+  text-decoration: none; /* Altındakı xətti silir */
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #1e293b; /* Üzərinə gəldikdə rəngi tündləşir */
+}
+
+/* Köhnə .main-footer qaydalarını ləğv edə bilərsən, çünki artıq istifadə olunmur */
+.main-footer {
+    display: none;
+}

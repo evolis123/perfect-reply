@@ -8,9 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css?v=1.0">
-    
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=1.1"> <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 </head>
 <body>
 
@@ -33,27 +31,33 @@
                 <textarea id="user-reply" rows="3" placeholder="e.g., I agree, but let's change the time..."></textarea>
                 
                 <div class="tone-selector">
-                  <label class="tone-label">Select Tone:</label>
-                  <div class="tones">
-                      <div class="tone-option">
-                          <input type="radio" id="tone-friendly" name="tone" value="friendly" checked>
-                          <label for="tone-friendly">Friendly</label>
-                      </div>
-                      <div class="tone-option">
-                          <input type="radio" id="tone-formal" name="tone" value="formal">
-                          <label for="tone-formal">Formal</label>
-                      </div>
-                      <div class="tone-option">
-                          <input type="radio" id="tone-persuasive" name="tone" value="persuasive">
-                          <label for="tone-persuasive">Persuasive</label>
-                      </div>
-                  </div>
+                    <label class="tone-label">Select Tone:</label>
+                    <div class="tones">
+                        <div class="tone-option">
+                            <input type="radio" id="tone-friendly" name="tone" value="friendly" checked>
+                            <label for="tone-friendly">Friendly</label>
+                        </div>
+                        <div class="tone-option">
+                            <input type="radio" id="tone-formal" name="tone" value="formal">
+                            <label for="tone-formal">Formal</label>
+                        </div>
+                        <div class="tone-option">
+                            <input type="radio" id="tone-persuasive" name="tone" value="persuasive">
+                            <label for="tone-persuasive">Persuasive</label>
+                        </div>
+                    </div>
                 </div>
                 
-                <button type="button" id="generate-button">
-                    <i data-feather="send" class="btn-icon"></i><span id="button-text">Generate The Perfect Reply</span>
-                </button>
-            </form>
+                <div class="form-footer">
+                    <button type="button" id="generate-button">
+                        <i data-feather="send" class="btn-icon"></i><span id="button-text">Generate The Perfect Reply</span>
+                    </button>
+                    <div class="footer-links">
+                        <a href="about.html">About Us</a>
+                        <a href="privacy.html">Privacy Policy</a>
+                    </div>
+                </div>
+                </form>
             
             <div id="result-area" style="display: none;">
                 <h2>Your Perfect Reply:</h2>
@@ -82,16 +86,10 @@
                     <p><strong>Speak Your Language:</strong> Write your goal in your native language. We are your bridge.</p>
                 </li>
             </ol>
-        ...
-    </div>
-...
-            </div> <footer class="main-footer">
-                <a href="about.html">About Us</a>
-                <a href="privacy.html">Privacy Policy</a>
-            </footer>
+        </div>
+    </div> 
 
-        </div>         <div class="info-section">
-        ...
+    <script src="main-v1.js"></script>
 <script>
     feather.replace();
 </script>
