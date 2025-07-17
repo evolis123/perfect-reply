@@ -1,143 +1,135 @@
 // ===================================================================
-// ===         THE PERFECT REPLY - main-v1.js (YEKUN KOD)          ===
+// ===         THE PERFECT REPLY - main-v1.js (YEKUN VƏ DÜZƏLİŞ EDİLMİŞ KOD)          ===
 // ===================================================================
 
-// Bütün DOM elementlərini əvvəlcədən seçirik
-const receivedEmailTextarea = document.getElementById('received-email');
-const userReplyTextarea = document.getElementById('user-reply');
-const generateButton = document.getElementById('generate-button');
-const resultArea = document.getElementById('result-area');
-const outputDiv = document.getElementById('output');
-const loadingSpinner = document.getElementById('loading-spinner');
-const buttonText = document.getElementById('button-text');
-const languageWarning = document.getElementById('language-warning');
-const refineActionsDiv = document.getElementById('refine-actions'); // Yeni refine blokunu da seçirik
+document.addEventListener('DOMContentLoaded', () => {
+    // Bütün DOM elementlərini seçirik
+    const receivedEmailTextarea = document.getElementById('received-email');
+    const userReplyTextarea = document.getElementById('user-reply');
+    const generateButton = document.getElementById('generate-button');
+    const resultArea = document.getElementById('result-area');
+    const outputDiv = document.getElementById('output');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const buttonText = document.getElementById('button-text');
+    const languageWarning = document.getElementById('language-warning');
+    const refineActionsDiv = document.getElementById('refine-actions');
 
-// Bu funksiya verilən mətndə YALNIZ icazə verilən simvolların olub-olmadığını yoxlayır.
-function isStrictlyEnglish(text) {
-    if (!text) return true;
-    const englishOnlyRegex = /^[a-zA-Z0-9\s.,!?'"()&$#@*+\-/:;{}[\]\n\r%_`~@^|=<>]*$/;
-    return englishOnlyRegex.test(text);
-}
-
-// Düymənin aktiv/passiv olmasını təyin edən funksiya
-function validateInputs() {
-    const isEnglish = isStrictlyEnglish(receivedEmailTextarea.value);
-    const isUserReplyFilled = userReplyTextarea.value.trim() !== '';
-    const isReceivedEmailFilled = receivedEmailTextarea.value.trim() !== '';
-
-    if (!isEnglish) {
-        languageWarning.style.display = 'block';
-        generateButton.disabled = true;
-    } else {
-        languageWarning.style.display = 'none';
-        generateButton.disabled = !(isUserReplyFilled && isReceivedEmailFilled);
-    }
-}
-
-// Əsas "Generate" düyməsinə kliklədikdə
-generateButton.addEventListener('click', async () => {
-    const receivedEmail = receivedEmailTextarea.value;
-    const userReply = userReplyTextarea.value;
-    const selectedTone = document.querySelector('input[name="tone"]:checked').value;
-
-    if (!receivedEmail || !userReply) {
-        alert('Please fill in both fields.');
-        return;
-    }
-    
-    if (!isStrictlyEnglish(receivedEmail)) {
-        languageWarning.style.display = 'block';
-        alert('The free version only supports emails written in English.');
-        return;
+    // Bu funksiya verilən mətndə YALNIZ ingiliscə simvolların olub-olmadığını yoxlayır.
+    function isStrictlyEnglish(text) {
+        if (!text) return true;
+        const englishOnlyRegex = /^[a-zA-Z0-9\s.,!?'"()&$#@*+\-/:;{}[\]\n\r%_`~@^|=<>]*$/;
+        return englishOnlyRegex.test(text);
     }
 
-    resultArea.style.display = 'block';
-    loadingSpinner.style.display = 'block';
-    outputDiv.innerHTML = ''; 
-    generateButton.disabled = true;
-    buttonText.textContent = 'Generating...';
-    refineActionsDiv.style.display = 'none'; // YENİ ƏLAVƏ EDİLDİ: Təkmilləşdirmə düymələrini gizlədirik
+    // Düymənin aktiv/passiv olmasını təyin edən funksiya
+    function validateInputs() {
+        const isEnglish = isStrictlyEnglish(receivedEmailTextarea.value);
+        const isUserReplyFilled = userReplyTextarea.value.trim() !== '';
+        const isReceivedEmailFilled = receivedEmailTextarea.value.trim() !== '';
 
-    try {
-        const response = await fetch('/.netlify/functions/generate-reply', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ receivedEmail, userReply, tone: selectedTone }),
-        });
-        const data = await response.json();
-        
-        if (response.ok) {
-            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
-            refineActionsDiv.style.display = 'flex'; // YENİ ƏLAVƏ EDİLDİ: Nəticə gələndə düymələri göstəririk
+        if (!isEnglish) {
+            languageWarning.style.display = 'block';
+            generateButton.disabled = true;
         } else {
-            throw new Error(data.error || 'An unknown error occurred.');
+            languageWarning.style.display = 'none';
+            generateButton.disabled = !(isUserReplyFilled && isReceivedEmailFilled);
+        }
+    }
+
+    // Əsas "Generate" düyməsinə kliklədikdə
+    async function handleGenerate() {
+        const receivedEmail = receivedEmailTextarea.value;
+        const userReply = userReplyTextarea.value;
+        const selectedTone = document.querySelector('input[name="tone"]:checked').value;
+
+        if (!receivedEmail || !userReply) {
+            alert('Please fill in both fields.');
+            return;
+        }
+        if (!isStrictlyEnglish(receivedEmail)) {
+            languageWarning.style.display = 'block';
+            alert('The free version only supports emails written in English.');
+            return;
         }
 
-    } catch (error) {
-        outputDiv.textContent = `An error occurred: ${error.message}`;
-        console.error('Error:', error);
-    } finally {
-        loadingSpinner.style.display = 'none';
-        buttonText.textContent = 'Generate The Perfect Reply';
-        validateInputs();
-    }
-});
+        resultArea.style.display = 'block';
+        loadingSpinner.style.display = 'block';
+        outputDiv.innerHTML = '';
+        generateButton.disabled = true;
+        buttonText.textContent = 'Generating...';
+        refineActionsDiv.style.display = 'none';
 
-// Təkmilləşdirmə üçün süni intellektə sorğu göndərən funksiya
-async function handleRefine(textToRefine, action) {
-    console.log(`Refining text to be ${action}...`);
-    
-    loadingSpinner.style.display = 'block';
-    outputDiv.style.display = 'none';
-    refineActionsDiv.style.display = 'none';
-
-    let prompt;
-    switch (action) {
-        case 'shorter':
-            prompt = `Make the following text shorter and more concise:\n\n"${textToRefine}"`;
-            break;
-        case 'formal':
-            prompt = `Rewrite the following text in a more formal and professional tone:\n\n"${textToRefine}"`;
-            break;
-        case 'friendly':
-            prompt = `Rewrite the following text in a more friendly and approachable tone:\n\n"${textToRefine}"`;
-            break;
-        default:
-            console.error('Unknown refine action:', action);
-            return;
+        try {
+            const response = await fetch('/.netlify/functions/generate-reply', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ receivedEmail, userReply, tone: selectedTone }),
+            });
+            const data = await response.json();
+            
+            if (response.ok) {
+                outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
+                refineActionsDiv.style.display = 'flex';
+            } else {
+                throw new Error(data.error || 'An unknown error occurred.');
+            }
+        } catch (error) {
+            outputDiv.textContent = `An error occurred: ${error.message}`;
+            console.error('Error:', error);
+        } finally {
+            loadingSpinner.style.display = 'none';
+            buttonText.textContent = 'Generate The Perfect Reply';
+            validateInputs();
+        }
     }
-    
-    try {
-        // !!! DİQQƏT: BU HİSSƏ SƏNİN NETLIFY FUNKSİYANA UYĞUNLAŞDIRILMALIDIR !!!
-        // Çox güman ki, yeni bir Netlify funksiyası yaratmaq lazım gələcək (məs, /generate-refinement)
-        // Nümunə:
-        const response = await fetch('/.netlify/functions/generate-reply', { // Eyni funksiyanı istifadə edirik amma prompt fərqlidir
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify({ userReply: prompt, tone: 'neutral' }), // Sadəcə prompt göndəririk
-        });
-        const data = await response.json();
-        if(!response.ok) throw new Error(data.error || 'Refinement failed.');
+
+    // Təkmilləşdirmə üçün süni intellektə sorğu göndərən funksiya
+    async function handleRefine(textToRefine, action) {
+        console.log(`Refining text to be ${action}...`);
         
-        outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
+        loadingSpinner.style.display = 'block';
+        outputDiv.style.display = 'none';
+        refineActionsDiv.style.display = 'none';
 
-    } catch (error) {
-        console.error('Error during refinement:', error);
-        outputDiv.innerText = `Sorry, something went wrong during refinement: ${error.message}`;
-    } finally {
-        loadingSpinner.style.display = 'none';
-        outputDiv.style.display = 'block';
-        refineActionsDiv.style.display = 'flex';
+        // ==== BU ƏN VACİB DÜZƏLİŞDİR ====
+        const receivedEmail = receivedEmailTextarea.value; 
+
+        let prompt;
+        switch (action) {
+            case 'shorter': prompt = `Make the following text shorter and more concise:\n\n"${textToRefine}"`; break;
+            case 'formal': prompt = `Rewrite the following text in a more formal and professional tone:\n\n"${textToRefine}"`; break;
+            case 'friendly': prompt = `Rewrite the following text in a more friendly and approachable tone:\n\n"${textToRefine}"`; break;
+            default: console.error('Unknown refine action:', action); return;
+        }
+        
+        try {
+            // İndi sorğuya həm "prompt"-u (yeni təlimatı), həm də "receivedEmail"-i göndəririk
+            const response = await fetch('/.netlify/functions/generate-reply', {
+                 method: 'POST',
+                 headers: { 'Content-Type': 'application/json' },
+                 body: JSON.stringify({ receivedEmail: receivedEmail, userReply: prompt, tone: 'neutral' }),
+            });
+            const data = await response.json();
+            if(!response.ok) throw new Error(data.error || 'Refinement failed.');
+            
+            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
+        } catch (error) {
+            console.error('Error during refinement:', error);
+            outputDiv.innerText = `Sorry, something went wrong during refinement: ${error.message}`;
+        } finally {
+            loadingSpinner.style.display = 'none';
+            outputDiv.style.display = 'block';
+            refineActionsDiv.style.display = 'flex';
+        }
     }
-}
 
-// Bütün event listener-ləri DOM yükləndikdən sonra qururuq
-document.addEventListener('DOMContentLoaded', () => {
+    // === EVENT LISTENERS ===
+    
     // Düyməni başlanğıcda qeyri-aktiv et
     generateButton.disabled = true;
-
-    // Hər iki mətn qutusuna yazıldıqca yoxlama
+    generateButton.addEventListener('click', handleGenerate);
+    
+    // Mətn qutularına yazıldıqca yoxlama
     receivedEmailTextarea.addEventListener('input', validateInputs);
     userReplyTextarea.addEventListener('input', validateInputs);
 
@@ -156,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (scenarioText) {
                 userReplyTextarea.value = scenarioText;
                 userReplyTextarea.focus();
-                validateInputs(); // Düyməni aktiv etmək üçün yoxlamanı işə sal
+                validateInputs();
             }
         });
     });
