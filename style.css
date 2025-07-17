@@ -336,12 +336,12 @@ button:disabled {
         }
     }
 }
-/* =================================== */
-/* ===    SCENARIO BUTTON STYLES   === */
-/* =================================== */
+/* ======================================================= */
+/* ===    SCENARIO BUTTON STYLES - V2 (STİL DÜZƏLİŞİ)   === */
+/* ======================================================= */
 
 .scenario-section {
-    margin-bottom: 30px;
+    margin-bottom: 25px; /* Boşluğu bir az azaldırıq */
     padding-bottom: 25px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 }
@@ -356,27 +356,34 @@ button:disabled {
 
 .scenario-buttons {
     display: flex;
-    flex-wrap: wrap; /* Mobil üçün səliqəli düzülüş */
+    flex-wrap: wrap;
     gap: 12px;
 }
 
-.scenario-btn {
-    padding: 8px 16px;
+/* === ƏSAS DÜZƏLİŞ BURADADIR === */
+/* Daha spesifik selektor istifadə edirik ki, ümumi button stilini üstələsin */
+.scenario-buttons .scenario-btn {
+    width: auto; /* Eni avtomatik olsun, 100% deyil */
+    padding: 8px 16px; /* Daha kiçik daxili boşluq */
     font-size: 0.9rem;
-    font-family: 'Inter', sans-serif;
     font-weight: 500;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
     
-    /* İkinci dərəcəli düymə stili */
-    background-color: transparent;
-    border: 1px solid #cbd5e1;
-    color: #475569;
+    background: transparent; /* Arxa fon şəffaf olsun */
+    color: #475569; /* Mətnin rəngi */
+    border: 1px solid #cbd5e1; /* Sərhəd xətti */
+
+    /* Ümumi button stilindən gələn əlavə effektləri sıfırlayırıq */
+    box-shadow: none;
+    transform: none;
+    margin-top: 0;
 }
 
-.scenario-btn:hover {
-    background-color: #f1f5f9;
+/* Hover effektini də daha spesifik edirik */
+.scenario-buttons .scenario-btn:hover {
+    background: #f1f5f9;
     border-color: #3b82f6;
     color: #1e293b;
+    /* Ümumi hover effektlərini sıfırlayırıq */
+    box-shadow: none;
+    transform: none;
 }
