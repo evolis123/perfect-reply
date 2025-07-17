@@ -1,9 +1,9 @@
 // ===================================================================
-// ===         THE PERFECT REPLY - main-v1.js (YEKUN VƏ DÜZƏLİŞ EDİLMİŞ KOD)          ===
+// ===         THE PERFECT REPLY - v2.0 (KULLANICI DENEYİMİ İYİLEŞTİRMELERİ)          ===
 // ===================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Bütün DOM elementlərini seçirik
+    // Tüm DOM elementlerini seçiyoruz
     const receivedEmailTextarea = document.getElementById('received-email');
     const userReplyTextarea = document.getElementById('user-reply');
     const generateButton = document.getElementById('generate-button');
@@ -14,14 +14,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const languageWarning = document.getElementById('language-warning');
     const refineActionsDiv = document.getElementById('refine-actions');
 
-    // Bu funksiya verilən mətndə YALNIZ ingiliscə simvolların olub-olmadığını yoxlayır.
+    // Dinamik yükleme mesajları
+    const loadingMessages = [
+        "Analyzing the email...",
+        "Crafting the perfect sentences...",
+        "Polishing the result...",
+        "Almost there..."
+    ];
+    let messageInterval;
+
+    // Yükleme animasyonunu başlatan fonksiyon
+    function startLoadingAnimation() {
+        let messageIndex = 0;
+        loadingSpinner.style.display = 'block';
+        buttonText.textContent = loadingMessages[messageIndex];
+        
+        messageInterval = setInterval(() => {
+            messageIndex = (messageIndex + 1) % loadingMessages.length;
+            buttonText.textContent = loadingMessages[messageIndex];
+        }, 2000); // Her 2 saniyede bir mesajı değiştir
+    }
+
+    // Yükleme animasyonunu durduran fonksiyon
+    function stopLoadingAnimation() {
+        clearInterval(messageInterval);
+        loadingSpinner.style.display = 'none';
+        buttonText.textContent = 'Generate The Perfect Reply';
+    }
+
+    // Kullanıcı dostu hata mesajı gösteren fonksiyon
+    function showUserFriendlyError(error) {
+        console.error("Internal Error:", error); // Hatayı kendi analizimiz için konsola yazdırıyoruz
+        let userMessage = "Sorry, something unexpected happened. Please try again.";
+
+        if (error.message.includes("503") || error.message.includes("overloaded")) {
+            userMessage = "We're experiencing high demand right now. Please try again in a few moments.";
+        } else if (error.message.includes("Could not determine")) {
+             userMessage = "Sorry, we couldn't determine the language of the received email. Please ensure it is in English.";
+        }
+        
+        outputDiv.style.display = 'block';
+        outputDiv.textContent = userMessage;
+    }
+
+    // Diğer fonksiyonlar (isStrictlyEnglish, validateInputs) burada aynı kalıyor...
     function isStrictlyEnglish(text) {
         if (!text) return true;
         const englishOnlyRegex = /^[a-zA-Z0-9\s.,!?'"()&$#@*+\-/:;{}[\]\n\r%_`~@^|=<>]*$/;
         return englishOnlyRegex.test(text);
     }
 
-    // Düymənin aktiv/passiv olmasını təyin edən funksiya
     function validateInputs() {
         const isEnglish = isStrictlyEnglish(receivedEmailTextarea.value);
         const isUserReplyFilled = userReplyTextarea.value.trim() !== '';
@@ -36,104 +78,99 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Əsas "Generate" düyməsinə kliklədikdə
-    async function handleGenerate() {
-        const receivedEmail = receivedEmailTextarea.value;
-        const userReply = userReplyTextarea.value;
-        const selectedTone = document.querySelector('input[name="tone"]:checked').value;
 
-        if (!receivedEmail || !userReply) {
-            alert('Please fill in both fields.');
-            return;
-        }
-        if (!isStrictlyEnglish(receivedEmail)) {
-            languageWarning.style.display = 'block';
-            alert('The free version only supports emails written in English.');
-            return;
+    // Ana "Generate" fonksiyonu (YENİLENDİ)
+    async function handleGenerate() {
+        // ... (giriş kontrolleri aynı kalıyor)
+        if (!userReplyTextarea.value.trim() || !receivedEmailTextarea.value.trim()) {
+             alert('Please fill in both fields.');
+             return;
         }
 
         resultArea.style.display = 'block';
-        loadingSpinner.style.display = 'block';
         outputDiv.innerHTML = '';
         generateButton.disabled = true;
-        buttonText.textContent = 'Generating...';
         refineActionsDiv.style.display = 'none';
+        startLoadingAnimation();
 
         try {
             const response = await fetch('/.netlify/functions/generate-reply', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ receivedEmail, userReply, tone: selectedTone }),
+                body: JSON.stringify({ 
+                    receivedEmail: receivedEmailTextarea.value, 
+                    userReply: userReplyTextarea.value, 
+                    tone: document.querySelector('input[name="tone"]:checked').value 
+                }),
             });
-            const data = await response.json();
             
-            if (response.ok) {
-                outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
-                refineActionsDiv.style.display = 'flex';
-            } else {
-                throw new Error(data.error || 'An unknown error occurred.');
+            if (!response.ok) {
+                // Hata objesini oluşturup fırlatıyoruz
+                const errorData = await response.json().catch(() => ({ error: `HTTP error! status: ${response.status}` }));
+                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
             }
+
+            const data = await response.json();
+            outputDiv.style.display = 'block';
+            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
+            refineActionsDiv.style.display = 'flex';
+
         } catch (error) {
-            outputDiv.textContent = `An error occurred: ${error.message}`;
-            console.error('Error:', error);
+            showUserFriendlyError(error);
         } finally {
-            loadingSpinner.style.display = 'none';
-            buttonText.textContent = 'Generate The Perfect Reply';
+            stopLoadingAnimation();
             validateInputs();
         }
     }
 
-    // Təkmilləşdirmə üçün süni intellektə sorğu göndərən funksiya
+    // "Refine" fonksiyonu (YENİLENDİ)
     async function handleRefine(textToRefine, action) {
         console.log(`Refining text to be ${action}...`);
         
-        loadingSpinner.style.display = 'block';
         outputDiv.style.display = 'none';
         refineActionsDiv.style.display = 'none';
+        startLoadingAnimation(); // Burada da animasyonu başlatıyoruz
 
-        // ==== BU ƏN VACİB DÜZƏLİŞDİR ====
-        const receivedEmail = receivedEmailTextarea.value; 
-
+        const receivedEmail = receivedEmailTextarea.value;
         let prompt;
+        // ... (switch case aynı kalıyor)
         switch (action) {
             case 'shorter': prompt = `Make the following text shorter and more concise:\n\n"${textToRefine}"`; break;
             case 'formal': prompt = `Rewrite the following text in a more formal and professional tone:\n\n"${textToRefine}"`; break;
             case 'friendly': prompt = `Rewrite the following text in a more friendly and approachable tone:\n\n"${textToRefine}"`; break;
-            default: console.error('Unknown refine action:', action); return;
+            default: console.error('Unknown refine action:', action); stopLoadingAnimation(); return;
         }
         
         try {
-            // İndi sorğuya həm "prompt"-u (yeni təlimatı), həm də "receivedEmail"-i göndəririk
             const response = await fetch('/.netlify/functions/generate-reply', {
                  method: 'POST',
                  headers: { 'Content-Type': 'application/json' },
                  body: JSON.stringify({ receivedEmail: receivedEmail, userReply: prompt, tone: 'neutral' }),
             });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({ error: `HTTP error! status: ${response.status}` }));
+                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            }
+
             const data = await response.json();
-            if(!response.ok) throw new Error(data.error || 'Refinement failed.');
-            
-            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
-        } catch (error) {
-            console.error('Error during refinement:', error);
-            outputDiv.innerText = `Sorry, something went wrong during refinement: ${error.message}`;
-        } finally {
-            loadingSpinner.style.display = 'none';
             outputDiv.style.display = 'block';
+            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
             refineActionsDiv.style.display = 'flex';
+
+        } catch (error) {
+            showUserFriendlyError(error);
+        } finally {
+            stopLoadingAnimation();
         }
     }
 
-    // === EVENT LISTENERS ===
-    
-    // Düyməni başlanğıcda qeyri-aktiv et
-    generateButton.disabled = true;
+    // === EVENT LISTENERS (Olay dinleyicileri) ===
     generateButton.addEventListener('click', handleGenerate);
-    
-    // Mətn qutularına yazıldıqca yoxlama
+    // ... (diğer tüm event listener'lar önceki gibi kalıyor)
     receivedEmailTextarea.addEventListener('input', validateInputs);
     userReplyTextarea.addEventListener('input', validateInputs);
 
-    // Ssenari Düymələri
     const scenarioButtons = document.querySelectorAll('.scenario-btn');
     const scenarios = {
         'thank-you': 'Write a polite and professional thank-you email after a job interview for the [Job Title] position with [Company Name]. I want to reiterate my interest in the role.',
@@ -144,16 +181,12 @@ document.addEventListener('DOMContentLoaded', () => {
     scenarioButtons.forEach(button => {
         button.addEventListener('click', () => {
             const scenarioKey = button.dataset.scenario;
-            const scenarioText = scenarios[scenarioKey];
-            if (scenarioText) {
-                userReplyTextarea.value = scenarioText;
-                userReplyTextarea.focus();
-                validateInputs();
-            }
+            userReplyTextarea.value = scenarios[scenarioKey];
+            userReplyTextarea.focus();
+            validateInputs();
         });
     });
 
-    // Təkmilləşdirmə Düymələri
     const refineButtons = document.querySelectorAll('.refine-btn');
     refineButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -164,4 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Sayfa ilk yüklendiğinde doğrulamayı çalıştır
+    validateInputs();
 });
