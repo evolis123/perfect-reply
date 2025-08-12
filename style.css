@@ -293,7 +293,6 @@ button:disabled {
 @media (max-width: 992px) {
 
     body {
-        padding: 20px 15px;
     }
 
     .container {
