@@ -1,5 +1,8 @@
 /* Orijinal şriftləri import edirik */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+* {
+  box-sizing: border-box;
+}
 
 body {
     font-family: 'Inter', sans-serif;
@@ -7,7 +10,6 @@ body {
     color: #1a202c;
     line-height: 1.6;
     margin: 0;
-    padding: 40px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
