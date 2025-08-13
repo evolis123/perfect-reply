@@ -124,46 +124,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // "Refine" fonksiyonu (YENİLENDİ)
-    async function handleRefine(textToRefine, action) {
-        console.log(`Refining text to be ${action}...`);
-        
-        outputDiv.style.display = 'none';
-        refineActionsDiv.style.display = 'none';
-        startLoadingAnimation(); // Burada da animasyonu başlatıyoruz
+async function handleRefine(textToRefine, action) {
+    console.log(`Sending to NEW refine function. Action: ${action}`);
 
-        const receivedEmail = receivedEmailTextarea.value;
-        let prompt;
-        // ... (switch case aynı kalıyor)
-        switch (action) {
-            case 'shorter': prompt = `Make the following text shorter and more concise:\n\n"${textToRefine}"`; break;
-            case 'formal': prompt = `Rewrite the following text in a more formal and professional tone:\n\n"${textToRefine}"`; break;
-            case 'friendly': prompt = `Rewrite the following text in a more friendly and approachable tone:\n\n"${textToRefine}"`; break;
-            default: console.error('Unknown refine action:', action); stopLoadingAnimation(); return;
+    // Loading animasiyasını işə salırıq
+    resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+    outputDiv.innerHTML = ''; 
+    refineActionsDiv.style.display = 'none'; 
+    generateButton.disabled = true; 
+    startLoadingAnimation();
+
+    try {
+        // YENİ, DOĞRU ÜNVANA SORĞU GÖNDƏRİRİK!
+        const response = await fetch('/.netlify/functions/refine-reply', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                textToRefine: textToRefine, 
+                action: action             
+            }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ error: `HTTP error! status: ${response.status}` }));
+            throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
         }
-        
-        try {
-            const response = await fetch('/.netlify/functions/generate-reply', {
-                 method: 'POST',
-                 headers: { 'Content-Type': 'application/json' },
-                 body: JSON.stringify({ receivedEmail: receivedEmail, userReply: prompt, tone: 'neutral' }),
-            });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ error: `HTTP error! status: ${response.status}` }));
-                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
-            }
+        const data = await response.json();
+        outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>'); 
+        refineActionsDiv.style.display = 'flex'; 
 
-            const data = await response.json();
-            outputDiv.style.display = 'block';
-            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
-            refineActionsDiv.style.display = 'flex';
-
-        } catch (error) {
-            showUserFriendlyError(error);
-        } finally {
+    } catch (error) {
+        showUserFriendlyError(error);
+    } finally {
         stopLoadingAnimation();
-        // === YENİ ƏLAVƏ EDİLƏN ƏMR BUDUR ===
-        resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        generateButton.disabled = false; 
     }
 }
 
