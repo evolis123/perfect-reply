@@ -10,6 +10,7 @@ body {
     color: #1a202c;
     line-height: 1.6;
     margin: 0;
+    padding: 40px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -293,6 +294,7 @@ button:disabled {
 @media (max-width: 992px) {
 
     body {
+        padding: 20px 15px;
     }
 
     .container {
