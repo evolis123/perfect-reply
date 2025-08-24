@@ -1,49 +1,40 @@
-// Gərəkli kitabxanaları layihəyə daxil edirik
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+// === netlify/functions/generate-reply.js ===
+// YENİLƏNMİŞ FAYL: Artıq daha qısa və səliqəlidir.
+
+const { getAiResponse } = require('./gemini-client'); // Yeni köməkçi faylımızı daxil edirik.
 const langdetect = require('langdetect');
 
-exports.handler = async function(event, context) {
-    console.log("--- Function generate-reply started with LINGUISTIC CHECK ---");
+exports.handler = async function(event) {
+    console.log("--- Function generate-reply started ---");
 
     try {
         const { receivedEmail, userReply, tone } = JSON.parse(event.body);
         console.log("Received data:", { receivedEmail, userReply, tone });
 
-        // =================================================================
-        // ===            YENİ VƏ AĞILLI LİNQVİSTİK YOXLAMA             ===
-        // =================================================================
+        // === LİNQVİSTİK YOXLAMA ===
         try {
-            // Mətnin dilini təyin edirik
             const detections = langdetect.detect(receivedEmail);
-            const mainLanguage = detections[0]; // Ən yüksək ehtimallı nəticəni götürürük
+            const mainLanguage = detections[0];
 
             if (mainLanguage.lang !== 'en') {
-                console.error(`!!! LINGUISTIC VALIDATION FAILED: Detected language is "${mainLanguage.lang}", not "en".`);
+                console.error(`Linguistic validation failed: Detected language is "${mainLanguage.lang}".`);
                 return {
                     statusCode: 400,
-                    body: JSON.stringify({ error: "The received email must be in English. Linguistic validation failed." }),
+                    body: JSON.stringify({ error: "The received email must be in English." }),
                 };
             }
-             console.log(`Linguistic validation passed. Detected language: ${mainLanguage.lang} with probability ${mainLanguage.prob}`);
-
+            console.log(`Linguistic validation passed: ${mainLanguage.lang}`);
         } catch (langError) {
-            // `langdetect` dili təyin edə bilmədikdə xəta verir (məsələn, mətn çox qısa olduqda)
-            console.error("!!! LINGUISTIC VALIDATION FAILED: Could not detect language.", langError.message);
+            console.error("Linguistic validation failed: Could not detect language.", langError.message);
             return {
                 statusCode: 400,
-                body: JSON.stringify({ error: "Could not determine the language of the received email. Please ensure it is in English." }),
+                body: JSON.stringify({ error: "Could not determine the language of the received email." }),
             };
         }
-        // =================================================================
-        // ===                  YENİ HİSSƏNİN SONU                       ===
-        // =================================================================
 
-        const apiKey = process.env.GOOGLE_API_KEY;
-        if (!apiKey) { throw new Error("API Key is missing."); }
-        const genAI = new GoogleGenerativeAI(apiKey);
-
+        // === PROMPT HAZIRLANMASI ===
         const prompt = `
-            As a professional email assistant named 'The Perfect Reply', your goal is to craft clear, concise, professional replies with a selected tone.
+            As a professional email assistant named 'ProLingo', your goal is to craft clear, concise, professional replies with a selected tone.
             Tone to adopt: "${tone}"
             Context: A user has received the following email:
             """
@@ -56,9 +47,8 @@ exports.handler = async function(event, context) {
             Instruction: Based on the context and task, generate a complete, ready-to-send email reply in a "${tone}" tone. The reply must be grammatically perfect. Ensure it has a proper greeting and closing. Do not add any introductory text like "Here is the reply:". Just provide the raw email text.
         `;
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const result = await model.generateContent(prompt);
-        const aiReply = result.response.text();
+        // === API SORĞUSU (YENİ, SADƏLƏŞDİRİLMİŞ YOL) ===
+        const aiReply = await getAiResponse(prompt);
 
         return {
             statusCode: 200,
@@ -66,7 +56,7 @@ exports.handler = async function(event, context) {
         };
 
     } catch (error) {
-        console.error("!!! CRITICAL ERROR in function execution:", error);
+        console.error("!!! CRITICAL ERROR in generate-reply:", error);
         return {
             statusCode: 500,
             body: JSON.stringify({ error: `An error occurred: ${error.message}` }),

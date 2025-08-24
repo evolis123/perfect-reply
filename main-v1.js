@@ -1,9 +1,8 @@
-// ===================================================================
-// ===         THE PERFECT REPLY - v2.0 (KULLANICI DENEYİMİ İYİLEŞTİRMELERİ)          ===
-// ===================================================================
+// === main-v1.js ===
+// YENİLƏNMİŞ FAYL: Kiçik, amma vacib təkmilləşdirmələrlə.
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Tüm DOM elementlerini seçiyoruz
+    // Bütün DOM elementlərini seçirik
     const receivedEmailTextarea = document.getElementById('received-email');
     const userReplyTextarea = document.getElementById('user-reply');
     const generateButton = document.getElementById('generate-button');
@@ -14,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const languageWarning = document.getElementById('language-warning');
     const refineActionsDiv = document.getElementById('refine-actions');
 
-    // Dinamik yükleme mesajları
+    // Dinamik yükləmə mesajları
     const loadingMessages = [
         "Analyzing the email...",
         "Crafting the perfect sentences...",
@@ -23,47 +22,47 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     let messageInterval;
 
-    // Yükleme animasyonunu başlatan fonksiyon
-    function startLoadingAnimation() {
-        let messageIndex = 0;
-        loadingSpinner.style.display = 'block';
-        buttonText.textContent = loadingMessages[messageIndex];
-        
-        messageInterval = setInterval(() => {
-            messageIndex = (messageIndex + 1) % loadingMessages.length;
+    // Yükləmə animasiyasını başlatan/durduran funksiyalar
+    function setLoadingState(isLoading) {
+        if (isLoading) {
+            let messageIndex = 0;
+            loadingSpinner.style.display = 'block';
             buttonText.textContent = loadingMessages[messageIndex];
-        }, 2000); // Her 2 saniyede bir mesajı değiştir
+            
+            messageInterval = setInterval(() => {
+                messageIndex = (messageIndex + 1) % loadingMessages.length;
+                buttonText.textContent = loadingMessages[messageIndex];
+            }, 2000);
+        } else {
+            clearInterval(messageInterval);
+            loadingSpinner.style.display = 'none';
+            buttonText.textContent = 'Generate with ProLingo';
+        }
     }
 
-    // Yükleme animasyonunu durduran fonksiyon
-    function stopLoadingAnimation() {
-        clearInterval(messageInterval);
-        loadingSpinner.style.display = 'none';
-        buttonText.textContent = 'Generate The Perfect Reply';
-    }
+    // İstifadəçi dostu xəta mesajı göstərən funksiya
+    function showUserFriendlyError(message) {
+        console.error("Internal Error:", message); // Xətanı öz analizimiz üçün konsola yazdırırıq
+        let userMessage = message || "Sorry, something unexpected happened. Please try again.";
 
-    // Kullanıcı dostu hata mesajı gösteren fonksiyon
-    function showUserFriendlyError(error) {
-        console.error("Internal Error:", error); // Hatayı kendi analizimiz için konsola yazdırıyoruz
-        let userMessage = "Sorry, something unexpected happened. Please try again.";
-
-        if (error.message.includes("503") || error.message.includes("overloaded")) {
+        if (message.includes("503") || message.includes("overloaded")) {
             userMessage = "We're experiencing high demand right now. Please try again in a few moments.";
-        } else if (error.message.includes("Could not determine")) {
+        } else if (message.includes("Could not determine")) {
              userMessage = "Sorry, we couldn't determine the language of the received email. Please ensure it is in English.";
         }
         
         outputDiv.style.display = 'block';
         outputDiv.textContent = userMessage;
     }
-
-    // Diğer fonksiyonlar (isStrictlyEnglish, validateInputs) burada aynı kalıyor...
+    
+    // İngilis dili yoxlaması
     function isStrictlyEnglish(text) {
         if (!text) return true;
         const englishOnlyRegex = /^[a-zA-Z0-9\s.,!?'"()&$#@*+\-/:;{}[\]\n\r%_`~@^|=<>]*$/;
         return englishOnlyRegex.test(text);
     }
 
+    // Girişləri yoxlayan funksiya
     function validateInputs() {
         const isEnglish = isStrictlyEnglish(receivedEmailTextarea.value);
         const isUserReplyFilled = userReplyTextarea.value.trim() !== '';
@@ -78,12 +77,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // === ƏSAS FUNKSİYALAR ===
 
-    // Ana "Generate" fonksiyonu (YENİLENDİ)
+    // Ana "Generate" funksiyası
     async function handleGenerate() {
-        // ... (giriş kontrolleri aynı kalıyor)
         if (!userReplyTextarea.value.trim() || !receivedEmailTextarea.value.trim()) {
-             alert('Please fill in both fields.');
+             showUserFriendlyError('Please fill in both fields before generating a reply.');
              return;
         }
 
@@ -91,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         outputDiv.innerHTML = '';
         generateButton.disabled = true;
         refineActionsDiv.style.display = 'none';
-        startLoadingAnimation();
+        setLoadingState(true);
 
         try {
             const response = await fetch('/.netlify/functions/generate-reply', {
@@ -104,67 +103,61 @@ document.addEventListener('DOMContentLoaded', () => {
                 }),
             });
             
+            const data = await response.json();
             if (!response.ok) {
-                // Hata objesini oluşturup fırlatıyoruz
-                const errorData = await response.json().catch(() => ({ error: `HTTP error! status: ${response.status}` }));
-                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                throw new Error(data.error || `HTTP error! status: ${response.status}`);
             }
 
-            const data = await response.json();
             outputDiv.style.display = 'block';
             outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
             refineActionsDiv.style.display = 'flex';
 
         } catch (error) {
-            showUserFriendlyError(error);
+            showUserFriendlyError(error.message);
         } finally {
-            stopLoadingAnimation();
-            validateInputs();
+            setLoadingState(false);
+            generateButton.disabled = false; 
         }
     }
 
-    // "Refine" fonksiyonu (YENİLENDİ)
-async function handleRefine(textToRefine, action) {
-    console.log(`Sending to NEW refine function. Action: ${action}`);
+    // "Refine" funksiyası
+    async function handleRefine(textToRefine, action) {
+        console.log(`Sending to refine function. Action: ${action}`);
 
-    // Loading animasiyasını işə salırıq
-    resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
-    outputDiv.innerHTML = ''; 
-    refineActionsDiv.style.display = 'none'; 
-    generateButton.disabled = true; 
-    startLoadingAnimation();
+        resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+        outputDiv.innerHTML = ''; 
+        refineActionsDiv.style.display = 'none'; 
+        generateButton.disabled = true; 
+        setLoadingState(true);
 
-    try {
-        // YENİ, DOĞRU ÜNVANA SORĞU GÖNDƏRİRİK!
-        const response = await fetch('/.netlify/functions/refine-reply', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                textToRefine: textToRefine, 
-                action: action             
-            }),
-        });
+        try {
+            const response = await fetch('/.netlify/functions/refine-reply', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    textToRefine: textToRefine, 
+                    action: action           
+                }),
+            });
 
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ error: `HTTP error! status: ${response.status}` }));
-            throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || `HTTP error! status: ${response.status}`);
+            }
+
+            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>'); 
+            refineActionsDiv.style.display = 'flex'; 
+
+        } catch (error) {
+            showUserFriendlyError(error.message);
+        } finally {
+            setLoadingState(false);
+            generateButton.disabled = false; 
         }
-
-        const data = await response.json();
-        outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>'); 
-        refineActionsDiv.style.display = 'flex'; 
-
-    } catch (error) {
-        showUserFriendlyError(error);
-    } finally {
-        stopLoadingAnimation();
-        generateButton.disabled = false; 
     }
-}
 
-    // === EVENT LISTENERS (Olay dinleyicileri) ===
+    // === EVENT LISTENERS ===
     generateButton.addEventListener('click', handleGenerate);
-    // ... (diğer tüm event listener'lar önceki gibi kalıyor)
     receivedEmailTextarea.addEventListener('input', validateInputs);
     userReplyTextarea.addEventListener('input', validateInputs);
 
@@ -195,6 +188,6 @@ async function handleRefine(textToRefine, action) {
         });
     });
 
-    // Sayfa ilk yüklendiğinde doğrulamayı çalıştır
+    // Səhifə ilk yükləndiyində yoxlamanı işə salırıq
     validateInputs();
 });

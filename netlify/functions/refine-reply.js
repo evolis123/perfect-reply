@@ -1,7 +1,9 @@
-// === refine-reply.js ===
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+// === netlify/functions/refine-reply.js ===
+// YENİLƏNMİŞ FAYL: Bu da artıq daha qısa və səliqəlidir.
 
-exports.handler = async function(event, context) {
+const { getAiResponse } = require('./gemini-client'); // Yeni köməkçi faylımızı daxil edirik.
+
+exports.handler = async function(event) {
     console.log("--- Function refine-reply started ---");
     try {
         const { textToRefine, action } = JSON.parse(event.body);
@@ -11,10 +13,7 @@ exports.handler = async function(event, context) {
 
         console.log(`Refining text. Action: ${action}`);
 
-        const apiKey = process.env.GOOGLE_API_KEY;
-        if (!apiKey) { throw new Error("API Key is missing."); }
-        const genAI = new GoogleGenerativeAI(apiKey);
-
+        // === TƏLİMATIN HAZIRLANMASI ===
         let instruction = "";
         switch (action) {
             case 'shorter':
@@ -32,9 +31,8 @@ exports.handler = async function(event, context) {
 
         const prompt = `${instruction}\n\n"""\n${textToRefine}\n"""`;
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const result = await model.generateContent(prompt);
-        const refinedReply = result.response.text();
+        // === API SORĞUSU (YENİ, SADƏLƏŞDİRİLMİŞ YOL) ===
+        const refinedReply = await getAiResponse(prompt);
 
         return {
             statusCode: 200,
