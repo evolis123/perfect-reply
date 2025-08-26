@@ -1,38 +1,19 @@
 // === netlify/functions/generate-reply.js ===
-// YENİLƏNMİŞ FAYL: Artıq daha qısa və səliqəlidir.
+// YENİLƏNMİŞ FAYL: Etibarsız dil yoxlaması aradan qaldırıldı.
 
-const { getAiResponse } = require('./gemini-client'); // Yeni köməkçi faylımızı daxil edirik.
-const langdetect = require('langdetect');
+const { getAiResponse } = require('./gemini-client'); // Köməkçi faylımızı istifadə edirik.
 
 exports.handler = async function(event) {
-    console.log("--- Function generate-reply started ---");
+    console.log("--- Function generate-reply started (No language check) ---");
 
     try {
         const { receivedEmail, userReply, tone } = JSON.parse(event.body);
         console.log("Received data:", { receivedEmail, userReply, tone });
 
-        // === LİNQVİSTİK YOXLAMA ===
-        try {
-            const detections = langdetect.detect(receivedEmail);
-            const mainLanguage = detections[0];
+        // === DİL YOXLAMASI HİSSƏSİ TAMAMİLƏ SİLİNDİ ===
+        // Artıq Gemini modelinin öz gücünə güvənirik.
 
-            if (mainLanguage.lang !== 'en') {
-                console.error(`Linguistic validation failed: Detected language is "${mainLanguage.lang}".`);
-                return {
-                    statusCode: 400,
-                    body: JSON.stringify({ error: "The received email must be in English." }),
-                };
-            }
-            console.log(`Linguistic validation passed: ${mainLanguage.lang}`);
-        } catch (langError) {
-            console.error("Linguistic validation failed: Could not detect language.", langError.message);
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ error: "Could not determine the language of the received email." }),
-            };
-        }
-
-        // === PROMPT HAZIRLANMASI ===
+        // === PROMPT HAZIRLANMASI (Dəyişiklik yoxdur) ===
         const prompt = `
             As a professional email assistant named 'ProLingo', your goal is to craft clear, concise, professional replies with a selected tone.
             Tone to adopt: "${tone}"
@@ -40,14 +21,14 @@ exports.handler = async function(event) {
             """
             ${receivedEmail}
             """
-            Task: The user wants to reply with the following core message:
+            Task: The user wants to reply with the following core message (the user might write this in their native language, please understand and translate it into the core English meaning):
             """
             ${userReply}
             """
-            Instruction: Based on the context and task, generate a complete, ready-to-send email reply in a "${tone}" tone. The reply must be grammatically perfect. Ensure it has a proper greeting and closing. Do not add any introductory text like "Here is the reply:". Just provide the raw email text.
+            Instruction: Based on the context and task, generate a complete, ready-to-send email reply in a "${tone}" tone. The reply must be in English and grammatically perfect. Ensure it has a proper greeting and closing. Do not add any introductory text like "Here is the reply:". Just provide the raw email text.
         `;
 
-        // === API SORĞUSU (YENİ, SADƏLƏŞDİRİLMİŞ YOL) ===
+        // === API SORĞUSU (Dəyişiklik yoxdur) ===
         const aiReply = await getAiResponse(prompt);
 
         return {
