@@ -8,15 +8,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css?v=1.1"> <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=1.2"> <!-- Versiyanı yenilədik -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WRY1T1T4DG"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-WRY1T1T4DG');
-</script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-WRY1T1T4DG');
+    </script>
 </head>
 <body>
 
@@ -31,63 +31,64 @@
             <p class="subtitle">Craft professional email replies in seconds.</p>
 
             <form id="reply-form">
-    <div class="scenario-section">
-        <label class="scenario-title">Or, start with a common scenario:</label>
-        <div class="scenario-buttons">
-            <button type="button" class="scenario-btn" data-scenario="thank-you">Thank You After Interview</button>
-            <button type="button" class="scenario-btn" data-scenario="recommendation">Request Recommendation</button>
-            <button type="button" class="scenario-btn" data-scenario="apology">Apologize for a Delay</button>
-            <button type="button" class="scenario-btn" data-scenario="inquiry">Make an Inquiry</button>
-        </div>
-    </div>
+                <div class="scenario-section">
+                    <label class="scenario-title">Or, start with a common scenario:</label>
+                    <!-- DÜZƏLİŞ: Düymələri bir konteynerə aldıq ki, mobil versiyada səliqəli olsun -->
+                    <div class="scenario-buttons">
+                        <button type="button" class="scenario-btn" data-scenario="thank-you">Thank You After Interview</button>
+                        <button type="button" class="scenario-btn" data-scenario="recommendation">Request Recommendation</button>
+                        <button type="button" class="scenario-btn" data-scenario="apology">Apologize for a Delay</button>
+                        <button type="button" class="scenario-btn" data-scenario="inquiry">Make an Inquiry</button>
+                    </div>
+                </div>
 
-    <label for="received-email">Paste the email you received:</label>
-    <textarea id="received-email" rows="8" placeholder="Paste the original English email here..."></textarea>
-    <p id="language-warning" class="warning-text" style="display: none;">The free version only supports emails in English.</p>
+                <label for="received-email">Paste the email you received:</label>
+                <textarea id="received-email" rows="8" placeholder="Paste the original English email here..."></textarea>
+                <p id="language-warning" class="warning-text" style="display: none;">The free version only supports emails in English.</p>
 
-    <label for="user-reply">In one sentence, what do you want to say?</label>
-    <textarea id="user-reply" rows="3" placeholder="e.g., I agree, but let's change the time..."></textarea>
-    
-    <div class="tone-selector">
-        <label class="tone-label">Select Tone:</label>
-        <div class="tones">
-            <div class="tone-option">
-                <input type="radio" id="tone-friendly" name="tone" value="friendly" checked>
-                <label for="tone-friendly">Friendly</label>
-            </div>
-            <div class="tone-option">
-                <input type="radio" id="tone-formal" name="tone" value="formal">
-                <label for="tone-formal">Formal</label>
-            </div>
-            <div class="tone-option">
-                <input type="radio" id="tone-persuasive" name="tone" value="persuasive">
-                <label for="tone-persuasive">Persuasive</label>
-            </div>
-        </div>
-    </div>
-    
-    <div class="form-footer">
-        <button type="button" id="generate-button">
-            <i data-feather="send" class="btn-icon"></i><span id="button-text">Generate with ProLingo</span>
-        </button>
-        <div class="footer-links">
-            <a href="about.html">About Us</a>
-            <a href="privacy.html">Privacy Policy</a>
-        </div>
-    </div>
-</form>
+                <label for="user-reply">In one sentence, what do you want to say?</label>
+                <textarea id="user-reply" rows="3" placeholder="e.g., I agree, but let's change the time..."></textarea>
+                
+                <div class="tone-selector">
+                    <label class="tone-label">Select Tone:</label>
+                    <div class="tones">
+                        <div class="tone-option">
+                            <input type="radio" id="tone-friendly" name="tone" value="friendly" checked>
+                            <label for="tone-friendly">Friendly</label>
+                        </div>
+                        <div class="tone-option">
+                            <input type="radio" id="tone-formal" name="tone" value="formal">
+                            <label for="tone-formal">Formal</label>
+                        </div>
+                        <div class="tone-option">
+                            <input type="radio" id="tone-persuasive" name="tone" value="persuasive">
+                            <label for="tone-persuasive">Persuasive</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-footer">
+                    <button type="button" id="generate-button">
+                        <i data-feather="send" class="btn-icon"></i><span id="button-text">Generate with ProLingo</span>
+                    </button>
+                    <div class="footer-links">
+                        <a href="about.html">About Us</a>
+                        <a href="privacy.html">Privacy Policy</a>
+                    </div>
+                </div>
+            </form>
             
             <div id="result-area" style="display: none;">
-    <h2>Your ProLingo Reply:</h2>
-    <div id="loading-spinner" style="display: none;">Generating, please wait...</div>
-    <div id="output"></div>
+                <h2>Your ProLingo Reply:</h2>
+                <div id="loading-spinner" style="display: none;">Generating, please wait...</div>
+                <div id="output"></div>
 
-    <div id="refine-actions" style="display: none;">
-        <button type="button" class="refine-btn" data-refine="shorter">Make it Shorter</button>
-        <button type="button" class="refine-btn" data-refine="formal">Make it More Formal</button>
-        <button type="button" class="refine-btn" data-refine="friendly">Make it More Friendly</button>
-    </div>
-</div>
+                <div id="refine-actions" style="display: none;">
+                    <button type="button" class="refine-btn" data-refine="shorter">Make it Shorter</button>
+                    <button type="button" class="refine-btn" data-refine="formal">Make it More Formal</button>
+                    <button type="button" class="refine-btn" data-refine="friendly">Make it More Friendly</button>
+                </div>
+            </div>
         </div>
 
         <div class="info-section">
@@ -110,12 +111,20 @@
                     <p><strong>Speak Your Language:</strong> Write your goal in your native language. We are your bridge.</p>
                 </li>
             </ol>
+
+            <!-- === YENİ: SAASHUB NİŞANI ÜÇÜN YER === -->
+            <!-- SaaSHub-dan aldığın kodu bu div-in içinə yerləşdirəcəksən -->
+            <div id="saashub-badge">
+                <!-- Məsələn: <a href="..."><img src="..." /></a> -->
+                <p>Featured on SaaSHub</p> <!-- Bu müvəqqəti mətndir -->
+            </div>
+            <!-- ==================================== -->
         </div>
     </div> 
 
     <script src="main-v1.js"></script>
-<script>
-    feather.replace();
-</script>
+    <script>
+      feather.replace();
+    </script>
 </body>
 </html>

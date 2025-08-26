@@ -1,12 +1,13 @@
 /* Orijinal şriftləri import edirik */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
 * {
   box-sizing: border-box;
 }
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f0f2ff; /* Sənin orijinal arxa fon rəngin */
+    background-color: #f0f2ff;
     color: #1a202c;
     line-height: 1.6;
     margin: 0;
@@ -31,10 +32,9 @@ body {
 
 .form-section {
     flex: 2;
-    /* <<<--- ƏSAS DÜZƏLİŞ BURADADIR: SƏNİN ORİJİNAL RƏNGİN BƏRPA EDİLDİ --->>> */
     background: rgba(255, 236, 232, 0.7); 
-    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 30px;
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -91,7 +91,6 @@ textarea {
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
     margin-top: 8px;
-    box-sizing: border-box;
     transition: all 0.2s;
     resize: vertical;
 }
@@ -124,19 +123,11 @@ label {
 .tone-label {
     margin-top: 0;
     margin-bottom: 12px;
-    font-weight: 500;
-    font-size: 0.95rem;
-    color: #334155;
 }
 .tones {
     display: flex;
     gap: 15px;
     align-items: center;
-}
-.tone-option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 .tone-option input[type="radio"] {
     display: none;
@@ -160,9 +151,16 @@ label {
     border-color: #3b82f6;
 }
 
-button {
-    width: 100%;
-    padding: 14px;
+.form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+#generate-button {
+    width: auto;
+    padding: 14px 20px;
     background: linear-gradient(90deg, #3b82f6 0%, #2dd4bf 100%);
     color: white;
     border: none;
@@ -170,7 +168,7 @@ button {
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    margin-top: 30px;
+    margin-top: 0;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
     display: flex;
@@ -179,15 +177,31 @@ button {
     gap: 10px;
 }
 
-button:hover {
+#generate-button:hover {
     transform: translateY(-3px);
     box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
 }
-button:disabled {
+#generate-button:disabled {
     background: #9ca3af;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links a {
+  font-size: 0.9rem;
+  color: #475569;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #1e293b;
 }
 
 .btn-icon { width: 18px; height: 18px; }
@@ -199,8 +213,8 @@ button:disabled {
 .info-section {
     flex: 1;
     background-color: rgba(238, 242, 255, 0.8);
-    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 30px;
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -208,7 +222,7 @@ button:disabled {
 
 .info-section h2 { font-size: 1.4rem; font-weight: 600; margin-top: 0; margin-bottom: 25px; color: #1e293b; }
 .info-section ol { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 20px; }
-.info-section li { margin-bottom: 0; display: flex; align-items: flex-start; gap: 15px; }
+.info-section li { display: flex; align-items: flex-start; gap: 15px; }
 
 .info-section .step-number {
     background-color: #3b82f6;
@@ -225,131 +239,13 @@ button:disabled {
 }
 
 .info-section p { margin: 0; font-size: 0.95rem; color: #334155; line-height: 1.5; }
-.main-footer {
-    text-align: center;
-    margin-top: 50px;
-    padding-top: 30px;
-    border-top: 1px solid #e2e8f0;
-}
 
-.main-footer a {
-    color: #4a5568;
-    text-decoration: none;
-    margin: 0 15px;
-    font-size: 0.9rem;
-}
-
-.main-footer a:hover {
-    text-decoration: underline;
-}  
-.main-footer {
-    text-align: center; /* Linkləri üfüqi olaraq mərkəzə gətirir */
-    padding: 20px 0;    /* Yuxarıdan və aşağıdan bir az boşluq verir */
-    width: 100%;        /* Bütün konteynerin enini tutur */
-}
-
-/* --- Düymə və Footer Linkləri üçün Düzəliş --- */
-
-/* Bu, düymə və linkləri saxlayan əsas konteynerdir */
-.form-footer {
-  display: flex; /* Elementləri bir sıraya düzür */
-  align-items: center; /* Onları şaquli olaraq ortalayır */
-  justify-content: space-between; /* Birini sola, digərini sağa itələyir */
-  margin-top: 30px; /* Yuxarıdakı elementdən boşluq saxlayır */
-}
-
-/* Düymənin bütün sətri tutmasının qarşısını alırıq */
-.form-footer button {
-  width: auto; /* Düymə yalnız içindəki mətn qədər yer tutur */
-  margin-top: 0; /* Yuxarıdakı marjini sıfırlayırıq, çünki .form-footer-də artıq var */
-}
-
-/* Sağdakı linkləri qruplaşdırır */
-.footer-links {
-  display: flex;
-  gap: 20px; /* Linklər arasında boşluq yaradır */
-}
-
-/* Linklərin görünüşünü səliqəyə salırıq */
-.footer-links a {
-  font-size: 0.9rem;
-  color: #475569; /* Subtitle rəngi ilə eyni */
-  text-decoration: none; /* Altındakı xətti silir */
-  transition: color 0.2s ease;
-}
-
-.footer-links a:hover {
-  color: #1e293b; /* Üzərinə gəldikdə rəngi tündləşir */
-}
-
-/* Köhnə .main-footer qaydalarını ləğv edə bilərsən, çünki artıq istifadə olunmur */
-.main-footer {
-    display: none;
-}
-/* ============================================================= */
-/* === MOBİL UYĞUNLUQ (RESPONSIVE) - V2 (KOSMETİK TƏMİR) === */
-/* ============================================================= */
-
-/* 992px və daha kiçik ekranlar üçün (planşet və telefonlar) */
-@media (max-width: 992px) {
-
-    body {
-        padding: 20px 15px;
-    }
-
-    .container {
-        flex-direction: column;
-        gap: 30px;
-    }
-
-    .form-section, .info-section {
-        width: 100%;
-    }
-    
-    header h1 {
-        font-size: 1.6rem;
-    }
-
-    .subtitle {
-        font-size: 0.95rem;
-    }
-
-    /* === DÜZƏLİŞ 1: Ton düymələrinin səliqəli düzülüşü === */
-    .tones {
-        flex-wrap: wrap; /* Düymələr sığışmadıqda alt sətirə səliqəli keçsin */
-        gap: 12px;
-    }
-
-    /* === DÜZƏLİŞ 2: Çox dar ekranlar üçün Footer-in gözəlləşdirilməsi === */
-    @media (max-width: 480px) {
-        .form-footer {
-            flex-direction: column;
-            align-items: stretch; /* Elementlərin bütün eni tutmasını təmin edir */
-            gap: 15px;
-        }
-
-        .form-footer button {
-            width: 100%; /* Düymə bütün eni tutaraq səliqəli görünür */
-        }
-
-        .footer-links {
-            text-align: center; /* Linkləri düymənin altında mərkəzə gətirir */
-            width: 100%;
-            padding-top: 5px; /* Düymədən bir az aralı olsun */
-        }
-    }
-}
-/* ======================================================= */
-/* ===   İKİNCİ DƏRƏCƏLİ DÜYMƏLƏR (VAHİD STİL)    === */
-/* ======================================================= */
-
-/* --- Bölmələrin öz stilləri --- */
+/* === VAHİD DÜYMƏ STİLİ === */
 .scenario-section {
     margin-bottom: 25px;
     padding-bottom: 25px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 }
-
 .scenario-title {
     font-weight: 500;
     display: block;
@@ -357,7 +253,12 @@ button:disabled {
     color: #334155;
     margin-bottom: 15px;
 }
-
+/* DÜZƏLİŞ: Düymələrin mobil versiyada səliqəli düzülüşü üçün */
+.scenario-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
 #refine-actions {
     margin-top: 20px;
     padding-top: 20px;
@@ -366,40 +267,85 @@ button:disabled {
     flex-wrap: wrap;
     gap: 12px;
 }
-
-/* === VAHİD DÜYMƏ STİLİ (HƏM SSENARİ, HƏM DƏ REFINE ÜÇÜN) === */
 .scenario-btn,
 .refine-btn {
-    width: auto;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    
     background: transparent;
     color: #475569;
     border: 1px solid #cbd5e1;
-    
-    box-shadow: none;
-    transform: none;
-    margin-top: 0;
-    padding: 8px 16px; /* Ssenari düymələri üçün standart ölçü */
+    padding: 8px 16px;
     font-size: 0.9rem;
 }
-
-/* Refine düymələri bir az daha kiçik olsun */
 .refine-btn {
     padding: 7px 14px;
     font-size: 0.85rem;
 }
-
-/* Ümumi Hover Effekti */
 .scenario-btn:hover,
 .refine-btn:hover {
     background: #f1f5f9;
     border-color: #3b82f6;
     color: #1e293b;
-    box-shadow: none;
-    transform: none;
+}
+
+/* === YENİ: SAASHUB NİŞANI ÜÇÜN STİL === */
+#saashub-badge {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    text-align: center;
+}
+#saashub-badge p {
+    font-size: 0.9rem;
+    color: #475569;
+}
+/* ==================================== */
+
+
+/* ============================================================= */
+/* === MOBİL UYĞUNLUQ (RESPONSIVE) - YENİLƏNMİŞ VƏ TƏKMİLLƏŞDİRİLMİŞ === */
+/* ============================================================= */
+
+@media (max-width: 992px) {
+    body {
+        padding: 20px 15px;
+        align-items: flex-start; /* Mobil versiyada yuxarıdan başlasın */
+    }
+    .container {
+        flex-direction: column;
+        gap: 30px;
+        padding: 15px;
+    }
+    .form-section, .info-section {
+        padding: 20px;
+    }
+    header h1 {
+        font-size: 1.6rem;
+    }
+    .subtitle {
+        font-size: 0.95rem;
+    }
+    .tones {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+}
+
+/* Çox kiçik ekranlar üçün əlavə düzəlişlər */
+@media (max-width: 480px) {
+    .form-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+    }
+    #generate-button {
+        width: 100%;
+    }
+    .footer-links {
+        justify-content: center;
+        padding-top: 5px;
+    }
 }
