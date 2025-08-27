@@ -5,26 +5,18 @@
   box-sizing: border-box;
 }
 
-/* === DÜZƏLİŞ: Tam Ekran Mərkəzləmə === */
-/* Bu yeni kod, konteyneri hər zaman ekranın mərkəzində saxlayacaq */
-/* və lazımsız yuxarı-aşağı hərəkətin qarşısını alacaq. */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
 body {
     font-family: 'Inter', sans-serif;
     background-color: #f0f2ff;
     color: #1a202c;
     line-height: 1.6;
-    display: grid; /* Grid layout istifadə edirik */
-    place-items: center; /* Həm üfüqi, həm şaquli mərkəzləmə */
-    padding: 20px; /* Kenarlardan boşluq */
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
-/* ==================================== */
-
 
 .container {
     max-width: 1000px;
@@ -37,8 +29,6 @@ body {
     gap: 20px;
     align-items: flex-start;
 }
-
-/* ... (Qalan bütün CSS kodları eyni qalır) ... */
 
 .form-section {
     flex: 2;
@@ -250,6 +240,7 @@ label {
 
 .info-section p { margin: 0; font-size: 0.95rem; color: #334155; line-height: 1.5; }
 
+/* === VAHİD DÜYMƏ STİLİ === */
 .scenario-section {
     margin-bottom: 25px;
     padding-bottom: 25px;
@@ -262,6 +253,7 @@ label {
     color: #334155;
     margin-bottom: 15px;
 }
+/* DÜZƏLİŞ: Düymələrin mobil versiyada səliqəli düzülüşü üçün */
 .scenario-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -299,6 +291,7 @@ label {
     color: #1e293b;
 }
 
+/* === YENİ: SAASHUB NİŞANI ÜÇÜN STİL === */
 #saashub-badge {
     margin-top: 30px;
     padding-top: 20px;
@@ -309,11 +302,16 @@ label {
     font-size: 0.9rem;
     color: #475569;
 }
+/* ==================================== */
+
+/* ============================================================= */
+/* === MOBİL UYĞUNLUQ (RESPONSIVE) - YENİLƏNMİŞ VƏ TƏKMİLLƏŞDİRİLMİŞ === */
+/* ============================================================= */
 
 @media (max-width: 992px) {
-    /* DÜZƏLİŞ: Mobil versiyada body-nin padding-ini sıfırlayırıq ki, grid mərkəzləmə düzgün işləsin */
     body {
-        padding: 15px;
+        padding: 20px 15px;
+        align-items: flex-start; /* Mobil versiyada yuxarıdan başlasın */
     }
     .container {
         flex-direction: column;
@@ -335,6 +333,7 @@ label {
     }
 }
 
+/* Çox kiçik ekranlar üçün əlavə düzəlişlər */
 @media (max-width: 480px) {
     .form-footer {
         flex-direction: column;
