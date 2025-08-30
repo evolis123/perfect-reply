@@ -1,5 +1,5 @@
 // === main-v1.js ===
-// YENİLƏNMİŞ FAYL: Kiçik, amma vacib təkmilləşdirmələrlə.
+// YENİLƏNMİŞ FAYL: Modal Pəncərə logikası əlavə edildi.
 
 document.addEventListener('DOMContentLoaded', () => {
     // Bütün DOM elementlərini seçirik
@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const languageWarning = document.getElementById('language-warning');
     const refineActionsDiv = document.getElementById('refine-actions');
 
-    // Dinamik yükləmə mesajları
     const loadingMessages = [
         "Analyzing the email...",
         "Crafting the perfect sentences...",
@@ -22,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     let messageInterval;
 
-    // Yükləmə animasiyasını başlatan/durduran funksiyalar
     function setLoadingState(isLoading) {
         if (isLoading) {
             let messageIndex = 0;
@@ -40,9 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // İstifadəçi dostu xəta mesajı göstərən funksiya
     function showUserFriendlyError(message) {
-        console.error("Internal Error:", message); // Xətanı öz analizimiz üçün konsola yazdırırıq
+        console.error("Internal Error:", message);
         let userMessage = message || "Sorry, something unexpected happened. Please try again.";
 
         if (message.includes("503") || message.includes("overloaded")) {
@@ -55,14 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
         outputDiv.textContent = userMessage;
     }
     
-    // İngilis dili yoxlaması
     function isStrictlyEnglish(text) {
         if (!text) return true;
         const englishOnlyRegex = /^[a-zA-Z0-9\s.,!?'"()&$#@*+\-/:;{}[\]\n\r%_`~@^|=<>]*$/;
         return englishOnlyRegex.test(text);
     }
 
-    // Girişləri yoxlayan funksiya
     function validateInputs() {
         const isEnglish = isStrictlyEnglish(receivedEmailTextarea.value);
         const isUserReplyFilled = userReplyTextarea.value.trim() !== '';
@@ -77,9 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // === ƏSAS FUNKSİYALAR ===
-
-    // Ana "Generate" funksiyası
     async function handleGenerate() {
         if (!userReplyTextarea.value.trim() || !receivedEmailTextarea.value.trim()) {
              showUserFriendlyError('Please fill in both fields before generating a reply.');
@@ -120,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // "Refine" funksiyası
     async function handleRefine(textToRefine, action) {
         console.log(`Sending to refine function. Action: ${action}`);
 
@@ -156,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // === EVENT LISTENERS ===
     generateButton.addEventListener('click', handleGenerate);
     receivedEmailTextarea.addEventListener('input', validateInputs);
     userReplyTextarea.addEventListener('input', validateInputs);
@@ -188,6 +178,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Səhifə ilk yükləndiyində yoxlamanı işə salırıq
     validateInputs();
+
+    // =============== YENİ MODAL PƏNCƏRƏ LOGİKASI ===============
+    const openModalBtn = document.getElementById('open-feedback-modal');
+    const closeModalBtn = document.querySelector('.modal-close');
+    const modal = document.getElementById('feedback-modal');
+
+    if (openModalBtn && closeModalBtn && modal) {
+        function openModal(e) {
+            e.preventDefault(); // Linkin səhifəni yuxarı atmasının qarşısını alır
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        openModalBtn.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    }
 });

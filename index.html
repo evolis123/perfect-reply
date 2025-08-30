@@ -8,8 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css?v=1.2"> 
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=1.3"> <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WRY1T1T4DG"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -19,6 +18,13 @@
     </script>
 </head>
 <body>
+
+    <nav class="main-nav">
+        <a href="#" id="open-feedback-modal" class="nav-link">
+            <i data-feather="edit-2"></i>
+            <span>Feedback</span>
+        </a>
+    </nav>
 
     <div class="container">
         <div class="form-section">
@@ -111,33 +117,35 @@
                 </li>
             </ol>
 
-            <!-- === YENİ SAASHUB NİŞANI ƏLAVƏ EDİLDİ === -->
             <div id="saashub-badge">
                 <a href='https://www.saashub.com/prolingo?utm_source=badge&utm_campaign=badge&utm_content=prolingo&badge_variant=dark&badge_kind=approved' target='_blank'><img src="https://cdn-b.saashub.com/img/badges/approved-dark.png?v=1" alt="ProLingo badge" style="max-width: 150px;"/></a>
             </div>
-            <!-- ==================================== -->
         </div>
     </div> 
 
-    <script src="main-v1.js"></script>
+    <div id="feedback-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <section class="feedback-section-modal">
+                <h2>Let's Build ProLingo Together</h2>
+                <p>Every piece of feedback is a treasure. Help us improve!</p>
+                <form name="feedback" method="POST" data-netlify="true">
+                    <input type="hidden" name="form-name" value="feedback" />
+                    <div class="feedback-category">
+                        <label><input type="radio" name="category" value="Suggestion" checked> Suggestion</label>
+                        <label><input type="radio" name="category" value="Bug Report"> Bug Report</label>
+                        <label><input type="radio" name="category" value="Question"> Question</label>
+                    </div>
+                    <textarea name="message" placeholder="Share your thoughts here..." rows="4" required></textarea>
+                    <button type="submit">Send Feedback</button>
+                </form>
+            </section>
+        </div>
+    </div>
 
-    <section class="feedback-section">
-        <h2>Let's Build ProLingo Together</h2>
-        <p>Every piece of feedback is a treasure. Help us improve!</p>
-        <form name="feedback" method="POST" data-netlify="true">
-            <input type="hidden" name="form-name" value="feedback" />
-            <div class="feedback-category">
-                <label><input type="radio" name="category" value="Suggestion" checked> I have a suggestion</label>
-                <label><input type="radio" name="category" value="Bug Report"> I want to report a bug</label>
-                <label><input type="radio" name="category" value="Question"> I have a question</label>
-            </div>
-            <textarea name="message" placeholder="Share your thoughts here..." rows="4" required></textarea>
-            <button type="submit">Send Feedback</button>
-        </form>
-    </section>
+    <script src="main-v1.js"></script>
     <script>
       feather.replace();
     </script>
-    
 </body>
 </html>
