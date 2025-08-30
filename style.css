@@ -423,6 +423,8 @@ label {
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    position: relative; /* BU ƏN VACİB ƏLAVƏDİR */
+    z-index: 1;         /* Və bu da onu təmin edir */
 }
 .feedback-section-modal h2 {
     font-family: 'Poppins', sans-serif;
