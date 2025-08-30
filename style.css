@@ -340,14 +340,14 @@ label {
     }
 }
 
-/* =============== YENİ ƏLAVƏ OLUNAN STİLLƏR =============== */
+/* =============== YENİ ƏLAVƏ OLUNAN VƏ TƏKMİLLƏŞDİRİLMİŞ STİLLƏR =============== */
 
 /* NAVİQASİYA (MENYU) STİLLƏRİ */
 .main-nav {
     position: absolute;
     top: 25px;
     right: 40px;
-    z-index: 100;
+    z-index: 1001; /* Hər şeyin üzərində olması üçün yüksək dəyər */
 }
 .nav-link {
     display: flex;
@@ -385,12 +385,13 @@ label {
     display: none; 
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 1000; /* Yüksək z-index dəyəri */
 }
 .modal-content {
     position: relative;
     max-width: 600px;
     width: 90%;
+    z-index: 1001; /* Overlay-dən də üstə olması üçün */
 }
 .modal-close {
     position: absolute;
@@ -410,6 +411,7 @@ label {
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     line-height: 1;
     transition: transform 0.2s;
+    z-index: 1002; /* Hər şeydən üstə olması üçün */
 }
 .modal-close:hover {
     transform: rotate(90deg);
@@ -436,6 +438,8 @@ label {
     margin-bottom: 30px;
 }
 .feedback-section-modal .feedback-category {
+    position: relative; /* Kliklənmə probleminin qarşısını alır */
+    z-index: 1; /* Kliklənmə probleminin qarşısını alır */
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -468,6 +472,8 @@ label {
     background-color: white;
     margin-top: 0;
     border-color: #e2e8f0;
+    position: relative; /* Kliklənmə probleminin qarşısını alır */
+    z-index: 1; /* Kliklənmə probleminin qarşısını alır */
 }
 .feedback-section-modal button {
     padding: 14px 35px;
@@ -480,6 +486,8 @@ label {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+    position: relative; /* Kliklənmə probleminin qarşısını alır */
+    z-index: 1; /* Kliklənmə probleminin qarşısını alır */
 }
 .feedback-section-modal button:hover {
     transform: translateY(-3px);
