@@ -348,3 +348,92 @@ label {
         padding-top: 5px;
     }
 }
+/* YENİ CSS KODUNU BURADAN KOPYALA */
+
+/* =============== TƏKLİF VƏ İRAD BÖLMƏSİ STİLLƏRİ =============== */
+
+.feedback-section {
+    max-width: 650px; /* Formanı bir az genişlətdik */
+    margin: 80px auto 40px auto; /* Yuxarı və aşağı boşluqları tənzimlədik */
+    padding: 35px 40px;
+    background: rgba(238, 242, 255, 0.7); /* Sağdakı info bölməsi ilə eyni fon */
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+.feedback-section h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.feedback-section p {
+    font-size: 1rem;
+    color: #475569;
+    margin-bottom: 30px;
+}
+
+.feedback-category {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Mobil üçün */
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.feedback-category label {
+    display: inline-block;
+    margin-top: 0;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.5);
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.feedback-category input[type="radio"] {
+    display: none;
+}
+
+.feedback-category input[type="radio"]:checked + label {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.feedback-section textarea {
+    background-color: rgba(255, 255, 255, 0.6);
+    margin-top: 0;
+}
+
+.feedback-section button {
+    padding: 14px 35px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(90deg, #3b82f6 0%, #2dd4bf 100%);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+}
+
+.feedback-section button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* KODU BURADA BİTİR */
