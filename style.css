@@ -373,19 +373,28 @@ label {
 }
 
 /* MODAL PƏNCƏRƏ STİLLƏRİ */
-.modal-overlay {
+/* Ana konteyner */
+#feedback-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10, 20, 40, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: none; 
+    z-index: 1000;
+    display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000; /* Yüksək z-index dəyəri */
+}
+.modal-overlay {
+    position: absolute; /* <<< BU DƏYİŞDİ */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 20, 40, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    /* display, align, justify və z-index sətirləri SİLİNDİ */
 }
 .modal-content {
     position: relative;
@@ -423,8 +432,6 @@ label {
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    position: relative; /* BU ƏN VACİB ƏLAVƏDİR */
-    z-index: 1;         /* Və bu da onu təmin edir */
 }
 .feedback-section-modal h2 {
     font-family: 'Poppins', sans-serif;
@@ -440,8 +447,6 @@ label {
     margin-bottom: 30px;
 }
 .feedback-section-modal .feedback-category {
-    position: relative; /* Kliklənmə probleminin qarşısını alır */
-    z-index: 1; /* Kliklənmə probleminin qarşısını alır */
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -450,6 +455,7 @@ label {
 }
 .feedback-section-modal .feedback-category label {
     display: inline-block;
+    vertical-align: middle; /* SADƏCƏ BU SƏTRİ ƏLAVƏ ET */
     margin-top: 0;
     padding: 10px 20px;
     background: white;
@@ -474,8 +480,6 @@ label {
     background-color: white;
     margin-top: 0;
     border-color: #e2e8f0;
-    position: relative; /* Kliklənmə probleminin qarşısını alır */
-    z-index: 1; /* Kliklənmə probleminin qarşısını alır */
 }
 .feedback-section-modal button {
     padding: 14px 35px;
@@ -488,8 +492,6 @@ label {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
-    position: relative; /* Kliklənmə probleminin qarşısını alır */
-    z-index: 1; /* Kliklənmə probleminin qarşısını alır */
 }
 .feedback-section-modal button:hover {
     transform: translateY(-3px);

@@ -180,28 +180,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     validateInputs();
 
-    // =============== YENİ MODAL PƏNCƏRƏ LOGİKASI ===============
-    const openModalBtn = document.getElementById('open-feedback-modal');
-    const closeModalBtn = document.querySelector('.modal-close');
-    const modal = document.getElementById('feedback-modal');
+    // =============== MODAL PƏNCƏRƏ LOGİKASI (DÜZƏLDİLMİŞ) ===============
+    const openModalBtn = document.getElementById('open-feedback-modal');
+    const closeModalBtn = document.querySelector('.modal-close');
+    const modal = document.getElementById('feedback-modal');
+    const modalOverlay = document.querySelector('.modal-overlay'); // Arxa fonu ayrıca seçirik
 
-    if (openModalBtn && closeModalBtn && modal) {
-        function openModal(e) {
-            e.preventDefault(); // Linkin səhifəni yuxarı atmasının qarşısını alır
-            modal.style.display = 'flex';
-        }
+    if (openModalBtn && closeModalBtn && modal && modalOverlay) {
+        function openModal(e) {
+            e.preventDefault();
+            modal.style.display = 'flex';
+        }
 
-        function closeModal() {
-            modal.style.display = 'none';
-        }
+        function closeModal() {
+            modal.style.display = 'none';
+        }
 
-        openModalBtn.addEventListener('click', openModal);
-        closeModalBtn.addEventListener('click', closeModal);
+        openModalBtn.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
 
-        modal.addEventListener('click', function(event) {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-    }
-});
+        // Arxa fona (overlay) klikləyəndə bağlamaq üçün
+        modalOverlay.addEventListener('click', closeModal);
+    }
