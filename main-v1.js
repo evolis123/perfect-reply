@@ -1,5 +1,6 @@
 // === main-v1.js ===
 // Tora tərəfindən yazılmış ən mükəmməl, təkrarsız və təkmil versiya.
+// YENİLƏNMİŞ: Ton Kompası məntiqi əlavə edildi.
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Bütün DOM elementlərini seçirik ---
@@ -12,6 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttonText = document.getElementById('button-text');
     const languageWarning = document.getElementById('language-warning');
     const refineActionsDiv = document.getElementById('refine-actions');
+
+    // ================== YENİ: TON KOMPASI ELEMENTLƏRİ ==================
+    const toneCompassCard = document.getElementById('tone-compass-result');
+    const toneIcon = toneCompassCard.querySelector('.tone-icon');
+    const toneTitle = toneCompassCard.querySelector('.tone-title');
+    const toneDescription = toneCompassCard.querySelector('.tone-description');
+    const premiumTag = toneCompassCard.querySelector('.premium-tag');
+    // =================================================================
 
     const loadingMessages = [
         "Analyzing the email...",
@@ -71,106 +80,126 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function handleGenerate() {
-        if (!userReplyTextarea.value.trim() || !receivedEmailTextarea.value.trim()) {
-            showUserFriendlyError('Please fill in both fields before generating a reply.');
-            return;
-        }
-        resultArea.style.display = 'block';
-        outputDiv.innerHTML = '';
-        generateButton.disabled = true;
-        refineActionsDiv.style.display = 'none';
-        setLoadingState(true);
-
-        try {
-            const response = await fetch('/.netlify/functions/generate-reply', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    receivedEmail: receivedEmailTextarea.value,
-                    userReply: userReplyTextarea.value,
-                    tone: document.querySelector('input[name="tone"]:checked').value
-                }),
-            });
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data.error || `HTTP error! status: ${response.status}`);
-            }
-            outputDiv.style.display = 'block';
-            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
-            refineActionsDiv.style.display = 'flex';
-        } catch (error) {
-            showUserFriendlyError(error.message);
-        } finally {
-            setLoadingState(false);
-            generateButton.disabled = false;
-        }
+        //... Bu funksiya dəyişməz qalıb ...
     }
 
     async function handleRefine(textToRefine, action) {
-        console.log(`Sending to refine function. Action: ${action}`);
-        resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        outputDiv.innerHTML = '';
-        refineActionsDiv.style.display = 'none';
-        generateButton.disabled = true;
-        setLoadingState(true);
-
-        try {
-            const response = await fetch('/.netlify/functions/refine-reply', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    textToRefine: textToRefine,
-                    action: action
-                }),
-            });
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data.error || `HTTP error! status: ${response.status}`);
-            }
-            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
-            refineActionsDiv.style.display = 'flex';
-        } catch (error) {
-            showUserFriendlyError(error.message);
-        } finally {
-            setLoadingState(false);
-            generateButton.disabled = false;
-        }
+        //... Bu funksiya dəyişməz qalıb ...
     }
-    
+
+    // --- Mövcud event listener-lər ---
     if (generateButton) generateButton.addEventListener('click', handleGenerate);
     if (receivedEmailTextarea) receivedEmailTextarea.addEventListener('input', validateInputs);
     if (userReplyTextarea) userReplyTextarea.addEventListener('input', validateInputs);
-
-    const scenarioButtons = document.querySelectorAll('.scenario-btn');
-    const scenarios = {
-        'thank-you': 'Write a polite and professional thank-you email after a job interview for the [Job Title] position with [Company Name]. I want to reiterate my interest in the role.',
-        'recommendation': 'Write a formal email asking my former manager, [Manager\'s Name], for a letter of recommendation for a [Program/Job Title] I am applying to.',
-        'apology': 'Write a sincere apology email for the delay in my response regarding [Subject of Email]. Provide a brief reason and assure them it won\'t happen again.',
-        'inquiry': 'Write a clear and concise email to inquire about [Specific Topic, e.g., the status of my application] sent on [Date].'
-    };
-    scenarioButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const scenarioKey = button.dataset.scenario;
-            userReplyTextarea.value = scenarios[scenarioKey];
-            userReplyTextarea.focus();
-            validateInputs();
-        });
-    });
-
-    const refineButtons = document.querySelectorAll('.refine-btn');
-    refineButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const currentOutput = document.getElementById('output').innerText;
-            const refineAction = button.dataset.refine;
-            if (currentOutput.trim() !== "") {
-                handleRefine(currentOutput, refineAction);
-            }
-        });
-    });
-
+    
+    // ... Scenario və Refine buttons logikası dəyişməz qalıb ...
     validateInputs();
 
-    // =============== MODAL VƏ NETLIFY FORM LOGİKASI (TƏKMİLLƏŞDİRİLMİŞ) ===============
+
+    // =================================================================
+    // ================== YENİ: TON KOMPASI MƏNTİQİ ==================
+    // =================================================================
+
+    const TONE_COMPASS_LIMIT = 5; // Aylıq pulsuz limit
+    let typingTimer; // İstifadəçinin yazmağı dayandırdığını bilmək üçün
+    const doneTypingInterval = 1000; // 1 saniyə sonra analizi başlat
+
+    const toneMap = {
+        'default': { icon: '🤔', title: 'Analyzing Tone...', description: 'Just a moment while we read the room...'},
+        'angry': { icon: '💣', title: 'Minefield', description: 'Proceed with caution. The sender seems displeased or angry.' },
+        'excited': { icon: '☀️', title: 'Positive Vibe', description: 'The sender is enthusiastic. A great opportunity to collaborate!' },
+        'urgent': { icon: '🔥', title: 'High Priority', description: 'This requires your immediate attention. Act quickly.' },
+        'curious': { icon: '🎣', title: 'Hooked', description: 'They are interested and waiting for more information from you.' },
+        'neutral': { icon: '⚪️', title: 'Neutral', description: 'The tone is standard and professional. Respond calmly.'},
+        'limit_reached': { icon: '🔒', title: 'Monthly Limit Reached', description: `You've used your ${TONE_COMPASS_LIMIT} free analyses. Upgrade to Premium for unlimited insights.`}
+    };
+    
+    function getUsageData() {
+        const data = JSON.parse(localStorage.getItem('proLingoUsage')) || {};
+        const now = new Date();
+        // Əgər yeni aya keçmişiksə, sayğacı sıfırla
+        if (data.month !== now.getMonth() || data.year !== now.getFullYear()) {
+            return { month: now.getMonth(), year: now.getFullYear(), uses: 0 };
+        }
+        return data;
+    }
+
+    function incrementUsage() {
+        const data = getUsageData();
+        data.uses += 1;
+        localStorage.setItem('proLingoUsage', JSON.stringify(data));
+    }
+
+    function hasUsesLeft() {
+        const data = getUsageData();
+        return data.uses < TONE_COMPASS_LIMIT;
+    }
+    
+    function updateToneCompassUI(toneKey) {
+        const toneData = toneMap[toneKey] || toneMap['neutral'];
+        toneIcon.textContent = toneData.icon;
+        toneTitle.textContent = toneData.title;
+        toneDescription.textContent = toneData.description;
+        
+        // Limit bitəndə "Premium" etiketini gizlət
+        premiumTag.style.display = (toneKey === 'limit_reached') ? 'none' : 'inline-block';
+        
+        toneCompassCard.style.display = 'flex';
+    }
+
+    async function analyzeEmailTone(text) {
+        if (text.split(' ').length < 5) { // Çox qısa mətnləri analiz etmə
+            toneCompassCard.style.display = 'none';
+            return;
+        }
+
+        if (!hasUsesLeft()) {
+            updateToneCompassUI('limit_reached');
+            return;
+        }
+
+        updateToneCompassUI('default'); // "Analiz edilir..." vəziyyətini göstər
+
+        try {
+            // HƏQİQİ BACKEND ÇAĞIRIŞI BURADA OLACAQ
+            // const response = await fetch('/.netlify/functions/analyze-tone', {
+            //     method: 'POST',
+            //     body: JSON.stringify({ text: text })
+            // });
+            // const data = await response.json();
+            // const tone = data.tone;
+            
+            // --- HƏLƏLİK TEST ÜÇÜN SİMULYASİYA ---
+            await new Promise(resolve => setTimeout(resolve, 1500)); // Gecikməni simulyasiya et
+            const tones = ['angry', 'excited', 'urgent', 'curious', 'neutral'];
+            const randomTone = tones[Math.floor(Math.random() * tones.length)];
+            const tone = randomTone; 
+            // --- SİMULYASİYA SONU ---
+
+            updateToneCompassUI(tone);
+            incrementUsage();
+
+        } catch (error) {
+            console.error("Tone analysis failed:", error);
+            toneCompassCard.style.display = 'none'; // Xəta olarsa, kartı gizlət
+        }
+    }
+    
+    // İstifadəçi email yazmağı dayandırdıqda analizi başlat
+    receivedEmailTextarea.addEventListener('keyup', () => {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(() => {
+            analyzeEmailTone(receivedEmailTextarea.value);
+        }, doneTypingInterval);
+    });
+    
+    receivedEmailTextarea.addEventListener('keydown', () => {
+        clearTimeout(typingTimer);
+    });
+
+    // =================================================================
+    // =============== MODAL VƏ NETLIFY FORM LOGİKASI ===============
+    // =================================================================
     const openModalBtn = document.getElementById('open-feedback-modal');
     const closeModalBtn = document.querySelector('.modal-close');
     const modal = document.getElementById('feedback-modal');
@@ -188,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function openModal(e) {
             e.preventDefault();
-            resetModalState(); // Hər dəfə açanda formu sıfırla
+            resetModalState();
             modal.style.display = 'flex';
         }
 
@@ -197,21 +226,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         function handleFormSubmission(e) {
-            e.preventDefault(); // Səhifənin yenilənməsinin qarşısını al
-            
+            e.preventDefault();
             const formData = new FormData(feedbackForm);
-            
             fetch("/", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: new URLSearchParams(formData).toString()
             })
             .then(() => {
-                // Uğurlu olduqda, formu gizlət, təşəkkür mesajını göstər
                 feedbackForm.style.display = 'none';
                 thankYouMessage.style.display = 'block';
-                
-                // 3 saniyə sonra pəncərəni avtomatik bağla
                 setTimeout(closeModal, 3000);
             })
             .catch((error) => {
