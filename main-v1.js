@@ -1,8 +1,8 @@
 // === main-v1.js ===
-// YENİLƏNMİŞ FAYL: Modal Pəncərə logikası əlavə edildi.
+// Tora tərəfindən yazılmış ən mükəmməl, təkrarsız və təkmil versiya.
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Bütün DOM elementlərini seçirik
+    // --- Bütün DOM elementlərini seçirik ---
     const receivedEmailTextarea = document.getElementById('received-email');
     const userReplyTextarea = document.getElementById('user-reply');
     const generateButton = document.getElementById('generate-button');
@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let messageIndex = 0;
             loadingSpinner.style.display = 'block';
             buttonText.textContent = loadingMessages[messageIndex];
-            
             messageInterval = setInterval(() => {
                 messageIndex = (messageIndex + 1) % loadingMessages.length;
                 buttonText.textContent = loadingMessages[messageIndex];
@@ -41,17 +40,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function showUserFriendlyError(message) {
         console.error("Internal Error:", message);
         let userMessage = message || "Sorry, something unexpected happened. Please try again.";
-
         if (message.includes("503") || message.includes("overloaded")) {
             userMessage = "We're experiencing high demand right now. Please try again in a few moments.";
         } else if (message.includes("Could not determine")) {
-             userMessage = "Sorry, we couldn't determine the language of the received email. Please ensure it is in English.";
+            userMessage = "Sorry, we couldn't determine the language of the received email. Please ensure it is in English.";
         }
-        
         outputDiv.style.display = 'block';
         outputDiv.textContent = userMessage;
     }
-    
+
     function isStrictlyEnglish(text) {
         if (!text) return true;
         const englishOnlyRegex = /^[a-zA-Z0-9\s.,!?'"()&$#@*+\-/:;{}[\]\n\r%_`~@^|=<>]*$/;
@@ -59,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function validateInputs() {
+        if (!generateButton) return;
         const isEnglish = isStrictlyEnglish(receivedEmailTextarea.value);
         const isUserReplyFilled = userReplyTextarea.value.trim() !== '';
         const isReceivedEmailFilled = receivedEmailTextarea.value.trim() !== '';
@@ -74,10 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleGenerate() {
         if (!userReplyTextarea.value.trim() || !receivedEmailTextarea.value.trim()) {
-             showUserFriendlyError('Please fill in both fields before generating a reply.');
-             return;
+            showUserFriendlyError('Please fill in both fields before generating a reply.');
+            return;
         }
-
         resultArea.style.display = 'block';
         outputDiv.innerHTML = '';
         generateButton.disabled = true;
@@ -88,37 +85,33 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('/.netlify/functions/generate-reply', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    receivedEmail: receivedEmailTextarea.value, 
-                    userReply: userReplyTextarea.value, 
-                    tone: document.querySelector('input[name="tone"]:checked').value 
+                body: JSON.stringify({
+                    receivedEmail: receivedEmailTextarea.value,
+                    userReply: userReplyTextarea.value,
+                    tone: document.querySelector('input[name="tone"]:checked').value
                 }),
             });
-            
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.error || `HTTP error! status: ${response.status}`);
             }
-
             outputDiv.style.display = 'block';
             outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
             refineActionsDiv.style.display = 'flex';
-
         } catch (error) {
             showUserFriendlyError(error.message);
         } finally {
             setLoadingState(false);
-            generateButton.disabled = false; 
+            generateButton.disabled = false;
         }
     }
 
     async function handleRefine(textToRefine, action) {
         console.log(`Sending to refine function. Action: ${action}`);
-
-        resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
-        outputDiv.innerHTML = ''; 
-        refineActionsDiv.style.display = 'none'; 
-        generateButton.disabled = true; 
+        resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        outputDiv.innerHTML = '';
+        refineActionsDiv.style.display = 'none';
+        generateButton.disabled = true;
         setLoadingState(true);
 
         try {
@@ -126,30 +119,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    textToRefine: textToRefine, 
-                    action: action           
+                    textToRefine: textToRefine,
+                    action: action
                 }),
             });
-
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.error || `HTTP error! status: ${response.status}`);
             }
-
-            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>'); 
-            refineActionsDiv.style.display = 'flex'; 
-
+            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
+            refineActionsDiv.style.display = 'flex';
         } catch (error) {
             showUserFriendlyError(error.message);
         } finally {
             setLoadingState(false);
-            generateButton.disabled = false; 
+            generateButton.disabled = false;
         }
     }
-
-    generateButton.addEventListener('click', handleGenerate);
-    receivedEmailTextarea.addEventListener('input', validateInputs);
-    userReplyTextarea.addEventListener('input', validateInputs);
+    
+    if (generateButton) generateButton.addEventListener('click', handleGenerate);
+    if (receivedEmailTextarea) receivedEmailTextarea.addEventListener('input', validateInputs);
+    if (userReplyTextarea) userReplyTextarea.addEventListener('input', validateInputs);
 
     const scenarioButtons = document.querySelectorAll('.scenario-btn');
     const scenarios = {
@@ -180,25 +170,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
     validateInputs();
 
-    // =============== MODAL PƏNCƏRƏ LOGİKASI (DÜZƏLDİLMİŞ) ===============
-    const openModalBtn = document.getElementById('open-feedback-modal');
-    const closeModalBtn = document.querySelector('.modal-close');
-    const modal = document.getElementById('feedback-modal');
-    const modalOverlay = document.querySelector('.modal-overlay'); // Arxa fonu ayrıca seçirik
+    // =============== MODAL VƏ NETLIFY FORM LOGİKASI (TƏKMİLLƏŞDİRİLMİŞ) ===============
+    const openModalBtn = document.getElementById('open-feedback-modal');
+    const closeModalBtn = document.querySelector('.modal-close');
+    const modal = document.getElementById('feedback-modal');
+    const modalOverlay = document.querySelector('.modal-overlay');
+    const feedbackForm = document.getElementById('feedback-form');
+    const thankYouMessage = document.getElementById('thank-you-message');
 
-    if (openModalBtn && closeModalBtn && modal && modalOverlay) {
-        function openModal(e) {
-            e.preventDefault();
-            modal.style.display = 'flex';
-        }
+    if (openModalBtn && closeModalBtn && modal && modalOverlay && feedbackForm) {
+        
+        function resetModalState() {
+            thankYouMessage.style.display = 'none';
+            feedbackForm.style.display = 'block';
+            feedbackForm.reset();
+        }
 
-        function closeModal() {
-            modal.style.display = 'none';
-        }
+        function openModal(e) {
+            e.preventDefault();
+            resetModalState(); // Hər dəfə açanda formu sıfırla
+            modal.style.display = 'flex';
+        }
 
-        openModalBtn.addEventListener('click', openModal);
-        closeModalBtn.addEventListener('click', closeModal);
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+        
+        function handleFormSubmission(e) {
+            e.preventDefault(); // Səhifənin yenilənməsinin qarşısını al
+            
+            const formData = new FormData(feedbackForm);
+            
+            fetch("/", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams(formData).toString()
+            })
+            .then(() => {
+                // Uğurlu olduqda, formu gizlət, təşəkkür mesajını göstər
+                feedbackForm.style.display = 'none';
+                thankYouMessage.style.display = 'block';
+                
+                // 3 saniyə sonra pəncərəni avtomatik bağla
+                setTimeout(closeModal, 3000);
+            })
+            .catch((error) => {
+                alert('An error occurred while submitting your feedback. Please try again.');
+                console.error(error);
+            });
+        }
 
-        // Arxa fona (overlay) klikləyəndə bağlamaq üçün
-        modalOverlay.addEventListener('click', closeModal);
-    }
+        openModalBtn.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', closeModal);
+        feedbackForm.addEventListener('submit', handleFormSubmission);
+    }
+});
+
