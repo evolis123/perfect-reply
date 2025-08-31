@@ -1,6 +1,6 @@
 // === main-v1.js ===
 // Tora tərəfindən yazılmış ən mükəmməl, təkrarsız və təkmil versiya.
-// YENİLƏNMİŞ: Ton Kompası məntiqi əlavə edildi.
+// YENİLƏNMİŞ: Ton Kompası məntiqi və Şablon düymələri bərpa edildi.
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Bütün DOM elementlərini seçirik ---
@@ -14,13 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const languageWarning = document.getElementById('language-warning');
     const refineActionsDiv = document.getElementById('refine-actions');
 
-    // ================== YENİ: TON KOMPASI ELEMENTLƏRİ ==================
+    // --- TON KOMPASI ELEMENTLƏRİ ---
     const toneCompassCard = document.getElementById('tone-compass-result');
     const toneIcon = toneCompassCard.querySelector('.tone-icon');
     const toneTitle = toneCompassCard.querySelector('.tone-title');
     const toneDescription = toneCompassCard.querySelector('.tone-description');
     const premiumTag = toneCompassCard.querySelector('.premium-tag');
-    // =================================================================
 
     const loadingMessages = [
         "Analyzing the email...",
@@ -80,29 +79,112 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function handleGenerate() {
-        //... Bu funksiya dəyişməz qalıb ...
+        if (!userReplyTextarea.value.trim() || !receivedEmailTextarea.value.trim()) {
+            showUserFriendlyError('Please fill in both fields before generating a reply.');
+            return;
+        }
+        resultArea.style.display = 'block';
+        outputDiv.innerHTML = '';
+        generateButton.disabled = true;
+        refineActionsDiv.style.display = 'none';
+        setLoadingState(true);
+
+        try {
+            const response = await fetch('/.netlify/functions/generate-reply', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    receivedEmail: receivedEmailTextarea.value,
+                    userReply: userReplyTextarea.value,
+                    tone: document.querySelector('input[name="tone"]:checked').value
+                }),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || `HTTP error! status: ${response.status}`);
+            }
+            outputDiv.style.display = 'block';
+            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
+            refineActionsDiv.style.display = 'flex';
+        } catch (error) {
+            showUserFriendlyError(error.message);
+        } finally {
+            setLoadingState(false);
+            generateButton.disabled = false;
+        }
     }
 
     async function handleRefine(textToRefine, action) {
-        //... Bu funksiya dəyişməz qalıb ...
-    }
+        console.log(`Sending to refine function. Action: ${action}`);
+        resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        outputDiv.innerHTML = '';
+        refineActionsDiv.style.display = 'none';
+        generateButton.disabled = true;
+        setLoadingState(true);
 
-    // --- Mövcud event listener-lər ---
+        try {
+            const response = await fetch('/.netlify/functions/refine-reply', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    textToRefine: textToRefine,
+                    action: action
+                }),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || `HTTP error! status: ${response.status}`);
+            }
+            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
+            refineActionsDiv.style.display = 'flex';
+        } catch (error) {
+            showUserFriendlyError(error.message);
+        } finally {
+            setLoadingState(false);
+            generateButton.disabled = false;
+        }
+    }
+    
+    // --- EVENT LISTENERS ---
     if (generateButton) generateButton.addEventListener('click', handleGenerate);
     if (receivedEmailTextarea) receivedEmailTextarea.addEventListener('input', validateInputs);
     if (userReplyTextarea) userReplyTextarea.addEventListener('input', validateInputs);
-    
-    // ... Scenario və Refine buttons logikası dəyişməz qalıb ...
+
+    // BƏRPA EDİLDİ: Şablon düymələrinin məntiqi
+    const scenarioButtons = document.querySelectorAll('.scenario-btn');
+    const scenarios = {
+        'thank-you': 'Write a polite and professional thank-you email after a job interview for the [Job Title] position with [Company Name]. I want to reiterate my interest in the role.',
+        'recommendation': 'Write a formal email asking my former manager, [Manager\'s Name], for a letter of recommendation for a [Program/Job Title] I am applying to.',
+        'apology': 'Write a sincere apology email for the delay in my response regarding [Subject of Email]. Provide a brief reason and assure them it won\'t happen again.',
+        'inquiry': 'Write a clear and concise email to inquire about [Specific Topic, e.g., the status of my application] sent on [Date].'
+    };
+    scenarioButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const scenarioKey = button.dataset.scenario;
+            userReplyTextarea.value = scenarios[scenarioKey];
+            userReplyTextarea.focus();
+            validateInputs();
+        });
+    });
+
+    // BƏRPA EDİLDİ: "Refine" düymələrinin məntiqi
+    const refineButtons = document.querySelectorAll('.refine-btn');
+    refineButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const currentOutput = document.getElementById('output').innerText;
+            const refineAction = button.dataset.refine;
+            if (currentOutput.trim() !== "") {
+                handleRefine(currentOutput, refineAction);
+            }
+        });
+    });
+
     validateInputs();
 
-
-    // =================================================================
-    // ================== YENİ: TON KOMPASI MƏNTİQİ ==================
-    // =================================================================
-
-    const TONE_COMPASS_LIMIT = 5; // Aylıq pulsuz limit
-    let typingTimer; // İstifadəçinin yazmağı dayandırdığını bilmək üçün
-    const doneTypingInterval = 1000; // 1 saniyə sonra analizi başlat
+    // ================== TON KOMPASI MƏNTİQİ ==================
+    const TONE_COMPASS_LIMIT = 5;
+    let typingTimer;
+    const doneTypingInterval = 1000;
 
     const toneMap = {
         'default': { icon: '🤔', title: 'Analyzing Tone...', description: 'Just a moment while we read the room...'},
@@ -117,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function getUsageData() {
         const data = JSON.parse(localStorage.getItem('proLingoUsage')) || {};
         const now = new Date();
-        // Əgər yeni aya keçmişiksə, sayğacı sıfırla
         if (data.month !== now.getMonth() || data.year !== now.getFullYear()) {
             return { month: now.getMonth(), year: now.getFullYear(), uses: 0 };
         }
@@ -140,15 +221,12 @@ document.addEventListener('DOMContentLoaded', () => {
         toneIcon.textContent = toneData.icon;
         toneTitle.textContent = toneData.title;
         toneDescription.textContent = toneData.description;
-        
-        // Limit bitəndə "Premium" etiketini gizlət
         premiumTag.style.display = (toneKey === 'limit_reached') ? 'none' : 'inline-block';
-        
         toneCompassCard.style.display = 'flex';
     }
 
     async function analyzeEmailTone(text) {
-        if (text.split(' ').length < 5) { // Çox qısa mətnləri analiz etmə
+        if (text.split(' ').length < 5) {
             toneCompassCard.style.display = 'none';
             return;
         }
@@ -158,34 +236,26 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        updateToneCompassUI('default'); // "Analiz edilir..." vəziyyətini göstər
+        updateToneCompassUI('default');
 
         try {
-            // HƏQİQİ BACKEND ÇAĞIRIŞI BURADA OLACAQ
-            // const response = await fetch('/.netlify/functions/analyze-tone', {
-            //     method: 'POST',
-            //     body: JSON.stringify({ text: text })
-            // });
-            // const data = await response.json();
-            // const tone = data.tone;
+            const response = await fetch('/.netlify/functions/analyze-tone', {
+                 method: 'POST',
+                 body: JSON.stringify({ text: text })
+            });
+            if (!response.ok) throw new Error('API request failed');
+            const data = await response.json();
+            const tone = data.tone;
             
-            // --- HƏLƏLİK TEST ÜÇÜN SİMULYASİYA ---
-            await new Promise(resolve => setTimeout(resolve, 1500)); // Gecikməni simulyasiya et
-            const tones = ['angry', 'excited', 'urgent', 'curious', 'neutral'];
-            const randomTone = tones[Math.floor(Math.random() * tones.length)];
-            const tone = randomTone; 
-            // --- SİMULYASİYA SONU ---
-
             updateToneCompassUI(tone);
             incrementUsage();
 
         } catch (error) {
             console.error("Tone analysis failed:", error);
-            toneCompassCard.style.display = 'none'; // Xəta olarsa, kartı gizlət
+            toneCompassCard.style.display = 'none';
         }
     }
     
-    // İstifadəçi email yazmağı dayandırdıqda analizi başlat
     receivedEmailTextarea.addEventListener('keyup', () => {
         clearTimeout(typingTimer);
         typingTimer = setTimeout(() => {
@@ -197,9 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(typingTimer);
     });
 
-    // =================================================================
     // =============== MODAL VƏ NETLIFY FORM LOGİKASI ===============
-    // =================================================================
     const openModalBtn = document.getElementById('open-feedback-modal');
     const closeModalBtn = document.querySelector('.modal-close');
     const modal = document.getElementById('feedback-modal');
@@ -208,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const thankYouMessage = document.getElementById('thank-you-message');
 
     if (openModalBtn && closeModalBtn && modal && modalOverlay && feedbackForm) {
-        
         function resetModalState() {
             thankYouMessage.style.display = 'none';
             feedbackForm.style.display = 'block';
