@@ -117,34 +117,37 @@
     </div> 
 
     <div id="feedback-modal" style="display: none;">
-    
-    <div class="modal-overlay"></div>
-
-    <div class="modal-content">
-        <button class="modal-close">&times;</button>
-        <section class="feedback-section-modal">
-            <h2>Let's Build ProLingo Together</h2>
-            <p>Every piece of feedback is a treasure. Help us improve!</p>
-            <form name="feedback" method="POST" data-netlify="true">
-                <input type="hidden" name="form-name" value="feedback" />
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <section class="feedback-section-modal">
+                <!-- ADDIM 1: Forma 'id' əlavə edildi -->
+                <form id="feedback-form" name="feedback" method="POST" data-netlify="true">
+                    <input type="hidden" name="form-name" value="feedback" />
+                    <h2>Let's Build ProLingo Together</h2>
+                    <p>Every piece of feedback is a treasure. Help us improve!</p>
+                    <div class="feedback-category">
+                        <input type="radio" id="cat-suggestion" name="category" value="Suggestion" checked>
+                        <label for="cat-suggestion">Suggestion</label>
                 
-                <div class="feedback-category">
-                    <input type="radio" id="cat-suggestion" name="category" value="Suggestion" checked>
-                    <label for="cat-suggestion">Suggestion</label>
-            
-                    <input type="radio" id="cat-bug" name="category" value="Bug Report">
-                    <label for="cat-bug">Bug Report</label>
-            
-                    <input type="radio" id="cat-question" name="category" value="Question">
-                    <label for="cat-question">Question</label>
-                </div>
+                        <input type="radio" id="cat-bug" name="category" value="Bug Report">
+                        <label for="cat-bug">Bug Report</label>
+                
+                        <input type="radio" id="cat-question" name="category" value="Question">
+                        <label for="cat-question">Question</label>
+                    </div>
+                    <textarea name="message" placeholder="Share your thoughts here..." rows="4" required></textarea>
+                    <button type="submit">Send Feedback</button>
+                </form>
 
-                <textarea name="message" placeholder="Share your thoughts here..." rows="4" required></textarea>
-                <button type="submit">Send Feedback</button>
-            </form>
-        </section>
+                <!-- ADDIM 2: Təşəkkür mesajı üçün blok əlavə edildi -->
+                <div id="thank-you-message" style="display: none;">
+                    <h2>Thank You!</h2>
+                    <p>Your feedback has been sent. We appreciate you helping us make ProLingo better.</p>
+                </div>
+            </section>
+        </div>
     </div>
-</div>
 
     <script src="main-v1.js"></script>
     <script>
@@ -152,3 +155,4 @@
     </script>
 </body>
 </html>
+
