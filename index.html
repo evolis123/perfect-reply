@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css?v=1.7"> <!-- Versiyanı artırdım -->
+    <link rel="stylesheet" href="style.css?v=1.8"> <!-- Version updated -->
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WRY1T1T4DG"></script>
@@ -47,22 +47,21 @@
                         <button type="button" class="scenario-btn" data-scenario="inquiry">Make an Inquiry</button>
                     </div>
                 </div>
-                <label for="received-email">Paste the email you received:</label>
-                <textarea id="received-email" rows="8" placeholder="Paste the original English email here..."></textarea>
 
-                <!-- ================== YENİ TON KOMPASI KARTI ================== -->
-                <!-- Bu blok hələlik gizlidir. JavaScript ilə göstəriləcək -->
-                <div id="tone-compass-result" style="display: none;">
-                    <div class="tone-icon">💣</div>
-                    <div class="tone-details">
-                        <div class="tone-title-wrapper">
-                           <h3 class="tone-title">Minefield</h3>
-                           <span class="premium-tag">Premium</span>
+                <!-- NEW WRAPPER: To position the popover relative to the textarea -->
+                <div class="email-input-wrapper">
+                    <label for="received-email">Paste the email you received:</label>
+                    <textarea id="received-email" rows="8" placeholder="Paste the original English email here..."></textarea>
+                    
+                    <!-- NEW TONE COMPASS POPOVER -->
+                    <div id="tone-compass-popover">
+                        <div class="popover-content">
+                            <span id="popover-icon"></span>
+                            <p id="popover-text"></p>
                         </div>
-                        <p class="tone-description">Proceed with caution. The sender seems displeased or angry.</p>
+                        <div class="popover-tail"></div>
                     </div>
                 </div>
-                <!-- ========================================================== -->
 
                 <p id="language-warning" class="warning-text" style="display: none;">The free version only supports emails in English.</p>
                 <label for="user-reply">In one sentence, what do you want to say?</label>
@@ -111,6 +110,11 @@
                 <li>
                     <div class="step-number">1</div>
                     <p><strong>Paste the Email:</strong> Drop the full email you received into the first box.</p>
+                </li>
+                <!-- NEW ITEM ADDED -->
+               <li>
+                    <div class="step-number"><i data-feather="star" style="width:16px; height:16px; margin-top:2px;"></i></div>
+                    <p><strong>Read the Tone:</strong> Our Tone Compass analyzes the sender's emotion, giving you a strategic advantage (5 free uses per month).</p>
                 </li>
                 <li>
                     <div class="step-number">2</div>
@@ -162,11 +166,10 @@
         </div>
     </div>
 
-    <script src="main-v1.js"></script>
+    <script src="main-v1.js?v=1.2"></script>
     <script>
       feather.replace();
     </script>
-    <!-- Netlify formasını yenidən yoxlamaq üçün kiçik dəyişiklik -->
 </body>
 </html>
 

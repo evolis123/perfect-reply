@@ -501,58 +501,104 @@ label {
     }
 }
 
-/* --- YENİ ƏLAVƏ OLUNAN: TON KOMPASI KARTI --- */
-#tone-compass-result {
-    margin-top: 15px;
-    margin-bottom: 5px;
-    padding: 15px 20px;
-    background-color: rgba(238, 242, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+/* --- YENİ POPOVER STİLİ --- */
+
+.email-input-wrapper {
+    position: relative;
+}
+
+#tone-compass-popover {
+    position: absolute;
+    left: 102%; 
+    top: 50%;
+    width: 280px;
+    background: #ffffff;
     border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 15px 20px;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(-50%) translateX(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none; 
+    visibility: hidden;
+}
+
+#tone-compass-popover.visible {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+    visibility: visible;
+}
+
+#tone-compass-popover.limit-reached {
+    background: #fef2f2; 
+    border: 1px solid #fecaca;
+}
+
+.popover-content {
     display: flex;
     align-items: center;
     gap: 15px;
-    transition: all 0.3s ease;
 }
 
-.tone-icon {
-    font-size: 2.2rem;
-    line-height: 1;
+#popover-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
 }
 
-.tone-details {
-    flex-grow: 1;
-}
-
-.tone-title-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 4px;
-}
-
-h3.tone-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #1e293b;
+#popover-text {
     margin: 0;
-}
-
-p.tone-description {
     font-size: 0.9rem;
     color: #475569;
-    margin: 0;
     line-height: 1.5;
 }
 
-.premium-tag {
-    font-size: 0.7rem;
+#popover-text b {
+    color: #1e293b;
     font-weight: 600;
-    color: white;
-    background: linear-gradient(90deg, #8b5cf6 0%, #ec4899 100%);
-    padding: 3px 8px;
-    border-radius: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 3px;
 }
+
+.popover-tail {
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    margin-top: -10px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid white;
+    transition: border-color 0.3s;
+}
+
+#tone-compass-popover.limit-reached .popover-tail {
+     border-right-color: #fef2f2;
+}
+
+@media (max-width: 992px) {
+    #tone-compass-popover {
+        left: 50%;
+        top: auto;
+        bottom: 100%; 
+        transform: translateX(-50%) translateY(10px);
+        width: 95%;
+        margin-bottom: 12px;
+    }
+    #tone-compass-popover.visible {
+        transform: translateX(-50%) translateY(0);
+    }
+    .popover-tail {
+        left: 50%;
+        top: 100%; 
+        margin-left: -10px;
+        border-right: 10px solid transparent;
+        border-left: 10px solid transparent;
+        border-top: 10px solid white;
+    }
+     #tone-compass-popover.limit-reached .popover-tail {
+        border-top-color: #fef2f2;
+    }
+}
+

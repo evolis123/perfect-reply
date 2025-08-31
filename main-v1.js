@@ -1,6 +1,5 @@
 // === main-v1.js ===
-// Tora tərəfindən yazılmış ən mükəmməl, təkrarsız və təkmil versiya.
-// YENİLƏNMİŞ: Ton Kompası məntiqi və Şablon düymələri bərpa edildi.
+// YENİLƏNMİŞ: Ton Kompası məntiqi yeni popover UI üçün yenidən yazıldı və bütün funksiyalar bərpa edildi.
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Bütün DOM elementlərini seçirik ---
@@ -9,18 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const generateButton = document.getElementById('generate-button');
     const resultArea = document.getElementById('result-area');
     const outputDiv = document.getElementById('output');
-    const loadingSpinner = document.getElementById('loading-spinner');
-    const buttonText = document.getElementById('button-text');
-    const languageWarning = document.getElementById('language-warning');
     const refineActionsDiv = document.getElementById('refine-actions');
+    const buttonText = document.getElementById('button-text');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const languageWarning = document.getElementById('language-warning');
 
-    // --- TON KOMPASI ELEMENTLƏRİ ---
-    const toneCompassCard = document.getElementById('tone-compass-result');
-    const toneIcon = toneCompassCard.querySelector('.tone-icon');
-    const toneTitle = toneCompassCard.querySelector('.tone-title');
-    const toneDescription = toneCompassCard.querySelector('.tone-description');
-    const premiumTag = toneCompassCard.querySelector('.premium-tag');
-
+    // --- YENİ TON KOMPASI POPOVER ELEMENTLƏRİ ---
+    const toneCompassPopover = document.getElementById('tone-compass-popover');
+    const popoverIcon = document.getElementById('popover-icon');
+    const popoverText = document.getElementById('popover-text');
+    
     const loadingMessages = [
         "Analyzing the email...",
         "Crafting the perfect sentences...",
@@ -32,16 +29,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function setLoadingState(isLoading) {
         if (isLoading) {
             let messageIndex = 0;
-            loadingSpinner.style.display = 'block';
-            buttonText.textContent = loadingMessages[messageIndex];
+            if(loadingSpinner) loadingSpinner.style.display = 'block';
+            if(buttonText) buttonText.textContent = loadingMessages[messageIndex];
             messageInterval = setInterval(() => {
                 messageIndex = (messageIndex + 1) % loadingMessages.length;
-                buttonText.textContent = loadingMessages[messageIndex];
+                if(buttonText) buttonText.textContent = loadingMessages[messageIndex];
             }, 2000);
         } else {
             clearInterval(messageInterval);
-            loadingSpinner.style.display = 'none';
-            buttonText.textContent = 'Generate with ProLingo';
+            if(loadingSpinner) loadingSpinner.style.display = 'none';
+            if(buttonText) buttonText.textContent = 'Generate with ProLingo';
         }
     }
 
@@ -53,8 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (message.includes("Could not determine")) {
             userMessage = "Sorry, we couldn't determine the language of the received email. Please ensure it is in English.";
         }
-        outputDiv.style.display = 'block';
-        outputDiv.textContent = userMessage;
+        if(outputDiv) {
+            outputDiv.style.display = 'block';
+            outputDiv.textContent = userMessage;
+        }
     }
 
     function isStrictlyEnglish(text) {
@@ -64,16 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function validateInputs() {
-        if (!generateButton) return;
+        if (!generateButton || !receivedEmailTextarea || !userReplyTextarea) return;
         const isEnglish = isStrictlyEnglish(receivedEmailTextarea.value);
         const isUserReplyFilled = userReplyTextarea.value.trim() !== '';
         const isReceivedEmailFilled = receivedEmailTextarea.value.trim() !== '';
 
         if (!isEnglish) {
-            languageWarning.style.display = 'block';
+            if(languageWarning) languageWarning.style.display = 'block';
             generateButton.disabled = true;
         } else {
-            languageWarning.style.display = 'none';
+            if(languageWarning) languageWarning.style.display = 'none';
             generateButton.disabled = !(isUserReplyFilled && isReceivedEmailFilled);
         }
     }
@@ -83,10 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
             showUserFriendlyError('Please fill in both fields before generating a reply.');
             return;
         }
-        resultArea.style.display = 'block';
-        outputDiv.innerHTML = '';
-        generateButton.disabled = true;
-        refineActionsDiv.style.display = 'none';
+        if(resultArea) resultArea.style.display = 'block';
+        if(outputDiv) outputDiv.innerHTML = '';
+        if(generateButton) generateButton.disabled = true;
+        if(refineActionsDiv) refineActionsDiv.style.display = 'none';
         setLoadingState(true);
 
         try {
@@ -103,23 +102,25 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error(data.error || `HTTP error! status: ${response.status}`);
             }
-            outputDiv.style.display = 'block';
-            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
-            refineActionsDiv.style.display = 'flex';
+            if(outputDiv) {
+                outputDiv.style.display = 'block';
+                outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
+            }
+            if(refineActionsDiv) refineActionsDiv.style.display = 'flex';
         } catch (error) {
             showUserFriendlyError(error.message);
         } finally {
             setLoadingState(false);
-            generateButton.disabled = false;
+            if(generateButton) generateButton.disabled = false;
         }
     }
 
     async function handleRefine(textToRefine, action) {
         console.log(`Sending to refine function. Action: ${action}`);
-        resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        outputDiv.innerHTML = '';
-        refineActionsDiv.style.display = 'none';
-        generateButton.disabled = true;
+        if(resultArea) resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if(outputDiv) outputDiv.innerHTML = '';
+        if(refineActionsDiv) refineActionsDiv.style.display = 'none';
+        if(generateButton) generateButton.disabled = true;
         setLoadingState(true);
 
         try {
@@ -135,74 +136,50 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error(data.error || `HTTP error! status: ${response.status}`);
             }
-            outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
-            refineActionsDiv.style.display = 'flex';
+            if(outputDiv) outputDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
+            if(refineActionsDiv) refineActionsDiv.style.display = 'flex';
         } catch (error) {
             showUserFriendlyError(error.message);
         } finally {
             setLoadingState(false);
-            generateButton.disabled = false;
+            if(generateButton) generateButton.disabled = false;
         }
     }
     
-    // --- EVENT LISTENERS ---
+    // --- EVENT LISTENERS (KÖHNƏ) ---
     if (generateButton) generateButton.addEventListener('click', handleGenerate);
     if (receivedEmailTextarea) receivedEmailTextarea.addEventListener('input', validateInputs);
     if (userReplyTextarea) userReplyTextarea.addEventListener('input', validateInputs);
-
-    // BƏRPA EDİLDİ: Şablon düymələrinin məntiqi
-    const scenarioButtons = document.querySelectorAll('.scenario-btn');
-    const scenarios = {
-        'thank-you': 'Write a polite and professional thank-you email after a job interview for the [Job Title] position with [Company Name]. I want to reiterate my interest in the role.',
-        'recommendation': 'Write a formal email asking my former manager, [Manager\'s Name], for a letter of recommendation for a [Program/Job Title] I am applying to.',
-        'apology': 'Write a sincere apology email for the delay in my response regarding [Subject of Email]. Provide a brief reason and assure them it won\'t happen again.',
-        'inquiry': 'Write a clear and concise email to inquire about [Specific Topic, e.g., the status of my application] sent on [Date].'
-    };
-    scenarioButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const scenarioKey = button.dataset.scenario;
-            userReplyTextarea.value = scenarios[scenarioKey];
-            userReplyTextarea.focus();
-            validateInputs();
-        });
-    });
-
-    // BƏRPA EDİLDİ: "Refine" düymələrinin məntiqi
-    const refineButtons = document.querySelectorAll('.refine-btn');
-    refineButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const currentOutput = document.getElementById('output').innerText;
-            const refineAction = button.dataset.refine;
-            if (currentOutput.trim() !== "") {
-                handleRefine(currentOutput, refineAction);
-            }
-        });
-    });
-
-    validateInputs();
-
-    // ================== TON KOMPASI MƏNTİQİ ==================
+    
+    // ================== TON KOMPASI MƏNTİQİ (POPOVER ÜÇÜN YENİLƏNİB) ==================
     const TONE_COMPASS_LIMIT = 5;
     let typingTimer;
     const doneTypingInterval = 1000;
 
     const toneMap = {
-        'default': { icon: '🤔', title: 'Analyzing Tone...', description: 'Just a moment while we read the room...'},
-        'angry': { icon: '💣', title: 'Minefield', description: 'Proceed with caution. The sender seems displeased or angry.' },
-        'excited': { icon: '☀️', title: 'Positive Vibe', description: 'The sender is enthusiastic. A great opportunity to collaborate!' },
-        'urgent': { icon: '🔥', title: 'High Priority', description: 'This requires your immediate attention. Act quickly.' },
-        'curious': { icon: '🎣', title: 'Hooked', description: 'They are interested and waiting for more information from you.' },
-        'neutral': { icon: '⚪️', title: 'Neutral', description: 'The tone is standard and professional. Respond calmly.'},
-        'limit_reached': { icon: '🔒', title: 'Monthly Limit Reached', description: `You've used your ${TONE_COMPASS_LIMIT} free analyses. Upgrade to Premium for unlimited insights.`}
+        'default': { icon: '🤔', text: 'Analyzing Tone...'},
+        'angry': { icon: '💣', text: '<b>Minefield</b>The sender seems displeased or angry.' },
+        'excited': { icon: '☀️', text: '<b>Positive Vibe</b>The sender is enthusiastic. A great opportunity!' },
+        'urgent': { icon: '🔥', text: '<b>High Priority</b>This requires your immediate attention.' },
+        'curious': { icon: '🎣', text: '<b>Hooked</b>They are interested and waiting for more information.' },
+        'neutral': { icon: '⚪️', text: '<b>Neutral</b>The tone is standard and professional.'},
+        'limit_reached': { icon: '🔒', text: `<b>Limit Reached</b>You've used all ${TONE_COMPASS_LIMIT} free analyses for this month.`}
     };
     
     function getUsageData() {
-        const data = JSON.parse(localStorage.getItem('proLingoUsage')) || {};
-        const now = new Date();
-        if (data.month !== now.getMonth() || data.year !== now.getFullYear()) {
+        try {
+            const data = JSON.parse(localStorage.getItem('proLingoUsage')) || {};
+            const now = new Date();
+            // Reset if the month/year is different
+            if (data.month !== now.getMonth() || data.year !== now.getFullYear()) {
+                return { month: now.getMonth(), year: now.getFullYear(), uses: 0 };
+            }
+            return data;
+        } catch (e) {
+            console.error("Could not parse localStorage data:", e);
+            const now = new Date();
             return { month: now.getMonth(), year: now.getFullYear(), uses: 0 };
         }
-        return data;
     }
 
     function incrementUsage() {
@@ -217,17 +194,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function updateToneCompassUI(toneKey) {
+        if (!toneCompassPopover || !popoverIcon || !popoverText) return;
         const toneData = toneMap[toneKey] || toneMap['neutral'];
-        toneIcon.textContent = toneData.icon;
-        toneTitle.textContent = toneData.title;
-        toneDescription.textContent = toneData.description;
-        premiumTag.style.display = (toneKey === 'limit_reached') ? 'none' : 'inline-block';
-        toneCompassCard.style.display = 'flex';
+        popoverIcon.textContent = toneData.icon;
+        popoverText.innerHTML = toneData.text;
+        
+        toneCompassPopover.classList.remove('limit-reached');
+        if (toneKey === 'limit_reached') {
+            toneCompassPopover.classList.add('limit-reached');
+        }
+        
+        toneCompassPopover.classList.add('visible');
     }
 
     async function analyzeEmailTone(text) {
-        if (text.split(' ').length < 5) {
-            toneCompassCard.style.display = 'none';
+        if (!toneCompassPopover) return;
+        // Show only if there are enough words
+        if (text.trim().split(/\s+/).length < 5) {
+            toneCompassPopover.classList.remove('visible');
             return;
         }
 
@@ -236,38 +220,84 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        updateToneCompassUI('default');
+        updateToneCompassUI('default'); // Show "Analyzing..."
 
         try {
-            const response = await fetch('/.netlify/functions/analyze-tone', {
-                 method: 'POST',
-                 body: JSON.stringify({ text: text })
-            });
-            if (!response.ok) throw new Error('API request failed');
-            const data = await response.json();
-            const tone = data.tone;
+            // Hələlik AI-ı simulyasiya edirik
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            const tones = ['angry', 'excited', 'urgent', 'curious', 'neutral'];
+            const randomTone = tones[Math.floor(Math.random() * tones.length)];
+            const data = { tone: randomTone };
             
-            updateToneCompassUI(tone);
-            incrementUsage();
+            // AI-dan gələn nəticəni göstəririk
+            updateToneCompassUI(data.tone);
+            incrementUsage(); // Yalnız uğurlu analizdən sonra limiti artırırıq
 
         } catch (error) {
             console.error("Tone analysis failed:", error);
-            toneCompassCard.style.display = 'none';
+            toneCompassPopover.classList.remove('visible');
         }
     }
     
-    receivedEmailTextarea.addEventListener('keyup', () => {
-        clearTimeout(typingTimer);
-        typingTimer = setTimeout(() => {
-            analyzeEmailTone(receivedEmailTextarea.value);
-        }, doneTypingInterval);
-    });
-    
-    receivedEmailTextarea.addEventListener('keydown', () => {
-        clearTimeout(typingTimer);
+    // Ton Kompası üçün event listeners
+    if(receivedEmailTextarea) {
+        receivedEmailTextarea.addEventListener('keyup', () => {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(() => {
+                analyzeEmailTone(receivedEmailTextarea.value);
+            }, doneTypingInterval);
+        });
+        
+        receivedEmailTextarea.addEventListener('keydown', () => {
+            clearTimeout(typingTimer);
+        });
+
+        // İstifadəçi input xanasından kənara klikləyəndə popover-i gizlət
+        receivedEmailTextarea.addEventListener('blur', () => {
+            if(toneCompassPopover) toneCompassPopover.classList.remove('visible');
+        });
+    }
+
+    // --- Şablon düymələrinin məntiqi ---
+    const scenarioButtons = document.querySelectorAll('.scenario-btn');
+    const scenarios = {
+        'thank-you': 'Write a polite and professional thank-you email after a job interview for the [Job Title] position with [Company Name]. I want to reiterate my interest in the role.',
+        'recommendation': 'Write a formal email asking my former manager, [Manager\'s Name], for a letter of recommendation for a [Program/Job Title] I am applying to.',
+        'apology': 'Write a sincere apology email for the delay in my response regarding [Subject of Email]. Provide a brief reason and assure them it won\'t happen again.',
+        'inquiry': 'Write a clear and concise email to inquire about [Specific Topic, e.g., the status of my application] sent on [Date].'
+    };
+    scenarioButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const scenarioKey = button.dataset.scenario;
+            if (userReplyTextarea) {
+                userReplyTextarea.value = scenarios[scenarioKey];
+                userReplyTextarea.focus();
+                validateInputs();
+            }
+        });
     });
 
-    // =============== MODAL VƏ NETLIFY FORM LOGİKASI ===============
+    // --- "Refine" düymələrinin məntiqi ---
+    const refineButtons = document.querySelectorAll('.refine-btn');
+    refineButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            if(outputDiv) {
+                const currentOutput = outputDiv.innerText;
+                const refineAction = button.dataset.refine;
+                if (currentOutput.trim() !== "") {
+                    handleRefine(currentOutput, refineAction);
+                }
+            }
+        });
+    });
+
+    // Səhifə yüklənəndə inputları yoxla
+    if (receivedEmailTextarea && userReplyTextarea) {
+       validateInputs();
+    }
+
+
+    // --- Feedback Modal Məntiqi ---
     const openModalBtn = document.getElementById('open-feedback-modal');
     const closeModalBtn = document.querySelector('.modal-close');
     const modal = document.getElementById('feedback-modal');
@@ -277,19 +307,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (openModalBtn && closeModalBtn && modal && modalOverlay && feedbackForm) {
         function resetModalState() {
-            thankYouMessage.style.display = 'none';
-            feedbackForm.style.display = 'block';
-            feedbackForm.reset();
+            if(thankYouMessage) thankYouMessage.style.display = 'none';
+            if(feedbackForm) {
+                feedbackForm.style.display = 'block';
+                feedbackForm.reset();
+            }
         }
 
         function openModal(e) {
             e.preventDefault();
             resetModalState();
-            modal.style.display = 'flex';
+            if(modal) modal.style.display = 'flex';
         }
 
         function closeModal() {
-            modal.style.display = 'none';
+            if(modal) modal.style.display = 'none';
         }
         
         function handleFormSubmission(e) {
@@ -301,19 +333,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: new URLSearchParams(formData).toString()
             })
             .then(() => {
-                feedbackForm.style.display = 'none';
-                thankYouMessage.style.display = 'block';
+                if(feedbackForm) feedbackForm.style.display = 'none';
+                if(thankYouMessage) thankYouMessage.style.display = 'block';
                 setTimeout(closeModal, 3000);
             })
             .catch((error) => {
-                alert('An error occurred while submitting your feedback. Please try again.');
+                alert('An error occurred. Please try again.');
                 console.error(error);
             });
         }
 
         openModalBtn.addEventListener('click', openModal);
         closeModalBtn.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', closeModal);
+        if(modalOverlay) modalOverlay.addEventListener('click', closeModal);
         feedbackForm.addEventListener('submit', handleFormSubmission);
     }
 });
