@@ -28,7 +28,20 @@ exports.handler = async function(event, context) {
         
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const prompt = `Analyze the emotional tone of the following email text. Respond with ONLY ONE of these keywords: 'angry', 'excited', 'urgent', 'curious', or 'neutral'. Do not add any other words, explanations, or punctuation. Email text: "${text}"`;
+        const prompt = `You are a precise linguistic analysis model. Your task is to analyze the emotional tone of the provided email text and categorize it into one of five predefined categories.
+
+Here are the definitions for each category:
+- 'neutral': The text is standard, professional, informational, or lacks strong emotion. (e.g., "Following up on our meeting.", "Please find the document attached.")
+- 'excited': The text expresses clear happiness, enthusiasm, or positive anticipation. (e.g., "Great news!", "I'm looking forward to working with you.")
+- 'urgent': The text demands immediate attention or indicates a time-sensitive issue. (e.g., "Urgent action required", "The deadline is today.")
+- 'angry': The text expresses clear dissatisfaction, frustration, or complaint. (e.g., "I am very disappointed.", "This is unacceptable.")
+- 'curious': The text is primarily asking for information, clarification, or shows a desire to learn more. (e.g., "Could you tell me more about...?", "I have a few questions.")
+
+Analyze the following email text. If no strong emotion is present, default to 'neutral'. If multiple tones seem to apply, choose the single most dominant one.
+
+Your final output MUST BE only one of the keywords listed above. Do not provide explanations.
+
+Email text: "${text}"`;
 
         const result = await model.generateContent(prompt);
         const response = result.response;
