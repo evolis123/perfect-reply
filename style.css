@@ -565,14 +565,18 @@ body .form-section #tone-compass-popover.limit-reached {
 .popover-tail {
     position: absolute;
     top: 50%;
-    right: -10px; 
+    right: -10px; /* Popover-ın sağından kənara çıxır */
     margin-top: -10px;
     width: 0;
     height: 0;
+    
+    /* Bu 3 sətir üçbucaq (quyruq) yaradır */
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    border-left: 10px solid white; 
-    transition: border-color 0.3s;
+    border-left: 10px solid white; /* Quyruğun rəngi və istiqaməti */
+
+    transition: border-color 0.3s ease;
+    z-index: 11; /* Hər ehtimala qarşı, hər şeyin önündə olmasını təmin edir */
 }
 
 body .form-section #tone-compass-popover.limit-reached .popover-tail {
@@ -606,24 +610,4 @@ body .form-section #tone-compass-popover.limit-reached .popover-tail {
         border-top-color: #fef2f2;
         border-left-color: transparent;
     }
-}
-
-/* --- "HOW IT WORKS" NÖMRƏLƏMƏ (SON VERSİYA) --- */
-
-.info-section ol {
-    counter-reset: step-counter; /* Sayğacı sıfırlayır */
-}
-
-.info-section li {
-    counter-increment: step-counter; /* Hər bənddə sayğacı 1 artırır */
-}
-
-/* Ulduzlu bənddən başqa hamısına nömrə əlavə edir */
-.info-section li:not(.tone-compass-step) .step-number::before {
-    content: counter(step-counter); 
-}
-
-/* HTML-dən gələn ulduzun mərkəzlənməsini təmin edir */
-.info-section li.tone-compass-step .step-number {
-    padding-top: 2px;
 }
