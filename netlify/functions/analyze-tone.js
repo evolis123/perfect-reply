@@ -1,5 +1,5 @@
 // --- analyze-tone.js ---
-// Bu, "Ton Kompası" üçün Gemini AI ilə işləyən son, stabil versiyadır.
+// Bu, "Ton Kompası" üçün Gemini AI ilə işləyən son, stabil versiyadır. (Robust JSON Parsing ilə)
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
@@ -26,13 +26,6 @@ The JSON object must have these exact three keys: "tone", "reason", and "suggest
 2.  "reason": Provide a very brief, one-sentence explanation for your classification.
 3.  "suggestion": Offer a short, actionable strategic tip for the user on how to reply.
 
-Here are the definitions for each tone:
-- 'neutral': Standard, professional text with no strong emotion.
-- 'excited': Expresses clear happiness or positive anticipation.
-- 'urgent': Demands immediate attention or is time-sensitive.
-- 'angry': Expresses clear dissatisfaction or frustration.
-- 'curious': Primarily asks for information or clarification.
-
 Analyze the following email text and provide your response ONLY in the specified JSON format. Do not add any text before or after the JSON object.
 
 Email text: "${text}"`;
@@ -41,12 +34,23 @@ Email text: "${text}"`;
         const response = result.response;
         const responseText = response.text().trim();
         
+        // --- ƏSAS DÜZƏLİŞ BURADADIR ---
+        // AI-dan gələn cavabın içindən təmiz JSON-u çıxarırıq
+        const startIndex = responseText.indexOf('{');
+        const endIndex = responseText.lastIndexOf('}');
+        
+        if (startIndex === -1 || endIndex === -1) {
+            console.error("Could not find JSON object in AI response:", responseText);
+            throw new Error("AI did not return a JSON object.");
+        }
+
+        const jsonString = responseText.substring(startIndex, endIndex + 1);
         let analysisResult;
         try {
-            analysisResult = JSON.parse(responseText);
+            analysisResult = JSON.parse(jsonString);
         } catch (e) {
-            console.error("Failed to parse AI response as JSON:", responseText);
-            throw new Error("AI returned an invalid format.");
+            console.error("Failed to parse extracted JSON:", jsonString);
+            throw new Error("AI returned a malformed JSON object.");
         }
 
         return {

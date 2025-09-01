@@ -190,43 +190,35 @@ document.addEventListener('DOMContentLoaded', () => {
         toneCompassPopover.classList.add('visible');
     }
 
-    // --- DİAQNOSTİKA ÜÇÜN YENİDƏN AKTİVLƏŞDİRİLMİŞ FUNKSİYA ---
-async function analyzeEmailTone(text) {
-    if (!toneCompassPopover) return;
-    if (text.trim().split(/\s+/).length < 5) {
-        toneCompassPopover.classList.remove('visible');
-        return;
-    }
-    if (!hasUsesLeft()) {
-        updateToneCompassUI({ tone: 'limit_reached' });
-        return;
-    }
-    updateToneCompassUI({ tone: 'default' }); // "Analyzing..." göstəririk
+    async function analyzeEmailTone(text) {
+        if (!toneCompassPopover) return;
+        if (text.trim().split(/\s+/).length < 5) {
+            toneCompassPopover.classList.remove('visible');
+            return;
+        }
+        if (!hasUsesLeft()) {
+            updateToneCompassUI({ tone: 'limit_reached' });
+            return;
+        }
+        updateToneCompassUI({ tone: 'default' });
 
-    try {
-        const response = await fetch('/.netlify/functions/analyze-tone', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: text }),
-        });
-
-        // --- TƏLƏ KODU ---
-        // Serverdən gələn cavabı JSON-a çevirməyə çalışmırıq, birbaşa tekst kimi oxuyuruq.
-        const rawResponseText = await response.text();
-
-        // Və bu xam cavabı birbaşa popover-da göstəririk.
-        popoverIcon.textContent = '🐞'; // Bug ikonu
-        popoverText.innerHTML = `<div style="font-size: 14px; font-weight: bold;">Serverdən Gələn Cavab:</div><div style="word-break: break-all; font-family: monospace; font-size: 11px; background: #eee; padding: 5px; border-radius: 4px; margin-top: 5px;">${rawResponseText || "BOŞ CAVAB"}</div>`;
-        toneCompassPopover.classList.add('visible');
-        
-    } catch (error) {
-        // Əgər ümumiyyətlə şəbəkə xətası baş versə, onu da popover-da göstəririk
-        console.error("Tone analysis network error:", error);
-        popoverIcon.textContent = '❌'; // Xəta ikonu
-        popoverText.innerHTML = `<b>Şəbəkə Xətası:</b><p>${error.message}</p>`;
-        toneCompassPopover.classList.add('visible');
+        try {
+            const response = await fetch('/.netlify/functions/analyze-tone', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: text }),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to get analysis.");
+            }
+            updateToneCompassUI(data);
+            incrementUsage();
+        } catch (error) {
+            console.error("Tone analysis failed:", error);
+            toneCompassPopover.classList.remove('visible');
+        }
     }
-}
     
     if(receivedEmailTextarea) {
         receivedEmailTextarea.addEventListener('keyup', () => {
