@@ -1,5 +1,5 @@
 // --- analyze-tone.js ---
-// Bu, "Ton Kompası" üçün Gemini AI ilə işləyən real backend funksiyasiyasıdır. (JSON Cavabı üçün Yenilənib)
+// Bu, "Ton Kompası" üçün Gemini AI ilə işləyən son, stabil versiyadır.
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
@@ -41,8 +41,6 @@ Email text: "${text}"`;
         const response = result.response;
         const responseText = response.text().trim();
         
-        // --- DƏYİŞİKLİK BURADADIR ---
-        // AI-dan gələn cavabın JSON olduğundan əmin olub, onu obyektə çeviririk.
         let analysisResult;
         try {
             analysisResult = JSON.parse(responseText);
@@ -53,19 +51,17 @@ Email text: "${text}"`;
 
         return {
             statusCode: 200,
-            body: JSON.stringify(analysisResult) // Bütün analiz paketini frontend-ə göndəririk
+            body: JSON.stringify(analysisResult)
         };
 
     } catch (error) {
-    console.error("AI analysis error:", error); // Bunu jurnala yenə də yazırıq
-    // --- DƏYİŞİKLİK BURADADIR ---
-    // Xətanın detallarını birbaşa frontend-ə göndəririk
-    return {
-        statusCode: 500,
-        body: JSON.stringify({ 
-            error: 'AI function crashed!', 
-            errorMessage: error.message, 
-            errorStack: error.stack 
-        })
-    };
-}
+        console.error("AI analysis error:", error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ 
+                error: 'AI function crashed!', 
+                errorMessage: error.message
+            })
+        };
+    }
+};
