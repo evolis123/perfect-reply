@@ -57,10 +57,15 @@ Email text: "${text}"`;
         };
 
     } catch (error) {
-        console.error("AI analysis error:", error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: 'Failed to analyze tone due to an internal AI error.' })
-        };
-    }
-};
+    console.error("AI analysis error:", error); // Bunu jurnala yenə də yazırıq
+    // --- DƏYİŞİKLİK BURADADIR ---
+    // Xətanın detallarını birbaşa frontend-ə göndəririk
+    return {
+        statusCode: 500,
+        body: JSON.stringify({ 
+            error: 'AI function crashed!', 
+            errorMessage: error.message, 
+            errorStack: error.stack 
+        })
+    };
+}
