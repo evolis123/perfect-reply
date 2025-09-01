@@ -504,77 +504,111 @@ label {
 /* --- YENİ POPOVER STİLİ --- */
 
 .email-input-wrapper {
-    position: relative;
+    position: relative;
 }
 
 #tone-compass-popover {
-    position: absolute;
-    left: 102%; 
-    top: 50%;
-    width: 280px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-    padding: 15px 20px;
-    z-index: 10;
-    opacity: 0;
-    transform: translateY(-50%) translateX(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    pointer-events: none; 
-    visibility: hidden;
+    position: absolute;
+    right: 102%; /* DƏYİŞİKLİK: 'left' yerinə 'right' istifadə edirik */
+    top: 50%;
+    width: 280px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 15px 20px;
+    z-index: 10;
+    opacity: 0;
+    /* DƏYİŞİKLİK: Sola doğru animasiya üçün translateX-i müsbət edirik */
+    transform: translateY(-50%) translateX(10px); 
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none; 
+    visibility: hidden;
 }
 
 #tone-compass-popover.visible {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-    visibility: visible;
+    opacity: 1;
+    /* DƏYİŞİKLİK: Animasiya hədəfini düzəldirik */
+    transform: translateY(-50%) translateX(0); 
+    visibility: visible;
 }
 
 #tone-compass-popover.limit-reached {
-    background: #fef2f2; 
-    border: 1px solid #fecaca;
+    background: #fef2f2; 
+    border: 1px solid #fecaca;
 }
 
 .popover-content {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 #popover-icon {
-    font-size: 2rem;
-    flex-shrink: 0;
+    font-size: 2rem;
+    flex-shrink: 0;
 }
 
 #popover-text {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #475569;
-    line-height: 1.5;
+    margin: 0;
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.5;
 }
 
 #popover-text b {
-    color: #1e293b;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 3px;
+    color: #1e293b;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 3px;
 }
 
 .popover-tail {
-    position: absolute;
-    top: 50%;
-    left: -10px;
-    margin-top: -10px;
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-right: 10px solid white;
-    transition: border-color 0.3s;
+    position: absolute;
+    top: 50%;
+    /* DƏYİŞİKLİK: Quyruğu sağ tərəfə keçiririk */
+    right: -10px; 
+    margin-top: -10px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    /* DƏYİŞİKLİK: Oxu sağa yönəltmək üçün 'border-left' istifadə edirik */
+    border-left: 10px solid white; 
+    transition: border-color 0.3s;
 }
 
 #tone-compass-popover.limit-reached .popover-tail {
-     border-right-color: #fef2f2;
+    /* DƏYİŞİKLİK: Limitə çatanda da quyruğun rəngi düzgün olsun */
+    border-left-color: #fef2f2;
+}
+
+@media (max-width: 992px) {
+    #tone-compass-popover {
+        /* Mobil versiya üçün dəyişiklik yoxdur, olduğu kimi qalır */
+        left: 50%;
+        right: auto; /* Dəqiqlik üçün əlavə edildi */
+        top: auto;
+        bottom: 100%; 
+        transform: translateX(-50%) translateY(10px);
+        width: 95%;
+        margin-bottom: 12px;
+    }
+    #tone-compass-popover.visible {
+        transform: translateX(-50%) translateY(0);
+    }
+    .popover-tail {
+        left: 50%;
+        right: auto; /* Dəqiqlik üçün əlavə edildi */
+        top: 100%; 
+        margin-left: -10px;
+        border-right: 10px solid transparent;
+        border-left: 10px solid transparent;
+        border-top: 10px solid white;
+    }
+    #tone-compass-popover.limit-reached .popover-tail {
+        border-top-color: #fef2f2;
+        border-left-color: transparent; /* Mobil üçün sıfırlama */
+    }
 }
 
 @media (max-width: 992px) {
@@ -602,3 +636,21 @@ label {
     }
 }
 
+/* --- "How It Works" Nömrələmə Düzəlişi --- */
+
+.info-section ol {
+    counter-reset: step-counter; /* Nömrələməni sıfırla */
+}
+
+.info-section li:not(.tone-compass-step) {
+    counter-increment: step-counter; /* Hər bənddə nömrəni 1 artır */
+}
+
+.info-section li:not(.tone-compass-step) .step-number::before {
+    content: counter(step-counter); /* Nömrəni göstər */
+}
+
+/* Ulduz ikonunun mərkəzlənməsi üçün kiçik düzəliş */
+.tone-compass-step .step-number {
+    padding-top: 2px;
+}
