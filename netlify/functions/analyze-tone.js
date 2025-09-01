@@ -1,62 +1,59 @@
 // --- analyze-tone.js ---
-// Bu, "Ton Kompası" üçün Gemini AI ilə işləyən real backend funksiyasiyasıdır.
+// Bu, "Ton Kompası" üçün Gemini AI ilə işləyən real backend funksiyasiyasıdır. (JSON Cavabı üçün Yenilənib)
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-// API açarını təhlükəsiz şəkildə Netlify Mühit Dəyişənlərindən (Environment Variables) götürürük
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
 exports.handler = async function(event, context) {
-    // Frontend-dən POST sorğusu gəlmirsə, prosesi dayandır
     if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            body: JSON.stringify({ error: 'Method Not Allowed' })
-        };
+        return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
     }
 
     try {
         const { text } = JSON.parse(event.body);
 
-        // Əgər mətn boşdursa və ya çox qısadırsa, analiz etmə
         if (!text || text.trim().length < 10) {
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ error: 'Not enough text to analyze' })
-            };
+            return { statusCode: 400, body: JSON.stringify({ error: 'Not enough text to analyze' }) };
         }
         
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const prompt = `You are a precise linguistic analysis model. Your task is to analyze the emotional tone of the provided email text and categorize it into one of five predefined categories.
+        const prompt = `You are a professional communication coach named ProLingo. Your task is to analyze the emotional tone of an email and provide a structured analysis in a valid JSON format.
 
-Here are the definitions for each category:
-- 'neutral': The text is standard, professional, informational, or lacks strong emotion. (e.g., "Following up on our meeting.", "Please find the document attached.")
-- 'excited': The text expresses clear happiness, enthusiasm, or positive anticipation. (e.g., "Great news!", "I'm looking forward to working with you.")
-- 'urgent': The text demands immediate attention or indicates a time-sensitive issue. (e.g., "Urgent action required", "The deadline is today.")
-- 'angry': The text expresses clear dissatisfaction, frustration, or complaint. (e.g., "I am very disappointed.", "This is unacceptable.")
-- 'curious': The text is primarily asking for information, clarification, or shows a desire to learn more. (e.g., "Could you tell me more about...?", "I have a few questions.")
+The JSON object must have these exact three keys: "tone", "reason", and "suggestion".
+1.  "tone": Classify the email into ONE of the following categories: 'neutral', 'excited', 'urgent', 'angry', 'curious'.
+2.  "reason": Provide a very brief, one-sentence explanation for your classification.
+3.  "suggestion": Offer a short, actionable strategic tip for the user on how to reply.
 
-Analyze the following email text. If no strong emotion is present, default to 'neutral'. If multiple tones seem to apply, choose the single most dominant one.
+Here are the definitions for each tone:
+- 'neutral': Standard, professional text with no strong emotion.
+- 'excited': Expresses clear happiness or positive anticipation.
+- 'urgent': Demands immediate attention or is time-sensitive.
+- 'angry': Expresses clear dissatisfaction or frustration.
+- 'curious': Primarily asks for information or clarification.
 
-Your final output MUST BE only one of the keywords listed above. Do not provide explanations.
+Analyze the following email text and provide your response ONLY in the specified JSON format. Do not add any text before or after the JSON object.
 
 Email text: "${text}"`;
 
         const result = await model.generateContent(prompt);
         const response = result.response;
-        let tone = response.text().trim().toLowerCase();
-
-        // AI-ın cavabının bizim gözlədiyimiz formatda olduğundan əmin oluruq
-        const possibleTones = ['angry', 'excited', 'urgent', 'curious', 'neutral'];
-        if (!possibleTones.includes(tone)) {
-            console.warn(`Unexpected AI response: '${tone}'. Defaulting to 'neutral'.`);
-            tone = 'neutral'; // Gözlənilməz cavab gələrsə, standart "neutral" tona keç
+        const responseText = response.text().trim();
+        
+        // --- DƏYİŞİKLİK BURADADIR ---
+        // AI-dan gələn cavabın JSON olduğundan əmin olub, onu obyektə çeviririk.
+        let analysisResult;
+        try {
+            analysisResult = JSON.parse(responseText);
+        } catch (e) {
+            console.error("Failed to parse AI response as JSON:", responseText);
+            throw new Error("AI returned an invalid format.");
         }
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ tone: tone })
+            body: JSON.stringify(analysisResult) // Bütün analiz paketini frontend-ə göndəririk
         };
 
     } catch (error) {
