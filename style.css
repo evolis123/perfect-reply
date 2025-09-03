@@ -240,7 +240,6 @@ label {
 
 .info-section p { margin: 0; font-size: 0.95rem; color: #334155; line-height: 1.5; }
 
-/* === VAHİD DÜYMƏ STİLİ === */
 .scenario-section {
     margin-bottom: 25px;
     padding-bottom: 25px;
@@ -253,7 +252,6 @@ label {
     color: #334155;
     margin-bottom: 15px;
 }
-/* DÜZƏLİŞ: Düymələrin mobil versiyada səliqəli düzülüşü üçün */
 .scenario-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -291,7 +289,6 @@ label {
     color: #1e293b;
 }
 
-/* === YENİ: SAASHUB NİŞANI ÜÇÜN STİL === */
 #saashub-badge {
     margin-top: 30px;
     padding-top: 20px;
@@ -302,16 +299,19 @@ label {
     font-size: 0.9rem;
     color: #475569;
 }
+<<<<<<< HEAD
 /* ==================================== */
 
 /* ============================================================= */
 /* === MOBİL UYĞUNLUQ (RESPONSIVE) - YENİLƏNMİŞ VƏ TƏKMİLLƏŞDİRİLMİŞ === */
 /* ============================================================= */
+=======
+>>>>>>> main
 
 @media (max-width: 992px) {
     body {
         padding: 20px 15px;
-        align-items: flex-start; /* Mobil versiyada yuxarıdan başlasın */
+        align-items: flex-start;
     }
     .container {
         flex-direction: column;
@@ -333,7 +333,6 @@ label {
     }
 }
 
-/* Çox kiçik ekranlar üçün əlavə düzəlişlər */
 @media (max-width: 480px) {
     .form-footer {
         flex-direction: column;
@@ -346,5 +345,277 @@ label {
     .footer-links {
         justify-content: center;
         padding-top: 5px;
+    }
+}
+
+/* =============== FEEDBACK MODAL STYLES =============== */
+
+.main-nav {
+    position: absolute;
+    top: 25px;
+    right: 40px;
+    z-index: 1001;
+}
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 25px;
+    text-decoration: none;
+    color: #334155;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+.nav-link:hover {
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+.nav-link i {
+    width: 18px;
+    height: 18px;
+}
+
+#feedback-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 20, 40, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.modal-content {
+    position: relative;
+    max-width: 600px;
+    width: 90%;
+    z-index: 1001;
+}
+.modal-close {
+    position: absolute;
+    top: -15px;
+    right: -10px;
+    background: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 24px;
+    color: #334155;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    line-height: 1;
+    transition: transform 0.2s;
+    z-index: 1002;
+}
+.modal-close:hover {
+    transform: rotate(90deg);
+}
+
+.feedback-section-modal {
+    padding: 35px 40px;
+    background: #f7f8fc;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+.feedback-section-modal h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.feedback-section-modal p {
+    font-size: 1rem;
+    color: #475569;
+    margin-bottom: 30px;
+}
+.feedback-section-modal .feedback-category {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+.feedback-section-modal .feedback-category label {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 0;
+    padding: 10px 20px;
+    background: white;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+.feedback-section-modal .feedback-category input[type="radio"] {
+    display: none;
+}
+.feedback-section-modal .feedback-category input[type="radio"]:checked + label {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+.feedback-section-modal textarea {
+    background-color: white;
+    margin-top: 0;
+    border-color: #e2e8f0;
+}
+.feedback-section-modal button {
+    padding: 14px 35px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(90deg, #3b82f6 0%, #2dd4bf 100%);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+}
+.feedback-section-modal button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
+}
+
+@media (max-width: 992px) {
+    .main-nav {
+        top: 15px;
+        right: 15px;
+    }
+}
+
+/* --- POPOVER STİLİ (SON VERSİYA) --- */
+
+.email-input-wrapper {
+    position: relative;
+}
+
+/* Popover-ın özü üçün daha güclü bir selektor istifadə edirik */
+body .form-section #tone-compass-popover {
+    position: absolute;
+    right: 102%;
+    top: 50%;
+    width: 280px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 15px 20px;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(-50%) translateX(10px); 
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none; 
+    visibility: hidden;
+    display: block; /* Vacibdir: gizli olsa belə yer tutmasın */
+}
+
+body .form-section #tone-compass-popover.visible {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0); 
+    visibility: visible;
+}
+
+body .form-section #tone-compass-popover.limit-reached {
+    background: #fef2f2; 
+    border: 1px solid #fecaca;
+}
+
+.popover-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#popover-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+#popover-text {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.5;
+}
+
+#popover-text b {
+    color: #1e293b;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.popover-tail {
+    position: absolute;
+    top: 50%;
+    right: -10px; /* Popover-ın sağından kənara çıxır */
+    margin-top: -10px;
+    width: 0;
+    height: 0;
+    
+    /* Bu 3 sətir üçbucaq (quyruq) yaradır */
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid white; /* Quyruğun rəngi və istiqaməti */
+
+    transition: border-color 0.3s ease;
+    z-index: 11; /* Hər ehtimala qarşı, hər şeyin önündə olmasını təmin edir */
+}
+
+body .form-section #tone-compass-popover.limit-reached .popover-tail {
+    border-left-color: #fef2f2;
+}
+
+/* Mobil versiya üçün popover stilləri (dəyişikliksiz) */
+@media (max-width: 992px) {
+    body .form-section #tone-compass-popover {
+        left: 50%;
+        right: auto;
+        top: auto;
+        bottom: 100%; 
+        transform: translateX(-50%) translateY(10px);
+        width: 95%;
+        margin-bottom: 12px;
+    }
+    body .form-section #tone-compass-popover.visible {
+        transform: translateX(-50%) translateY(0);
+    }
+    .popover-tail {
+        left: 50%;
+        right: auto;
+        top: 100%; 
+        margin-left: -10px;
+        border-right: 10px solid transparent;
+        border-left: 10px solid transparent;
+        border-top: 10px solid white;
+    }
+    body .form-section #tone-compass-popover.limit-reached .popover-tail {
+        border-top-color: #fef2f2;
+        border-left-color: transparent;
     }
 }

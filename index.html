@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css?v=1.2"> 
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=1.8"> <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WRY1T1T4DG"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -21,6 +21,13 @@
 </head>
 <body>
 
+    <nav class="main-nav">
+        <a href="#" id="open-feedback-modal" class="nav-link">
+            <i data-feather="edit-2"></i>
+            <span>Feedback</span>
+        </a>
+    </nav>
+
     <div class="container">
         <div class="form-section">
             <header>
@@ -30,7 +37,6 @@
                 <h1>ProLingo</h1>
             </header>
             <p class="subtitle">Craft professional email replies in seconds.</p>
-
             <form id="reply-form">
                 <div class="scenario-section">
                     <label class="scenario-title">Or, start with a common scenario:</label>
@@ -42,13 +48,22 @@
                     </div>
                 </div>
 
-                <label for="received-email">Paste the email you received:</label>
-                <textarea id="received-email" rows="8" placeholder="Paste the original English email here..."></textarea>
-                <p id="language-warning" class="warning-text" style="display: none;">The free version only supports emails in English.</p>
+                <div class="email-input-wrapper">
+                    <label for="received-email">Paste the email you received:</label>
+                    <textarea id="received-email" rows="8" placeholder="Paste the original English email here..."></textarea>
+                    
+                    <div id="tone-compass-popover">
+                        <div class="popover-content">
+                            <span id="popover-icon"></span>
+                            <p id="popover-text"></p>
+                        </div>
+                        <div class="popover-tail"></div>
+                    </div>
+                </div>
 
+                <p id="language-warning" class="warning-text" style="display: none;">The free version only supports emails in English.</p>
                 <label for="user-reply">In one sentence, what do you want to say?</label>
                 <textarea id="user-reply" rows="3" placeholder="e.g., I agree, but let's change the time..."></textarea>
-                
                 <div class="tone-selector">
                     <label class="tone-label">Select Tone:</label>
                     <div class="tones">
@@ -66,7 +81,6 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="form-footer">
                     <button type="button" id="generate-button">
                         <i data-feather="send" class="btn-icon"></i><span id="button-text">Generate with ProLingo</span>
@@ -77,12 +91,10 @@
                     </div>
                 </div>
             </form>
-            
             <div id="result-area" style="display: none;">
                 <h2>Your ProLingo Reply:</h2>
                 <div id="loading-spinner" style="display: none;">Generating, please wait...</div>
                 <div id="output"></div>
-
                 <div id="refine-actions" style="display: none;">
                     <button type="button" class="refine-btn" data-refine="shorter">Make it Shorter</button>
                     <button type="button" class="refine-btn" data-refine="formal">Make it More Formal</button>
@@ -90,7 +102,6 @@
                 </div>
             </div>
         </div>
-
         <div class="info-section">
             <h2>How it works?</h2>
             <ol>
@@ -110,17 +121,49 @@
                     <div class="step-number">4</div>
                     <p><strong>Speak Your Language:</strong> Write your goal in your native language. We are your bridge.</p>
                 </li>
+                <li>
+                    <div class="step-number">5</div>
+                    <p><strong>Read the Tone:</strong> Our Tone Compass analyzes the sender's emotion, giving you a strategic advantage (5 free uses per month).</p>
+                </li>
             </ol>
-
-            <!-- === YENİ SAASHUB NİŞANI ƏLAVƏ EDİLDİ === -->
             <div id="saashub-badge">
                 <a href='https://www.saashub.com/prolingo?utm_source=badge&utm_campaign=badge&utm_content=prolingo&badge_variant=dark&badge_kind=approved' target='_blank'><img src="https://cdn-b.saashub.com/img/badges/approved-dark.png?v=1" alt="ProLingo badge" style="max-width: 150px;"/></a>
             </div>
-            <!-- ==================================== -->
         </div>
     </div> 
 
-    <script src="main-v1.js"></script>
+    <div id="feedback-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <section class="feedback-section-modal">
+                <form id="feedback-form" name="feedback" method="POST" data-netlify="true">
+                    <input type="hidden" name="form-name" value="feedback" />
+                    <h2>Let's Build ProLingo Together</h2>
+                    <p>Every piece of feedback is a treasure. Help us improve!</p>
+                    <div class="feedback-category">
+                        <input type="radio" id="cat-suggestion" name="category" value="Suggestion" checked>
+                        <label for="cat-suggestion">Suggestion</label>
+                
+                        <input type="radio" id="cat-bug" name="category" value="Bug Report">
+                        <label for="cat-bug">Bug Report</label>
+                
+                        <input type="radio" id="cat-question" name="category" value="Question">
+                        <label for="cat-question">Question</label>
+                    </div>
+                    <textarea name="message" placeholder="Share your thoughts here..." rows="4" required></textarea>
+                    <button type="submit">Send Feedback</button>
+                </form>
+
+                <div id="thank-you-message" style="display: none;">
+                    <h2>Thank You!</h2>
+                    <p>Your feedback has been sent. We appreciate you helping us make ProLingo better.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="main-v1.js?v=1.2"></script>
     <script>
       feather.replace();
     </script>
