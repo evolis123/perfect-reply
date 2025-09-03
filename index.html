@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- Premium Development Branch Test -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,7 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css?v=1.8"> <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=1.8">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WRY1T1T4DG"></script>
     <script>
@@ -19,7 +21,7 @@
       gtag('config', 'G-WRY1T1T4DG');
     </script>
 </head>
-<body>
+<body id="page-body">
 
     <nav class="main-nav">
         <a href="#" id="open-feedback-modal" class="nav-link">
@@ -35,6 +37,7 @@
                     <span>PL</span>
                 </div>
                 <h1>ProLingo</h1>
+                <div id="auth-container"></div>
             </header>
             <p class="subtitle">Craft professional email replies in seconds.</p>
             <form id="reply-form">
@@ -102,7 +105,7 @@
                 </div>
             </div>
         </div>
-        <div class="info-section">
+        <div id="info-section" class="info-section">
             <h2>How it works?</h2>
             <ol>
                 <li>
@@ -144,10 +147,10 @@
                     <div class="feedback-category">
                         <input type="radio" id="cat-suggestion" name="category" value="Suggestion" checked>
                         <label for="cat-suggestion">Suggestion</label>
-                
+                    
                         <input type="radio" id="cat-bug" name="category" value="Bug Report">
                         <label for="cat-bug">Bug Report</label>
-                
+                    
                         <input type="radio" id="cat-question" name="category" value="Question">
                         <label for="cat-question">Question</label>
                     </div>

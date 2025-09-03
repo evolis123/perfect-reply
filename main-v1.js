@@ -139,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (receivedEmailTextarea) receivedEmailTextarea.addEventListener('input', validateInputs);
     if (userReplyTextarea) userReplyTextarea.addEventListener('input', validateInputs);
 
-    // ================== TON KOMPASI MƏNTİQİ (JSON ÜÇÜN YENİLƏNİB) ==================
     const TONE_COMPASS_LIMIT = 5;
     let typingTimer;
     const doneTypingInterval = 1000;
@@ -173,9 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function updateToneCompassUI(analysisData) {
         if (!toneCompassPopover || !popoverIcon || !popoverText) return;
-
         toneCompassPopover.classList.remove('limit-reached');
-
         if (analysisData.tone === 'limit_reached') {
             popoverIcon.textContent = iconMap.limit_reached;
             popoverText.innerHTML = `<b>Limit Reached</b><p>You've used all ${TONE_COMPASS_LIMIT} free analyses for this month.</p>`;
@@ -229,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
         receivedEmailTextarea.addEventListener('blur', () => { if(toneCompassPopover) toneCompassPopover.classList.remove('visible'); });
     }
 
-    // --- Qalan kodlar dəyişikliksizdir ---
     const scenarioButtons = document.querySelectorAll('.scenario-btn');
     const scenarios = {
         'thank-you': 'Write a polite and professional thank-you email after a job interview for the [Job Title] position with [Company Name]. I want to reiterate my interest in the role.',
@@ -311,4 +307,51 @@ document.addEventListener('DOMContentLoaded', () => {
         if(modalOverlay) modalOverlay.addEventListener('click', closeModal);
         feedbackForm.addEventListener('submit', handleFormSubmission);
     }
+    
+    // --- NETLIFY IDENTITY MƏNTİQİ ---
+
+    function activatePremiumMode(user) {
+        document.getElementById('page-body').classList.add('premium-theme');
+        const authContainer = document.getElementById('auth-container');
+        if (authContainer) {
+            authContainer.innerHTML = `
+                <div id="user-info">
+                    <span>${user.email}</span>
+                    <button id="logout-button">Log Out</button>
+                </div>
+            `;
+            document.getElementById('logout-button').addEventListener('click', () => {
+                netlifyIdentity.logout();
+            });
+        }
+    }
+
+    function deactivatePremiumMode() {
+        document.getElementById('page-body').classList.remove('premium-theme');
+        const authContainer = document.getElementById('auth-container');
+        if (authContainer) {
+            authContainer.innerHTML = '';
+            const menu = document.createElement('div');
+            menu.setAttribute('data-netlify-identity-menu', '');
+            authContainer.appendChild(menu);
+        }
+    }
+
+    deactivatePremiumMode(); // Səhifə açılan kimi Giriş/Qeydiyyat düymələrini yarat
+
+    netlifyIdentity.on('init', user => {
+        if (user) {
+            activatePremiumMode(user);
+        }
+    });
+
+    netlifyIdentity.on('login', user => {
+        activatePremiumMode(user);
+        netlifyIdentity.close();
+    });
+
+    netlifyIdentity.on('logout', () => {
+        deactivatePremiumMode();
+    });
+    
 });
