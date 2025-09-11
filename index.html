@@ -30,7 +30,38 @@
         </a>
     </nav>
 
-    <div class="container">
+    <div id="feedback-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <section class="feedback-section-modal">
+                <form id="feedback-form" name="feedback" method="POST" data-netlify="true">
+                    <input type="hidden" name="form-name" value="feedback" />
+                    <h2>Let's Build ProLingo Together</h2>
+                    <p>Every piece of feedback is a treasure. Help us improve!</p>
+                    <div class="feedback-category">
+                        <input type="radio" id="cat-suggestion" name="category" value="Suggestion" checked>
+                        <label for="cat-suggestion">Suggestion</label>
+                    
+                        <input type="radio" id="cat-bug" name="category" value="Bug Report">
+                        <label for="cat-bug">Bug Report</label>
+                    
+                        <input type="radio" id="cat-question" name="category" value="Question">
+                        <label for="cat-question">Question</label>
+                    </div>
+                    <textarea name="message" placeholder="Share your thoughts here..." rows="4" required></textarea>
+                    <button type="submit">Send Feedback</button>
+                </form>
+
+                <div id="thank-you-message" style="display: none;">
+                    <h2>Thank You!</h2>
+                    <p>Your feedback has been sent. We appreciate you helping us make ProLingo better.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="container" id="freemium-container">
         <div class="form-section">
             <header>
                 <div class="logo-box">
@@ -108,26 +139,11 @@
         <div id="info-section" class="info-section">
             <h2>How it works?</h2>
             <ol>
-                <li>
-                    <div class="step-number">1</div>
-                    <p><strong>Paste the Email:</strong> Drop the full email you received into the first box.</p>
-                </li>
-                <li>
-                    <div class="step-number">2</div>
-                    <p><strong>State Your Goal:</strong> In the second box, briefly write what you want to achieve with your reply.</p>
-                </li>
-                <li>
-                    <div class="step-number">3</div>
-                    <p><strong>Generate:</strong> Click the button and get a perfectly crafted, professional reply in seconds.</p>
-                </li>
-                <li>
-                    <div class="step-number">4</div>
-                    <p><strong>Speak Your Language:</strong> Write your goal in your native language. We are your bridge.</p>
-                </li>
-                <li>
-                    <div class="step-number">5</div>
-                    <p><strong>Read the Tone:</strong> Our Tone Compass analyzes the sender's emotion, giving you a strategic advantage (5 free uses per month).</p>
-                </li>
+                <li><div class="step-number">1</div><p><strong>Paste the Email:</strong> Drop the full email you received into the first box.</p></li>
+                <li><div class="step-number">2</div><p><strong>State Your Goal:</strong> In the second box, briefly write what you want to achieve with your reply.</p></li>
+                <li><div class="step-number">3</div><p><strong>Generate:</strong> Click the button and get a perfectly crafted, professional reply in seconds.</p></li>
+                <li><div class="step-number">4</div><p><strong>Speak Your Language:</strong> Write your goal in your native language. We are your bridge.</p></li>
+                <li><div class="step-number">5</div><p><strong>Read the Tone:</strong> Our Tone Compass analyzes the sender's emotion, giving you a strategic advantage (5 free uses per month).</p></li>
             </ol>
             <div id="saashub-badge">
                 <a href='https://www.saashub.com/prolingo?utm_source=badge&utm_campaign=badge&utm_content=prolingo&badge_variant=dark&badge_kind=approved' target='_blank'><img src="https://cdn-b.saashub.com/img/badges/approved-dark.png?v=1" alt="ProLingo badge" style="max-width: 150px;"/></a>
@@ -135,34 +151,18 @@
         </div>
     </div> 
 
-    <div id="feedback-modal" style="display: none;">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <section class="feedback-section-modal">
-                <form id="feedback-form" name="feedback" method="POST" data-netlify="true">
-                    <input type="hidden" name="form-name" value="feedback" />
-                    <h2>Let's Build ProLingo Together</h2>
-                    <p>Every piece of feedback is a treasure. Help us improve!</p>
-                    <div class="feedback-category">
-                        <input type="radio" id="cat-suggestion" name="category" value="Suggestion" checked>
-                        <label for="cat-suggestion">Suggestion</label>
-                    
-                        <input type="radio" id="cat-bug" name="category" value="Bug Report">
-                        <label for="cat-bug">Bug Report</label>
-                    
-                        <input type="radio" id="cat-question" name="category" value="Question">
-                        <label for="cat-question">Question</label>
-                    </div>
-                    <textarea name="message" placeholder="Share your thoughts here..." rows="4" required></textarea>
-                    <button type="submit">Send Feedback</button>
-                </form>
-
-                <div id="thank-you-message" style="display: none;">
-                    <h2>Thank You!</h2>
-                    <p>Your feedback has been sent. We appreciate you helping us make ProLingo better.</p>
+    <div class="dashboard-container" id="premium-dashboard">
+        <div class="column left-column">
+            <div class="widget proactive-assistant">
                 </div>
-            </section>
+        </div>
+        <div class="column main-column">
+            <div class="widget weekly-activity">
+                </div>
+        </div>
+        <div class="column right-column">
+            <div class="widget last-analysis">
+                </div>
         </div>
     </div>
 
