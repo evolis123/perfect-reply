@@ -662,32 +662,33 @@ body.premium-theme .logo-box {
     background: #B91C1C;
     color: white;
 }
-/* --- YENİ PREMIUM DASHBOARD STİLLƏRİ --- */
+/* ============================================= */
+/* ===== YENİ PREMIUM DASHBOARD STİLLƏRİ ===== */
+/* ============================================= */
 
-/* Başlanğıcda Dashboard gizli olsun */
-#premium-dashboard {
-    display: none;
-}
-
-/* Premium tema aktivləşəndə... */
+/* Premium tema aktiv olanda... */
 body.premium-theme {
     background-color: #1A1A2E; /* Strateji Gecə arxa fonu */
-    color: #E2E8F0; /* Əsas mətn rəngi */
+    color: #E2E8F0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-/* ...köhnə Freemium konteynerini gizlət... */
-body.premium-theme #freemium-container {
+/* ...köhnə Freemium konteynerini tamamilə gizlət... */
+body.premium-theme .container {
     display: none;
 }
 
 /* ...və yeni Dashboard-u göstər! */
-body.premium-theme #premium-dashboard {
+body.premium-theme .dashboard-container {
     display: flex;
     width: 100%;
     max-width: 1400px;
     padding: 20px;
     gap: 20px;
-    height: calc(100vh - 80px); /* Bütün ekranı tutması üçün */
+    height: calc(100vh - 40px);
 }
 
 .dashboard-container .column {
@@ -700,9 +701,10 @@ body.premium-theme #premium-dashboard {
 .dashboard-container .right-column { flex: 0.25; }
 
 .dashboard-container .widget {
-    background-color: rgba(45, 55, 72, 0.5); /* Yarı-şəffaf vicet arxa fonu */
-    border: 1px solid #4A5568; /* Zəif sərhəd xətti */
+    background-color: rgba(45, 55, 72, 0.5);
+    border: 1px solid #4A5568;
     border-radius: 16px;
     padding: 25px;
     width: 100%;
+    color: white; 
 }
