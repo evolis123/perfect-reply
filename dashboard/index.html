@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProLingo Premium</title>
     <link rel="stylesheet" href="dashboard.css">
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
     <div class="premium-container">
@@ -12,22 +13,37 @@
             <div class="logo-container">
                 <h2>PL</h2>
             </div>
-            <ul>
-    <li class="active"><a href="#">Dashboard</a></li>
-    <li><a href="#">Relational Intelligence</a></li>
-    <li><a href="#">Proactive Intelligence</a></li>
-    <li><a href="#">Strategic Oracle</a></li>
-    <li><a href="#">Settings</a></li>
-</ul>
+            <nav class="navigation">
+                <ul>
+                    <li class="active"><a href="#"><i data-feather="home"></i><span>Dashboard</span></a></li>
+                    <li><a href="#"><i data-feather="users"></i><span>Relational Intelligence</span></a></li>
+                    <li><a href="#"><i data-feather="zap"></i><span>Proactive Intelligence</span></a></li>
+                    <li><a href="#"><i data-feather="bar-chart-2"></i><span>Strategic Oracle</span></a></li>
+                    <li><a href="#"><i data-feather="settings"></i><span>Settings</span></a></li>
+                </ul>
+            </nav>
         </aside>
         <main class="main-content">
             <header class="main-header">
                 <h1>Welcome to your Premium Dashboard</h1>
             </header>
             <section class="widgets-area">
-                </section>
+                <div class="widget-card">
+                    <div class="card-header">
+                        <h2>Limitsiz Ton Kompası</h2>
+                        <p>Freemium-dakı 5 istifadəlik limiti aradan qaldırın.</p>
+                    </div>
+                    <div class="card-body">
+                        <p>Funksiyanın interfeysi burada qurulacaq.</p>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
+
     <script src="dashboard.js"></script>
+    <script>
+      feather.replace()
+    </script>
 </body>
 </html>
