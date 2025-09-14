@@ -10,12 +10,12 @@
 <body>
     <div class="premium-container">
         <aside class="sidebar">
-            <div class="logo-container">
-                <h2>PL</h2>
+            <div class="sidebar-header">
+                <h2>PL ProLingo</h2>
             </div>
             <nav class="navigation">
                 <ul>
-                    <li class="active"><a href="#"><i data-feather="home"></i><span>Dashboard</span></a></li>
+                    <li class="active"><a href="#"><i data-feather="layout"></i><span>Dashboard</span></a></li>
                     <li><a href="#"><i data-feather="users"></i><span>Relational Intelligence</span></a></li>
                     <li><a href="#"><i data-feather="zap"></i><span>Proactive Intelligence</span></a></li>
                     <li><a href="#"><i data-feather="bar-chart-2"></i><span>Strategic Oracle</span></a></li>
@@ -23,21 +23,48 @@
                 </ul>
             </nav>
         </aside>
+
         <main class="main-content">
-            <header class="main-header">
-                <h1>Welcome to your Premium Dashboard</h1>
-            </header>
-            <section class="widgets-area">
-                <div class="widget-card">
-                    <div class="card-header">
-                        <h2>Limitsiz Ton Kompası</h2>
-                        <p>Freemium-dakı 5 istifadəlik limiti aradan qaldırın.</p>
+            <div class="action-zone">
+                <section class="email-input-section">
+                    <h1>Craft Your Reply</h1>
+                    <p class="subtitle">Let your AI partner handle the communication.</p>
+                    
+                    <label for="email-input">Paste the Email You Received</label>
+                    <textarea id="email-input" placeholder="e.g., hi can you answer for my project ?"></textarea>
+                    
+                    <label for="goal-input">In one sentence, what do you want to say?</label>
+                    <textarea id="goal-input" rows="2" placeholder="e.g., I agree, but let's change the time..."></textarea>
+                    
+                    <button class="generate-btn">
+                        <i data-feather="sparkles"></i> Generate with ProLingo
+                    </button>
+                </section>
+                
+                <section class="reply-output-section">
+                    <div class="placeholder-reply">
+                        Your perfectly crafted reply will appear here...
                     </div>
-                    <div class="card-body">
-                        <p>Funksiyanın interfeysi burada qurulacaq.</p>
-                    </div>
+                </section>
+            </div>
+
+            <aside class="intelligence-panel">
+                <h2>Intelligence Insights</h2>
+                <div class="info-card-container">
+                    <article class="info-card">
+                        <h4><i data-feather="compass"></i> Tone Compass</h4>
+                        <p>Analysis will appear here when you paste an email.</p>
+                    </article>
+                    <article class="info-card">
+                        <h4><i data-feather="archive"></i> Relational Memory</h4>
+                        <p>Relationship context will appear here.</p>
+                    </article>
+                    <article class="info-card">
+                        <h4><i data-feather="globe"></i> Cultural Intelligence</h4>
+                        <p>Cultural insights will appear here.</p>
+                    </article>
                 </div>
-            </section>
+            </aside>
         </main>
     </div>
 
