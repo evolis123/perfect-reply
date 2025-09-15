@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProLingo Premium</title>
     <link rel="stylesheet" href="dashboard.css">
-    <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
     <div class="premium-container">
@@ -23,32 +23,34 @@
                     <li><a href="#"><i data-feather="settings"></i><span>Settings</span></a></li>
                 </ul>
             </nav>
-        </aside>
+
+            <div class="sidebar-footer">
+                <button id="login-btn" class="auth-button">
+                    <i data-feather="log-in"></i>
+                    <span>Login with Google</span>
+                </button>
+            </div>
+            </aside>
 
         <main class="main-content">
             <div class="action-zone">
                 <section class="email-input-section">
                     <h1>Craft Your Reply</h1>
                     <p class="subtitle">Let your AI partner handle the communication.</p>
-                    
                     <label for="email-input">Paste the Email You Received</label>
                     <textarea id="email-input" placeholder="e.g., hi can you answer for my project ?"></textarea>
-                    
                     <label for="goal-input">In one sentence, what do you want to say?</label>
                     <textarea id="goal-input" rows="2" placeholder="e.g., I agree, but let's change the time..."></textarea>
-                    
                     <button class="generate-btn">
                         <i data-feather="sparkles"></i> Generate with ProLingo
                     </button>
                 </section>
-                
                 <section class="reply-output-section">
                     <div class="placeholder-reply">
                         Your perfectly crafted reply will appear here...
                     </div>
                 </section>
             </div>
-
             <aside class="intelligence-panel">
                 <h2>Intelligence Insights</h2>
                 <div class="info-card-container">
@@ -70,6 +72,7 @@
     </div>
 
     <script src="dashboard.js"></script>
+
     <script>
       feather.replace()
     </script>
